@@ -17,8 +17,14 @@
         Text="Clear"
         Clicked="OnClearDepartures"/>
     </StackLayout>
-    
-    <ListView x:Name="DepartureListView" HorizontalOptions="Fill"/> 
+
+    <ListView x:Name="DepartureListView" HorizontalOptions="Fill">
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <TextCell Text="{Binding AsString}" />
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
   </StackLayout>
 
 </ContentPage>
