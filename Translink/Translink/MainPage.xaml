@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Translink.MainPage">
+  <StackLayout VerticalOptions="Start">
+    <Label Text="Route Number:" HorizontalOptions="Start" />
+    <Entry x:Name="RouteEntry" HorizontalTextAlignment="Start" Keyboard="Numeric" />
+    <StackLayout Spacing="10" Orientation="Horizontal">
+      <Button 
+        x:Name="AddButton" 
+        HorizontalOptions="FillAndExpand" 
+        Text="Add" 
+        Clicked="OnAddDepartures"/>
+      <Button 
+        x:Name="ClearButton" 
+        HorizontalOptions="FillAndExpand" 
+        Text="Clear"
+        Clicked="OnClearDepartures"/>
+    </StackLayout>
+    
+    <ListView x:Name="DepartureListView" HorizontalOptions="Fill"/> 
+  </StackLayout>
+
+</ContentPage>
