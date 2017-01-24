@@ -22,11 +22,20 @@ namespace Translink
             DepartureListView.ItemsSource = mDepartures; 
         }
 
-        void OnAddDepartures(object sender, EventArgs e)
+        async void OnAddDeparturesRequested(object sender, EventArgs e)
         {
-            int routeNumber = Convert.ToInt32(RouteEntry.Text);
+            int stopNumber = Convert.ToInt32(StopEntry.Text);
 
-            mDepartures.Add(new Departure("5:55", 50585, 3)); 
+            List<Departure> departures = await DepartureDataFetcher.getDepartures(stopNumber);
+            AddDepartures(departures); 
+        }
+
+        void AddDepartures(List<Departure> departures)
+        {
+            foreach (Departure d in departures)
+            {
+                mDepartures.Add(d); 
+            }
         }
 
         void OnClearDepartures(object sender, EventArgs e)

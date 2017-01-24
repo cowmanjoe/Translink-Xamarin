@@ -3,14 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Translink.MainPage">
   <StackLayout VerticalOptions="Start">
-    <Label Text="Route Number:" HorizontalOptions="Start" />
-    <Entry x:Name="RouteEntry" HorizontalTextAlignment="Start" Keyboard="Numeric" />
+    <Label Text="Stop Number:" HorizontalOptions="Start" />
+    <Entry x:Name="StopEntry" HorizontalTextAlignment="Start" Keyboard="Numeric" />
     <StackLayout Spacing="10" Orientation="Horizontal">
       <Button 
         x:Name="AddButton" 
         HorizontalOptions="FillAndExpand" 
         Text="Add" 
-        Clicked="OnAddDepartures"/>
+        Clicked="OnAddDeparturesRequested"/>
       <Button 
         x:Name="ClearButton" 
         HorizontalOptions="FillAndExpand" 
