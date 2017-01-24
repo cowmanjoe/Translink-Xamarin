@@ -10,9 +10,23 @@ namespace Translink
 {
     class DepartureDataFetcher
     {
-        private const string API_KEY = "gmSNagac7UUqdirk3bFj"; 
+        private const string API_KEY = "gmSNagac7UUqdirk3bFj";
+        private const int DEFAULT_DEPARTURE_COUNT = 3;
 
-        public static async Task<List<Departure>> getDepartures(int stop)
+        private HttpClient httpClient; 
+        
+        public int DepartureCount
+        {
+            get; set; 
+        }
+
+        public DepartureDataFetcher()
+        {
+            DepartureCount = DEFAULT_DEPARTURE_COUNT;
+            httpClient = new HttpClient(); 
+        }
+
+        public async Task<List<Departure>> fetchDepartures(int stop)
         {
             List<Departure> departures = new List<Departure>();
             string departureData = await fetchDepartureData(stop); 
@@ -30,31 +44,48 @@ namespace Translink
         }
 
 
-
-
-        private static async Task<string> fetchDepartureData(int stop)
+        public async Task<List<Departure>> fetchDepartures(int stop, int route)
         {
-            var client = new HttpClient(); 
-            
+            List<Departure> departures = new List<Departure>();
+            string departureData = await fetchDepartureData(stop, route);
+            Dictionary<int, List<string>> lts = DataParser.parseDepartureTimes(departureData); 
 
-
-            HttpResponseMessage response = await client.GetAsync("http://api.translink.ca/rttiapi/v1/stops/" + stop + "/estimates?apikey=" + API_KEY);
             
-            HttpContent content = response.Content;
-            var contentString = await content.ReadAsStringAsync(); 
-            return contentString; 
+            List<string> times;
+            lts.TryGetValue(route, out times); 
+            foreach (string time in times) 
+                departures.Add(new Departure(time, stop, route)) ;
+
+            return departures; 
         }
 
-        /** Generates URL for departure times for all routes from a particular stop 
-         * @param stop the stop number 
-         * @return URL or null if a MalformedURLException is thrown 
-         **/
-         private static Uri getUriForDepartures(int stop)
+
+
+
+        private async Task<string> fetchDepartureData(int stop)
         {
+
            
-            string uri = "http://api.translink.ca/rttiapi/v1/stops/" + stop + "/estimates?apikey=" + API_KEY;
-            return new Uri(uri); 
-           
+
+            HttpResponseMessage response = await httpClient.GetAsync(
+                "http://api.translink.ca/rttiapi/v1/stops/" + stop + 
+                "/estimates?apikey=" + API_KEY + "&count=" + DepartureCount);
+
+            HttpContent content = response.Content;
+            var contentString = await content.ReadAsStringAsync();
+            return contentString;
+        }
+
+
+        private async Task<string> fetchDepartureData(int stop, int route)
+        {
+            HttpResponseMessage response = await httpClient.GetAsync(
+                "http://api.translink.ca/rttiapi/v1/stops/" + stop + 
+                "/estimates?apikey=" + API_KEY + "&count=" + DepartureCount + "&routeNo=" + route);
+
+            HttpContent content = response.Content;
+            var contentString = await content.ReadAsStringAsync();
+            return contentString; 
         }
 
     }

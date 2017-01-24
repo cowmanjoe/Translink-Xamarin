@@ -24,7 +24,9 @@ namespace Translink
                 dataSoFar = dataSoFar.Substring(dataSoFar.IndexOf("<RouteNo>") + "<RouteNo>".Length);
                 string routeString = dataSoFar.Substring(0, dataSoFar.IndexOf('<'));
                 int route = Convert.ToInt32(routeString);
-                List<string> times = new List<string>(); 
+                List<string> times = new List<string>();
+
+                dataSoFar = dataSoFar.Substring(dataSoFar.IndexOf("</RouteNo>") + "</RouteNo>".Length); 
 
                 // while there are still departure times in the current route
                 while (dataSoFar.Contains("<ExpectedLeaveTime>") &&

@@ -38,7 +38,6 @@
     <Compile Include="App.cs" />
     <Compile Include="DataParser.cs" />
     <Compile Include="Departure.cs" />
-    <Compile Include="DepartureDataFetch.cs" />
     <Compile Include="DepartureDataFetcher.cs" />
     <Compile Include="MainPage.cs" />
     <Compile Include="MainPage.xaml.cs">

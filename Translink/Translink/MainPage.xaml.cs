@@ -13,22 +13,38 @@ namespace Translink
     {
         
         ObservableCollection<Departure> mDepartures;
+        
 
+        DepartureDataFetcher mDepartureDataFetcher;
 
         public MainPage()
         {
             InitializeComponent();
             mDepartures = new ObservableCollection<Departure>(); 
-            DepartureListView.ItemsSource = mDepartures; 
+            DepartureListView.ItemsSource = mDepartures;
+            mDepartureDataFetcher = new DepartureDataFetcher(); 
+
         }
 
         async void OnAddDeparturesRequested(object sender, EventArgs e)
         {
             int stopNumber = Convert.ToInt32(StopEntry.Text);
+            
+            if (RouteSwitch.IsToggled)
+            {
+                int routeNumber = Convert.ToInt32(RouteEntry.Text);
+                List<Departure> departures = await mDepartureDataFetcher.fetchDepartures(stopNumber, routeNumber);
+                AddDepartures(departures); 
+            }
+            else
+            {
+                List<Departure> departures = await mDepartureDataFetcher.fetchDepartures(stopNumber);
+                AddDepartures(departures);
+            }
 
-            List<Departure> departures = await DepartureDataFetcher.getDepartures(stopNumber);
-            AddDepartures(departures); 
         }
+
+        
 
         void AddDepartures(List<Departure> departures)
         {
@@ -42,5 +58,19 @@ namespace Translink
         {
             mDepartures.Clear(); 
         }
+
+        void OnToggleRouteSwitch(object sender, EventArgs e)
+        {
+            if (RouteSwitch.IsToggled)
+            {
+                RouteEntry.IsVisible = true; 
+            }
+            else
+            {
+                RouteEntry.IsVisible = false; 
+            }
+
+        }
+        
     }
 }
