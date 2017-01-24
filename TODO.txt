@@ -1,0 +1,11 @@
+TODO: 
+- Make adding the same stop not create duplicates 
+- Refresh button 
+- Drop down menu for routes
+- Saved "favourite" stops 
+- Better organize classes
+- Search for nearby stops
+- Clean up UI 
+- Cleaner list (maybe a table) 
+- Settings for changing amount of results / maximum amount of time from departure 
+- Set up notification system for a certain route/stop 
