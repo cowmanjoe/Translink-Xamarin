@@ -10,12 +10,12 @@ namespace Translink
     {
         /**
          * Parse the text that the API returns on a departure time request
-         * @param data the string received from Translink API 
-         * @return mapping of routes to a list of string representations of departure times 
+         * PARAM data: the string received from Translink API 
+         * RETURNS: mapping of routes to a list of string representations of departure times 
          **/
-        public static Dictionary<int, List<String>> parseDepartureTimes(string data)
+        public static Dictionary<int, List<string>> parseDepartureTimes(string data)
         {
-            Dictionary<int, List<String>> ans = new Dictionary<int, List<String>>();
+            Dictionary<int, List<string>> ans = new Dictionary<int, List<string>>();
             string dataSoFar = data; 
 
             // while there are still more routes in the data

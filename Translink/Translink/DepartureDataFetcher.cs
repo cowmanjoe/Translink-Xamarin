@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Translink
 {
+    // Class containing an HttpClient for fetching the actual Translink API data from the internet 
     class DepartureDataFetcher
     {
         private const string API_KEY = "gmSNagac7UUqdirk3bFj";
@@ -15,10 +16,13 @@ namespace Translink
 
         private HttpClient httpClient; 
         
+
+        // Number of departures (per route) that will be fetched 
         public int DepartureCount
         {
             get; set; 
         }
+
 
         public DepartureDataFetcher()
         {
@@ -26,6 +30,11 @@ namespace Translink
             httpClient = new HttpClient(); 
         }
 
+        /**
+         * Fethes asynchronously the next DepartureCount departures at the given stop 
+         * PARAM stop: is the 5 digit ID of the stop 
+         * RETURNS: the correct list of departures 
+         */
         public async Task<List<Departure>> fetchDepartures(int stop)
         {
             List<Departure> departures = new List<Departure>();
@@ -43,7 +52,12 @@ namespace Translink
             return departures; 
         }
 
-
+        /**
+         * Fethes asynchronously the next DepartureCount departures at the given stop and route
+         * PARAM stop: the 5 digit ID of the stop 
+         * PARAM route: the route number (usually 1-3 digits) 
+         * RETURNS: the correct list of departures 
+         */
         public async Task<List<Departure>> fetchDepartures(int stop, int route)
         {
             List<Departure> departures = new List<Departure>();
@@ -59,9 +73,11 @@ namespace Translink
             return departures; 
         }
 
-
-
-
+        /**
+         * Fetches the raw data from the Translink API for departures at the given stop 
+         * PARAM stop: is the 5 digit ID of the stop 
+         * RETURNS: the string with the raw XML data for the departures 
+         */
         private async Task<string> fetchDepartureData(int stop)
         {
 
@@ -76,7 +92,12 @@ namespace Translink
             return contentString;
         }
 
-
+        /**
+         * Fetches the raw data from the Translink API for departures at the given stop 
+         * PARAM stop: the 5 digit ID of the stop 
+         * PARAM route: the route number (usually 1-3 digits) 
+         * RETURNS: the string with the raw XML data for the departures 
+         */
         private async Task<string> fetchDepartureData(int stop, int route)
         {
             HttpResponseMessage response = await httpClient.GetAsync(

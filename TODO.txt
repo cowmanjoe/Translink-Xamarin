@@ -1,6 +1,9 @@
 TODO: 
+- Change route to string to account for letters (C18, 250A, etc)
 - Make adding the same stop not create duplicates 
 - Refresh button 
+- Handling no internet connection 
+- Handling invalid stop/route numbers
 - Drop down menu for routes
 - Saved "favourite" stops 
 - Better organize classes
