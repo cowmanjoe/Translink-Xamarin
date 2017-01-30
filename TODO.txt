@@ -1,6 +1,4 @@
-TODO: 
-- Change route to string to account for letters (C18, 250A, etc)
-- Make adding the same stop not create duplicates 
+TODO:  
 - Refresh button 
 - Handling no internet connection 
 - Handling invalid stop/route numbers
@@ -12,3 +10,12 @@ TODO:
 - Cleaner list (maybe a table) 
 - Settings for changing amount of results / maximum amount of time from departure 
 - Set up notification system for a certain route/stop 
+
+Design ideas 
+
+- Main page is a search for stops nearby you
+- Results are listed by distance from you
+- Tap search results to get more information about it 
+  - schedule 
+  - distance from you 
+  - 

@@ -12,18 +12,16 @@ namespace Translink
     public partial class MainPage : ContentPage
     {
 
-        // List that populates the ListView of departures 
-        ObservableCollection<Departure> mDepartures;
-
-        DepartureDataFetcher mDepartureDataFetcher;
+        
+        DepartureSearcher mDepartureSearcher;
+        
 
         public MainPage()
         {
             InitializeComponent();
-            mDepartures = new ObservableCollection<Departure>();
-            DepartureListView.ItemsSource = mDepartures;
-            mDepartureDataFetcher = new DepartureDataFetcher();
 
+            mDepartureSearcher = new DepartureSearcher(); 
+            DepartureListView.ItemsSource = mDepartureSearcher.Departures;
         }
 
         /** 
@@ -33,36 +31,23 @@ namespace Translink
          */
         async void OnAddDeparturesRequested(object sender, EventArgs e)
         {
-
             Debug.WriteLine("Departures Requested!");
             int stopNumber = Convert.ToInt32(StopEntry.Text);
 
             if (RouteSwitch.IsToggled)
             {
                 string routeNumber = RouteEntry.Text;
-                List<Departure> departures = await mDepartureDataFetcher.fetchDepartures(stopNumber, routeNumber);
-                AddDepartures(departures);
+
+                await mDepartureSearcher.SearchAndAddDepartures(stopNumber, routeNumber); 
             }
             else
             {
-                List<Departure> departures = await mDepartureDataFetcher.fetchDepartures(stopNumber);
-                AddDepartures(departures);
-            }
-
-        }
-
-
-        /** 
-         * Adds departures to the ObservableList so that it appears in the ListView 
-         * PARAM departures: the departures to be added 
-         */
-        void AddDepartures(List<Departure> departures)
-        {
-            foreach (Departure d in departures)
-            {
-                mDepartures.Add(d);
+               await mDepartureSearcher.SearchAndAddDepartures(stopNumber); 
             }
         }
+
+
+        
 
         /** 
          * Clears the departures from the ObservableList 
@@ -71,8 +56,9 @@ namespace Translink
          */
         void OnClearDepartures(object sender, EventArgs e)
         {
-            mDepartures.Clear();
+            mDepartureSearcher.ClearDepartures(); 
         }
+
 
         void OnToggleRouteSwitch(object sender, EventArgs e)
         {

@@ -50,7 +50,6 @@ namespace Translink
                     departures.Add(new Departure(time, stop, route)); 
             }
             Debug.WriteLine("Returning departures!");
-            // FIX
             return departures;  
         }
 
@@ -79,7 +78,6 @@ namespace Translink
                     departures.Add(new Departure(time, stop, r));
             }
             Debug.WriteLine("Returning departures!"); 
-            // FIX 
             return departures; 
         }
 
@@ -90,13 +88,13 @@ namespace Translink
          */
         private async Task<string> fetchDepartureData(int stop)
         {
+            string uri = "http://api.translink.ca/rttiapi/v1/stops/" + stop +
+                "/estimates?apikey=" + API_KEY + "&count=" + DepartureCount;
 
+            Debug.WriteLine("URI: " + uri); 
+
+            HttpResponseMessage response = await mHttpClient.GetAsync(uri);
            
-
-            HttpResponseMessage response = await mHttpClient.GetAsync(
-                "http://api.translink.ca/rttiapi/v1/stops/" + stop + 
-                "/estimates?apikey=" + API_KEY + "&count=" + DepartureCount);
-
             HttpContent content = response.Content;
             var contentString = await content.ReadAsStringAsync();
             return contentString;
