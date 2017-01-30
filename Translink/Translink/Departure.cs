@@ -8,11 +8,11 @@ namespace Translink
 {
     class Departure
     {
-        private string mTime;
-        private int mStopNumber;
-        private int mRouteNumber;
+        private readonly string mTime;
+        private readonly int mStopNumber;
+        private readonly string mRouteNumber;
 
-        public Departure(string time, int stopNumber, int routeNumber)
+        public Departure(string time, int stopNumber, string routeNumber)
         {
             mTime = time;
             mStopNumber = stopNumber;
@@ -30,7 +30,7 @@ namespace Translink
             get { return mStopNumber; }
         }
 
-        public int RouteNumber
+        public string RouteNumber
         {
             get { return mRouteNumber; }
         }

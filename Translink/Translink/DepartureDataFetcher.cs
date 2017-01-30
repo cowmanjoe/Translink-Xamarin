@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Diagnostics; 
 using System.Collections.Generic;
 using System.Net;
 using System.IO;
@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 namespace Translink
 {
     // Class containing an HttpClient for fetching the actual Translink API data from the internet 
-    class DepartureDataFetcher
+    class DepartureDataFetcher 
     {
         private const string API_KEY = "gmSNagac7UUqdirk3bFj";
         private const int DEFAULT_DEPARTURE_COUNT = 3;
 
-        private HttpClient httpClient; 
+        private readonly HttpClient mHttpClient; 
         
 
         // Number of departures (per route) that will be fetched 
@@ -27,7 +27,8 @@ namespace Translink
         public DepartureDataFetcher()
         {
             DepartureCount = DEFAULT_DEPARTURE_COUNT;
-            httpClient = new HttpClient(); 
+            mHttpClient = new HttpClient();
+            
         }
 
         /**
@@ -39,37 +40,46 @@ namespace Translink
         {
             List<Departure> departures = new List<Departure>();
             string departureData = await fetchDepartureData(stop); 
-            Dictionary<int, List<string>> lts = DataParser.parseDepartureTimes(departureData); 
+            Dictionary<string, List<string>> lts = DataParser.parseDepartureTimes(departureData); 
 
-            foreach (int route in lts.Keys)
+            foreach (string route in lts.Keys)
             {
                 List<string> times;
                 lts.TryGetValue(route, out times);
                 foreach (string time in times)
                     departures.Add(new Departure(time, stop, route)); 
             }
-
-            return departures; 
+            Debug.WriteLine("Returning departures!");
+            // FIX
+            return departures;  
         }
 
         /**
          * Fethes asynchronously the next DepartureCount departures at the given stop and route
+         * CAREFUL route may not always be the same as the returned route, 
+         * e.g. argument route = "10" but returned route is "010" 
          * PARAM stop: the 5 digit ID of the stop 
          * PARAM route: the route number (usually 1-3 digits) 
-         * RETURNS: the correct list of departures 
+         * RETURNS: the retrieved list of departures (empty list if none) 
          */
-        public async Task<List<Departure>> fetchDepartures(int stop, int route)
+        public async Task<List<Departure>> fetchDepartures(int stop, string route)
         {
             List<Departure> departures = new List<Departure>();
+            Debug.WriteLine("Before"); 
             string departureData = await fetchDepartureData(stop, route);
-            Dictionary<int, List<string>> lts = DataParser.parseDepartureTimes(departureData); 
-
+            Dictionary<string, List<string>> lts = DataParser.parseDepartureTimes(departureData);
+            Debug.WriteLine("Departure data parsed!");
             
-            List<string> times;
-            lts.TryGetValue(route, out times); 
-            foreach (string time in times) 
-                departures.Add(new Departure(time, stop, route)) ;
-
+            foreach (string r in lts.Keys)
+            {
+                List<string> times;
+                lts.TryGetValue(r, out times); 
+                Debug.WriteLine("Route value found!");
+                foreach (string time in times)
+                    departures.Add(new Departure(time, stop, r));
+            }
+            Debug.WriteLine("Returning departures!"); 
+            // FIX 
             return departures; 
         }
 
@@ -83,7 +93,7 @@ namespace Translink
 
            
 
-            HttpResponseMessage response = await httpClient.GetAsync(
+            HttpResponseMessage response = await mHttpClient.GetAsync(
                 "http://api.translink.ca/rttiapi/v1/stops/" + stop + 
                 "/estimates?apikey=" + API_KEY + "&count=" + DepartureCount);
 
@@ -98,9 +108,9 @@ namespace Translink
          * PARAM route: the route number (usually 1-3 digits) 
          * RETURNS: the string with the raw XML data for the departures 
          */
-        private async Task<string> fetchDepartureData(int stop, int route)
+        private async Task<string> fetchDepartureData(int stop, string route)
         {
-            HttpResponseMessage response = await httpClient.GetAsync(
+            HttpResponseMessage response = await mHttpClient.GetAsync(
                 "http://api.translink.ca/rttiapi/v1/stops/" + stop + 
                 "/estimates?apikey=" + API_KEY + "&count=" + DepartureCount + "&routeNo=" + route);
 

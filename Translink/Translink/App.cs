@@ -9,13 +9,9 @@ namespace Translink
 {
     public class App : Application
     {
-        
-
         public App()
-        {
-
-            MainPage = new MainPage(); 
-            //MainPage = new NavigationPage(content);
+        { 
+            MainPage = new MainPage();
         }
 
         protected override void OnStart()
@@ -32,8 +28,5 @@ namespace Translink
         {
             // Handle when your app resumes
         }
-
-        
-
     }
 }

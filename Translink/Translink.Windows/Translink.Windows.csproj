@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6B53EE33-2BC5-4357-B679-1DAD2FED2AFB}</ProjectGuid>
+    <ProjectGuid>{3D3A146B-B3B9-405B-B87B-2BCD98F47FE0}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Translink.Windows</RootNamespace>
@@ -136,7 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Translink\Translink.csproj">
-      <Project>{c2b23652-5b55-4a14-9199-0793db054a0f}</Project>
+      <Project>{b0fb5df4-a88a-4f26-8dab-0c782efe0256}</Project>
       <Name>Translink</Name>
     </ProjectReference>
   </ItemGroup>

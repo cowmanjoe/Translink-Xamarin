@@ -4,22 +4,22 @@
              x:Class="Translink.MainPage">
   <StackLayout VerticalOptions="Start">
     <Label Text="Stop Number:" HorizontalOptions="Start" />
-    <Entry x:Name="StopEntry" HorizontalTextAlignment="Start" Keyboard="Numeric" />
+    <Entry x:Name="StopEntry" Text="60980" HorizontalTextAlignment="Start" Keyboard="Numeric" />
     <Label Text="Route Number:" HorizontalOptions="Start"/>
     <StackLayout Orientation="Horizontal">
       <Switch x:Name="RouteSwitch" IsToggled="false" Toggled="OnToggleRouteSwitch" HorizontalOptions="Start"/>
-      <Entry x:Name="RouteEntry" HorizontalOptions="FillAndExpand" Keyboard="Numeric" IsVisible="false" />
+      <Entry x:Name="RouteEntry" Text="4" HorizontalOptions="FillAndExpand" Keyboard="Numeric" IsVisible="false" />
     </StackLayout>
-    
+
     <StackLayout Spacing="10" Orientation="Horizontal">
-      <Button 
-        x:Name="AddButton" 
-        HorizontalOptions="FillAndExpand" 
-        Text="Add" 
+      <Button
+        x:Name="AddButton"
+        HorizontalOptions="FillAndExpand"
+        Text="Add"
         Clicked="OnAddDeparturesRequested"/>
-      <Button 
-        x:Name="ClearButton" 
-        HorizontalOptions="FillAndExpand" 
+      <Button
+        x:Name="ClearButton"
+        HorizontalOptions="FillAndExpand"
         Text="Clear"
         Clicked="OnClearDepartures"/>
     </StackLayout>
