@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 
 using Xamarin.Forms;
+using Plugin.Connectivity;
 
 namespace Translink
 {
@@ -31,7 +32,13 @@ namespace Translink
          */
         async void OnAddDeparturesRequested(object sender, EventArgs e)
         {
-            Debug.WriteLine("Departures Requested!");
+            if (!CrossConnectivity.Current.IsConnected)
+            {
+                await DisplayAlert("No Network Connection", "You cannot add departures without an internet connection", "OK");
+                return; 
+            }
+
+           
             int stopNumber = Convert.ToInt32(StopEntry.Text);
 
             if (RouteSwitch.IsToggled)
@@ -76,6 +83,11 @@ namespace Translink
 
         async void OnRefreshDepartures(object sender, EventArgs e)
         {
+            if (!CrossConnectivity.Current.IsConnected)
+            {
+                await DisplayAlert("No Network Connection", "You cannot refresh departures without an internet connection", "OK");
+                return;
+            }
             await mDepartureSearcher.RefreshDepartures(); 
         }
     }
