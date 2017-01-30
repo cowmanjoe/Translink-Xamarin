@@ -8,7 +8,7 @@
     <Label Text="Route Number:" HorizontalOptions="Start"/>
     <StackLayout Orientation="Horizontal">
       <Switch x:Name="RouteSwitch" IsToggled="false" Toggled="OnToggleRouteSwitch" HorizontalOptions="Start"/>
-      <Entry x:Name="RouteEntry" Text="4" HorizontalOptions="FillAndExpand" Keyboard="Numeric" IsVisible="false" />
+      <Entry x:Name="RouteEntry" Text="4" HorizontalOptions="FillAndExpand" IsVisible="false" />
     </StackLayout>
 
     <StackLayout Spacing="10" Orientation="Horizontal">

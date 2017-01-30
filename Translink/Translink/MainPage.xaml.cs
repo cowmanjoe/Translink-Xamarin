@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
-
+using Translink.Exception; 
 using Xamarin.Forms;
 using Plugin.Connectivity;
 
@@ -27,8 +27,8 @@ namespace Translink
 
         /** 
          * Requests data fetcher to grab departure data
-         * PARAM sender: object that sent that fired the event 
-         * PARAM EventArgs: arguments for the event 
+         * sender: object that sent that fired the event 
+         * EventArgs: arguments for the event 
          */
         async void OnAddDeparturesRequested(object sender, EventArgs e)
         {
@@ -37,20 +37,27 @@ namespace Translink
                 await DisplayAlert("No Network Connection", "You cannot add departures without an internet connection", "OK");
                 return; 
             }
-
-           
             int stopNumber = Convert.ToInt32(StopEntry.Text);
 
-            if (RouteSwitch.IsToggled)
+            try
             {
-                string routeNumber = RouteEntry.Text;
+                if (RouteSwitch.IsToggled)
+                {
+                    string routeNumber = RouteEntry.Text;
 
-                await mDepartureSearcher.SearchAndAddDepartures(stopNumber, routeNumber); 
+                    await mDepartureSearcher.SearchAndAddDepartures(stopNumber, routeNumber);
+                }
+                else
+                {
+                    await mDepartureSearcher.SearchAndAddDepartures(stopNumber);
+                }
             }
-            else
+            catch (InvalidStopException ex)
             {
-               await mDepartureSearcher.SearchAndAddDepartures(stopNumber); 
+                await DisplayAlert("Invalid Stop Number", ex.Message, "OK");
             }
+
+            
         }
 
 
@@ -58,8 +65,8 @@ namespace Translink
 
         /** 
          * Clears the departures from the ObservableList 
-         * PARAM sender: object that sent that fired the event 
-         * PARAM EventArgs: arguments for the event 
+         * sender: object that sent that fired the event 
+         * EventArgs: arguments for the event 
          */
         void OnClearDepartures(object sender, EventArgs e)
         {

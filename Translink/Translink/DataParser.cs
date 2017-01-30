@@ -11,7 +11,7 @@ namespace Translink
     {
         /**
          * Parse the text that the API returns on a departure time request
-         * PARAM data: the string received from Translink API 
+         * data: the string received from Translink API 
          * RETURNS: mapping of routes to a list of string representations of departure times 
          **/
         public static Dictionary<string, List<string>> parseDepartureTimes(string data)

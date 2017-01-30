@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Translink.Exception; 
 
 namespace Translink
 {
@@ -19,6 +20,7 @@ namespace Translink
         Dictionary<int, List<string>> mSearches;
 
         DepartureDataFetcher mDepartureDataFetcher;
+
 
         public ObservableCollection<Departure> Departures
         {
@@ -35,9 +37,18 @@ namespace Translink
         }
         
         
-
+        /**
+         * Searches for departures using Translink API and adds them to mDepartures 
+         * stop: the stop number 
+         */ 
         public async Task SearchAndAddDepartures(int stop)
         {
+            int numStopDigits = numDigits(stop);
+            if (numStopDigits != 5)
+            {
+                Debug.WriteLine("Throwing exception."); 
+                throw new InvalidStopException(stop + " is not a valid 5 digit stop number");
+            }
             bool alreadySearched = false;
 
             List<string> routeList;
@@ -57,8 +68,16 @@ namespace Translink
             }
         }
 
+        /** 
+         * Searches for departures using Translink API and adds them to mDepartures 
+         * stop: the stop number 
+         * route: the route number 
+         */ 
         public async Task SearchAndAddDepartures(int stop, string route)
         {
+            int numStopDigits = numDigits(stop);
+            if (numStopDigits != 5) throw new InvalidStopException(stop + " is not a valid 5 digit stop number");
+
             bool alreadySearched = false;
             List<string> routeList;
             if (mSearches.TryGetValue(stop, out routeList))
@@ -109,12 +128,19 @@ namespace Translink
 
         }
 
+        /** 
+         * Clears the departures and searches list 
+         */ 
         public void ClearDepartures()
         {
             mDepartures.Clear();
             mSearches.Clear();
         }
 
+
+        /** 
+         * Refreshes the departures using the searches that have already been made 
+         */ 
         public async Task RefreshDepartures()
         {
             mDepartures.Clear();
@@ -139,6 +165,9 @@ namespace Translink
                 }
             }
         }
+
+
+
 
         /*
          * Check equality of two route strings
@@ -210,6 +239,11 @@ namespace Translink
         }
 
 
+        
 
+        private int numDigits(int x)
+        {
+            return (int)Math.Ceiling(Math.Log10(x)); 
+        }
     }
 }
