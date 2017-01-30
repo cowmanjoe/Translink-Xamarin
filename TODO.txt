@@ -1,7 +1,7 @@
 TODO:  
-- Refresh button 
 - Handling no internet connection 
 - Handling invalid stop/route numbers
+- Handling possible errors from the API 
 - Drop down menu for routes
 - Saved "favourite" stops 
 - Better organize classes

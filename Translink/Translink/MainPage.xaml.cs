@@ -72,6 +72,11 @@ namespace Translink
             }
 
         }
+        
 
+        async void OnRefreshDepartures(object sender, EventArgs e)
+        {
+            await mDepartureSearcher.RefreshDepartures(); 
+        }
     }
 }

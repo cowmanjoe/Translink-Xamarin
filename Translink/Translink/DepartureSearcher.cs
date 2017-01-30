@@ -24,15 +24,17 @@ namespace Translink
         {
             get { return mDepartures; }
         }
-
+        
         public DepartureSearcher()
         {
             mDepartures = new ObservableCollection<Departure>();
 
             mDepartureDataFetcher = new DepartureDataFetcher();
             mSearches = new Dictionary<int, List<string>>();
-
+            
         }
+        
+        
 
         public async Task SearchAndAddDepartures(int stop)
         {
@@ -41,7 +43,7 @@ namespace Translink
             List<string> routeList;
             if (mSearches.TryGetValue(stop, out routeList))
                 alreadySearched = routeList.Count == 0;
-            
+
             if (!alreadySearched)
             {
                 List<Departure> departures = await mDepartureDataFetcher.fetchDepartures(stop);
@@ -50,21 +52,22 @@ namespace Translink
                     mDepartures.Add(d);
                 }
 
-                if (mSearches.ContainsKey(stop)) mSearches.Remove(stop); 
+                if (mSearches.ContainsKey(stop)) mSearches.Remove(stop);
                 mSearches.Add(stop, new List<string>());
             }
         }
 
         public async Task SearchAndAddDepartures(int stop, string route)
         {
-            bool alreadySearched = false; 
+            bool alreadySearched = false;
             List<string> routeList;
-            if (mSearches.TryGetValue(stop, out routeList)) {
+            if (mSearches.TryGetValue(stop, out routeList))
+            {
                 foreach (string r in routeList)
                 {
-                    if (routeEquals(r, route)) alreadySearched = true; 
+                    if (routeEquals(r, route)) alreadySearched = true;
                 }
-                if (routeList.Count == 0) alreadySearched = true; 
+                if (routeList.Count == 0) alreadySearched = true;
             }
 
             if (!alreadySearched)
@@ -109,65 +112,104 @@ namespace Translink
         public void ClearDepartures()
         {
             mDepartures.Clear();
-            mSearches.Clear(); 
+            mSearches.Clear();
         }
+
+        public async Task RefreshDepartures()
+        {
+            mDepartures.Clear();
+
+            foreach (int s in mSearches.Keys)
+            {
+                List<string> routeList;
+                mSearches.TryGetValue(s, out routeList); 
+                if (routeList.Count == 0)
+                {
+                    List<Departure> departures = await mDepartureDataFetcher.fetchDepartures(s);
+                    foreach (Departure d in departures)
+                        mDepartures.Add(d);
+                }
+                else {
+                    foreach (string r in routeList)
+                    {
+                        List<Departure> departures = await mDepartureDataFetcher.fetchDepartures(s, r);
+                        foreach (Departure d in departures)
+                            mDepartures.Add(d); 
+                    }
+                }
+            }
+        }
+
         /*
          * Check equality of two route strings
          * ASSUMES: both routes are of the form <Optional-Letters><Numbers><Optional-Letters> 
         */
         private bool routeEquals(string r1, string r2)
-        { 
-            int i1; 
-            //find index of first digit of r1 
-            for (i1 = 1; i1 < r1.Length; i1++)
-            { 
-                if (char.IsLetter(r1[i1 - 1]) && char.IsDigit(r1[i1]))
-                    break; 
-            }
+        {
+            string leadingLetters1 = "";
+            int numbersIndex1 = 0; 
 
-            string leadingLetters1 = i1 < r1.Length ? r1.Substring(0, i1) : "";
-            int numbersIndex1 = i1; 
+            int i1;
+            //find index of first digit of r1 
+            for (i1 = 0; i1 < r1.Length - 1; i1++)
+            {
+                if (char.IsLetter(r1[i1]) && char.IsDigit(r1[i1 + 1]))
+                {
+                    leadingLetters1 = r1.Substring(0, i1 + 1);
+                    numbersIndex1 = i1 + 1;
+                    break;
+                }
+            }
 
             // find index of trailing letters of r1
-            for (; i1 < r2.Length; i1++)
+            for (; i1 < r2.Length - 1; i1++)
             {
-                if (char.IsDigit(r1[i1 - 1]) && char.IsLetter(r1[i1]))
+                if (char.IsDigit(r1[i1]) && char.IsLetter(r1[i1 + 1]))
+                {
+
                     break;
+                }
             }
+            string numbers1 = r1.Substring(numbersIndex1, i1 + 1);
+            string trailingLetters1 = i1 + 1 < r1.Length ? r1.Substring(i1 + 1) : "";
 
-            string numbers1 = i1 < r1.Length ? r1.Substring(numbersIndex1, i1) : "";
-            string trailingLetters1 = r1.Substring(i1);
 
+            string leadingLetters2 = "";
+            int numbersIndex2 = 0; 
 
             int i2;
             //find index of first digit of r2 
-            for (i2 = 1; i2 < r2.Length; i2++)
+            for (i2 = 0; i2 < r2.Length - 2; i2++)
             {
-                if (char.IsLetter(r2[i2 - 1]) && char.IsDigit(r2[i2]))
+                if (char.IsLetter(r2[i2]) && char.IsDigit(r2[i2 + 2]))
+                {
+                    leadingLetters2 = r2.Substring(0, i2 + 1);
+                    numbersIndex2 = i2 + 1;
                     break;
+                }
             }
 
-            string leadingLetters2 = i2 < r2.Length ? r2.Substring(0, i2) : "";
-            int numbersIndex2 = i2;
-
-            for (; i2 < r2.Length; i2++)
+            // find index of trailing letters of r2
+            for (; i2 < r2.Length - 2; i2++)
             {
-                if (char.IsDigit(r2[i2 - 1]) && char.IsLetter(r2[i2]))
+                if (char.IsDigit(r2[i2]) && char.IsLetter(r2[i2 + 2]))
+                {
+
                     break;
+                }
             }
-
-            string numbers2 = i2 < r2.Length ? r2.Substring(numbersIndex2, i2) : "";
-            string trailingLetters2 = r2.Substring(i2);
-
+            string numbers2 = r2.Substring(numbersIndex2, i2 + 1);
+            string trailingLetters2 = i2 + 1 < r2.Length ? r2.Substring(i2 + 1) : "";
+            
 
             if (leadingLetters1.Equals(leadingLetters2) &&
                 Convert.ToInt32(numbers1) == Convert.ToInt32(numbers2) &&
                 trailingLetters1.Equals(trailingLetters2))
                 return true;
-            return false; 
+            return false;
         }
 
 
-        
+
     }
 }
