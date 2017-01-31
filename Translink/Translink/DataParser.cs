@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Diagnostics; 
+using System.Diagnostics;
+using System.IO;
+using System.Xml.Linq;
+using static Translink.StopDataFetcher;
 
 namespace Translink
 {
@@ -14,42 +17,125 @@ namespace Translink
          * data: the string received from Translink API 
          * RETURNS: mapping of routes to a list of string representations of departure times 
          **/
-        public static Dictionary<string, List<string>> parseDepartureTimes(string data)
+        public static Dictionary<string, List<string>> parseDepartureTimes(Stream data)
         {
-            Dictionary<string, List<string>> ans = new Dictionary<string, List<string>>();
-            string dataSoFar = data;
+            Dictionary<string, List<string>> routeDictionary = new Dictionary<string, List<string>>();
+
+            XDocument xDoc = XDocument.Load(data);
+            var nextBuses = xDoc.Descendants("NextBus"); 
+
+            foreach(var nextBus in nextBuses)
+            {
+                string routeNo = nextBus.Element("RouteNo").Value;
+
+
+                var schedules = nextBus.Descendants("Schedule");
+                List<string> times = new List<string>(); 
+                foreach(var schedule in schedules)
+                {
+                    String time = schedule.Element("ExpectedLeaveTime").Value;
+                    time = time.Substring(0, time.IndexOf('m') + 1);
+                    times.Add(time); 
+                }
+                routeDictionary.Add(routeNo, times); 
+            }
 
             Debug.WriteLine("Parsing this: " + data); 
 
-
-            // while there are still more routes in the data
-            while (dataSoFar.Contains("<RouteNo>"))
-            {
-                dataSoFar = dataSoFar.Substring(dataSoFar.IndexOf("<RouteNo>", StringComparison.Ordinal) + "<RouteNo>".Length);
-                string route = dataSoFar.Substring(0, dataSoFar.IndexOf('<'));
-                
-                List<string> times = new List<string>();
-
-                dataSoFar = dataSoFar.Substring(dataSoFar.IndexOf("</RouteNo>", StringComparison.Ordinal) + "</RouteNo>".Length); 
-
-                // while there are still departure times in the current route
-                while (dataSoFar.Contains("<ExpectedLeaveTime>") &&
-                    (dataSoFar.IndexOf("<ExpectedLeaveTime>", StringComparison.Ordinal) < dataSoFar.IndexOf("<RouteNo>", StringComparison.Ordinal) || 
-                    !dataSoFar.Contains("RouteNo>")))
-                {
-                    int index = dataSoFar.IndexOf("<ExpectedLeaveTime>", StringComparison.Ordinal) + "<ExpectedLeaveTime>".Length;
-                    dataSoFar = dataSoFar.Substring(index);
-                    string time = dataSoFar.Substring(0, dataSoFar.IndexOf('m') + 1);
-                    times.Add(time); 
-                }
-                ans.Add(route, times); 
-            }
-            foreach (string r in ans.Keys)
+          
+            foreach (string r in routeDictionary.Keys)
             {
                 Debug.WriteLine("Route #" + r + " being returned"); 
             }
 
-            return ans; 
+            return routeDictionary; 
+        }
+
+        public static StopInfo ParseStopInfo(Stream stream)
+        {
+            StopInfo stopInfo = new StopInfo(); 
+
+            
+            XDocument xDoc = XDocument.Load(stream);
+
+            return ParseStopInfo(xDoc.Root); 
+        }
+
+        
+
+        public static List<StopInfo> ParseStopsInfo(Stream stream)
+        {
+            List<StopInfo> stops = new List<StopInfo>();
+
+            XDocument xDoc = XDocument.Load(stream);
+
+            var stopContainer = xDoc.Descendants("Stop");
+
+            foreach (var stopElem in stopContainer)
+            {
+                StopInfo stopInfo = ParseStopInfo(stopElem);
+                stops.Add(stopInfo); 
+            }
+
+            return stops; 
+        }
+
+
+        private static StopInfo ParseStopInfo(XElement stopElement)
+        {
+            StopInfo stopInfo = new StopInfo(); 
+
+            int stopNo = Convert.ToInt32(stopElement.Element("StopNo").Value);
+            stopInfo.stopNo = stopNo;
+
+            string name = stopElement.Element("Name").Value;
+            stopInfo.name = name;
+
+            string bayNo = stopElement.Element("BayNo").Value;
+            if (bayNo != "N")
+                stopInfo.bayNo = Convert.ToInt32(bayNo);
+            else
+                stopInfo.bayNo = -1;
+
+            string onStreet = stopElement.Element("OnStreet").Value;
+            stopInfo.onStreet = onStreet;
+
+            string atStreet = stopElement.Element("AtStreet").Value;
+            stopInfo.atStreet = atStreet;
+
+            double latitude = Convert.ToDouble(stopElement.Element("Latitude").Value);
+            stopInfo.latitude = latitude;
+
+            double longitude = Convert.ToDouble(stopElement.Element("Longitude").Value);
+            stopInfo.longitude = longitude;
+
+            List<string> routes = new List<string>();
+            string[] r = stopElement.Element("Routes").Value.Split(',');
+
+            for (int i = 0; i < r.Length; i++)
+            {
+                routes.Add(r[i].Trim());
+            }
+            stopInfo.routes = routes;
+
+
+            Debug.WriteLine("Stop info received: ");
+            Debug.WriteLine("  stopNo = " + stopInfo.stopNo +
+                "\n  name = " + stopInfo.name +
+                "\n  onStreet = " + stopInfo.onStreet +
+                "\n  atStreet = " + stopInfo.atStreet +
+                "\n  latitude = " + stopInfo.latitude +
+                "\n  longitude = " + stopInfo.longitude);
+            Debug.WriteLine("  Routes: ");
+            foreach (string route in stopInfo.routes)
+            {
+                Debug.WriteLine("    " + route);
+            }
+
+            Debug.WriteLine(stopInfo.bayNo);
+
+
+            return stopInfo;
         }
     }
 }

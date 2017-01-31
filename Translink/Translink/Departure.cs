@@ -6,38 +6,33 @@ using System.Threading.Tasks;
 
 namespace Translink
 {
-    class Departure
+    struct Departure
     {
-        private readonly string mTime;
-        private readonly int mStopNumber;
-        private readonly string mRouteNumber;
-
         public Departure(string time, int stopNumber, string routeNumber)
         {
-            mTime = time;
-            mStopNumber = stopNumber;
-            mRouteNumber = routeNumber;
+            Time = time;
+            StopNumber = stopNumber;
+            RouteNumber = routeNumber;
         }
-
 
         public string Time
         {
-            get { return mTime; }
+            get; 
         }
 
         public int StopNumber
         {
-            get { return mStopNumber; }
+            get; 
         }
 
         public string RouteNumber
         {
-            get { return mRouteNumber; }
+            get; 
         }
 
         public string AsString
         {
-            get { return mStopNumber + " [" + mRouteNumber + "] " + mTime; }
+            get { return StopNumber + " [" + RouteNumber + "] " + Time; }
         }
     }
 }

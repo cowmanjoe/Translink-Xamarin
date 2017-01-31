@@ -1,10 +1,10 @@
 TODO:  
-- Handling no internet connection 
 - Handling invalid stop/route numbers
 - Handling possible errors from the API 
 - Drop down menu for routes
 - Saved "favourite" stops 
 - Better organize classes
+- Make XML parsing using an actual XML parser library 
 - Search for nearby stops
 - Clean up UI 
 - Cleaner list (maybe a table) 
@@ -13,9 +13,11 @@ TODO:
 
 Design ideas 
 
-- Main page is a search for stops nearby you
-- Results are listed by distance from you
+- Main page lists for stops nearby you 
+- Search bar for custom location/address (hard!!)
+- Results are listed by distance from you/address 
 - Tap search results to get more information about it 
   - schedule 
   - distance from you 
   - 
+- Button on main page (or side menu) for search by stop number 

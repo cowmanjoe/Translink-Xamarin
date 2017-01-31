@@ -39,8 +39,8 @@ namespace Translink
         public async Task<List<Departure>> fetchDepartures(int stop)
         {
             List<Departure> departures = new List<Departure>();
-            string departureData = await fetchDepartureData(stop); 
-            Dictionary<string, List<string>> lts = DataParser.parseDepartureTimes(departureData); 
+            Stream departureStream = await fetchDepartureData(stop); 
+            Dictionary<string, List<string>> lts = DataParser.parseDepartureTimes(departureStream); 
 
             foreach (string route in lts.Keys)
             {
@@ -65,8 +65,8 @@ namespace Translink
         {
             List<Departure> departures = new List<Departure>();
             Debug.WriteLine("Before"); 
-            string departureData = await fetchDepartureData(stop, route);
-            Dictionary<string, List<string>> lts = DataParser.parseDepartureTimes(departureData);
+            Stream departureStream = await FetchDepartureData(stop, route);
+            Dictionary<string, List<string>> lts = DataParser.parseDepartureTimes(departureStream);
             Debug.WriteLine("Departure data parsed!");
             
             foreach (string r in lts.Keys)
@@ -88,7 +88,7 @@ namespace Translink
          * stop: is the 5 digit ID of the stop 
          * RETURNS: the string with the raw XML data for the departures 
          */
-        private async Task<string> fetchDepartureData(int stop)
+        private async Task<Stream> fetchDepartureData(int stop)
         {
             string uri = "http://api.translink.ca/rttiapi/v1/stops/" + stop +
                 "/estimates?apikey=" + API_KEY + "&count=" + DepartureCount;
@@ -98,8 +98,8 @@ namespace Translink
             HttpResponseMessage response = await mHttpClient.GetAsync(uri);
            
             HttpContent content = response.Content;
-            var contentString = await content.ReadAsStringAsync();
-            return contentString;
+            var contentStream = await content.ReadAsStreamAsync();
+            return contentStream;
         }
 
         /**
@@ -108,15 +108,15 @@ namespace Translink
          * route: the route number (usually 1-3 digits) 
          * RETURNS: the string with the raw XML data for the departures 
          */
-        private async Task<string> fetchDepartureData(int stop, string route)
+        private async Task<Stream> FetchDepartureData(int stop, string route)
         {
             HttpResponseMessage response = await mHttpClient.GetAsync(
                 "http://api.translink.ca/rttiapi/v1/stops/" + stop + 
                 "/estimates?apikey=" + API_KEY + "&count=" + DepartureCount + "&routeNo=" + route);
 
             HttpContent content = response.Content;
-            var contentString = await content.ReadAsStringAsync();
-            return contentString; 
+            var contentStream = await content.ReadAsStreamAsync();
+            return contentStream; 
         }
 
     }
