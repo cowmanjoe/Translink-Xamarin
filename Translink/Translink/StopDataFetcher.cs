@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 namespace Translink
 {
-    class StopDataFetcher
+    public class StopDataFetcher
     {
         private const string API_KEY = "gmSNagac7UUqdirk3bFj";
         private readonly HttpClient mHttpClient;

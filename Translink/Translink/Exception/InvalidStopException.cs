@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Translink.Exception
 {
-    class InvalidStopException : System.Exception 
+    public class InvalidStopException : System.Exception 
     {
         public InvalidStopException()
         {

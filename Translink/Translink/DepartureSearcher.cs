@@ -9,7 +9,7 @@ using Translink.Exception;
 
 namespace Translink
 {
-    class DepartureSearcher
+    public class DepartureSearcher
     {
 
         // List that populates the ListView of departures 
@@ -43,12 +43,7 @@ namespace Translink
          */ 
         public async Task SearchAndAddDepartures(int stop)
         {
-            int numStopDigits = numDigits(stop);
-            if (numStopDigits != 5)
-            {
-                Debug.WriteLine("Throwing exception."); 
-                throw new InvalidStopException(stop + " is not a valid 5 digit stop number");
-            }
+            
             bool alreadySearched = false;
 
             List<string> routeList;
@@ -75,9 +70,7 @@ namespace Translink
          */ 
         public async Task SearchAndAddDepartures(int stop, string route)
         {
-            int numStopDigits = numDigits(stop);
-            if (numStopDigits != 5) throw new InvalidStopException(stop + " is not a valid 5 digit stop number");
-
+            
             bool alreadySearched = false;
             List<string> routeList;
             if (mSearches.TryGetValue(stop, out routeList))

@@ -1,0 +1,308 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<NextBuses xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <NextBus>
+    <RouteNo>004</RouteNo>
+    <RouteName>POWELL/DOWNTOWN/UBC</RouteName>
+    <Direction>WEST</Direction>
+    <RouteMap>
+      <Href>http://nb.translink.ca/geodata/004.kmz</Href>
+    </RouteMap>
+    <Schedules>
+      <Schedule>
+        <Pattern>WBEV4</Pattern>
+        <Destination>UBC</Destination>
+        <ExpectedLeaveTime>10:49pm 2017-01-31</ExpectedLeaveTime>
+        <ExpectedCountdown>10</ExpectedCountdown>
+        <ScheduleStatus>*</ScheduleStatus>
+        <CancelledTrip>false</CancelledTrip>
+        <CancelledStop>false</CancelledStop>
+        <AddedTrip>false</AddedTrip>
+        <AddedStop>false</AddedStop>
+        <LastUpdate>09:46:00 pm</LastUpdate>
+      </Schedule>
+      <Schedule>
+        <Pattern>WBEV4</Pattern>
+        <Destination>UBC</Destination>
+        <ExpectedLeaveTime>11:09pm 2017-01-31</ExpectedLeaveTime>
+        <ExpectedCountdown>30</ExpectedCountdown>
+        <ScheduleStatus>*</ScheduleStatus>
+        <CancelledTrip>false</CancelledTrip>
+        <CancelledStop>false</CancelledStop>
+        <AddedTrip>false</AddedTrip>
+        <AddedStop>false</AddedStop>
+        <LastUpdate>10:06:04 pm</LastUpdate>
+      </Schedule>
+      <Schedule>
+        <Pattern>WBEV4</Pattern>
+        <Destination>UBC</Destination>
+        <ExpectedLeaveTime>11:29pm 2017-01-31</ExpectedLeaveTime>
+        <ExpectedCountdown>50</ExpectedCountdown>
+        <ScheduleStatus> </ScheduleStatus>
+        <CancelledTrip>false</CancelledTrip>
+        <CancelledStop>false</CancelledStop>
+        <AddedTrip>false</AddedTrip>
+        <AddedStop>false</AddedStop>
+        <LastUpdate>10:26:02 pm</LastUpdate>
+      </Schedule>
+      <Schedule>
+        <Pattern>WBEV4</Pattern>
+        <Destination>UBC</Destination>
+        <ExpectedLeaveTime>11:49pm 2017-01-31</ExpectedLeaveTime>
+        <ExpectedCountdown>70</ExpectedCountdown>
+        <ScheduleStatus>*</ScheduleStatus>
+        <CancelledTrip>false</CancelledTrip>
+        <CancelledStop>false</CancelledStop>
+        <AddedTrip>false</AddedTrip>
+        <AddedStop>false</AddedStop>
+        <LastUpdate>09:00:00 pm</LastUpdate>
+      </Schedule>
+      <Schedule>
+        <Pattern>WBEV5</Pattern>
+        <Destination>UBC</Destination>
+        <ExpectedLeaveTime>12:09am</ExpectedLeaveTime>
+        <ExpectedCountdown>90</ExpectedCountdown>
+        <ScheduleStatus>*</ScheduleStatus>
+        <CancelledTrip>false</CancelledTrip>
+        <CancelledStop>false</CancelledStop>
+        <AddedTrip>false</AddedTrip>
+        <AddedStop>false</AddedStop>
+        <LastUpdate>12:11:32 am</LastUpdate>
+      </Schedule>
+    </Schedules>
+  </NextBus>
+  <NextBus>
+    <RouteNo>007</RouteNo>
+    <RouteName>NANAIMO STN/DUNBAR             </RouteName>
+    <Direction>WEST</Direction>
+    <RouteMap>
+      <Href>http://nb.translink.ca/geodata/007.kmz</Href>
+    </RouteMap>
+    <Schedules>
+      <Schedule>
+        <Pattern>WB1MN</Pattern>
+        <Destination>DUNBAR</Destination>
+        <ExpectedLeaveTime>10:39pm 2017-01-31</ExpectedLeaveTime>
+        <ExpectedCountdown>0</ExpectedCountdown>
+        <ScheduleStatus> </ScheduleStatus>
+        <CancelledTrip>false</CancelledTrip>
+        <CancelledStop>false</CancelledStop>
+        <AddedTrip>false</AddedTrip>
+        <AddedStop>false</AddedStop>
+        <LastUpdate>09:11:03 pm</LastUpdate>
+      </Schedule>
+      <Schedule>
+        <Pattern>WB1MN</Pattern>
+        <Destination>DUNBAR</Destination>
+        <ExpectedLeaveTime>10:59pm 2017-01-31</ExpectedLeaveTime>
+        <ExpectedCountdown>20</ExpectedCountdown>
+        <ScheduleStatus> </ScheduleStatus>
+        <CancelledTrip>false</CancelledTrip>
+        <CancelledStop>false</CancelledStop>
+        <AddedTrip>false</AddedTrip>
+        <AddedStop>false</AddedStop>
+        <LastUpdate>09:31:05 pm</LastUpdate>
+      </Schedule>
+      <Schedule>
+        <Pattern>WB1MN</Pattern>
+        <Destination>DUNBAR</Destination>
+        <ExpectedLeaveTime>11:19pm 2017-01-31</ExpectedLeaveTime>
+        <ExpectedCountdown>40</ExpectedCountdown>
+        <ScheduleStatus> </ScheduleStatus>
+        <CancelledTrip>false</CancelledTrip>
+        <CancelledStop>false</CancelledStop>
+        <AddedTrip>false</AddedTrip>
+        <AddedStop>false</AddedStop>
+        <LastUpdate>09:51:02 pm</LastUpdate>
+      </Schedule>
+      <Schedule>
+        <Pattern>WB1MN</Pattern>
+        <Destination>DUNBAR</Destination>
+        <ExpectedLeaveTime>11:39pm 2017-01-31</ExpectedLeaveTime>
+        <ExpectedCountdown>60</ExpectedCountdown>
+        <ScheduleStatus> </ScheduleStatus>
+        <CancelledTrip>false</CancelledTrip>
+        <CancelledStop>false</CancelledStop>
+        <AddedTrip>false</AddedTrip>
+        <AddedStop>false</AddedStop>
+        <LastUpdate>10:11:04 pm</LastUpdate>
+      </Schedule>
+      <Schedule>
+        <Pattern>WB1MN</Pattern>
+        <Destination>DUNBAR</Destination>
+        <ExpectedLeaveTime>11:59pm 2017-01-31</ExpectedLeaveTime>
+        <ExpectedCountdown>80</ExpectedCountdown>
+        <ScheduleStatus> </ScheduleStatus>
+        <CancelledTrip>false</CancelledTrip>
+        <CancelledStop>false</CancelledStop>
+        <AddedTrip>false</AddedTrip>
+        <AddedStop>false</AddedStop>
+        <LastUpdate>10:32:04 pm</LastUpdate>
+      </Schedule>
+      <Schedule>
+        <Pattern>WB1MN</Pattern>
+        <Destination>DUNBAR</Destination>
+        <ExpectedLeaveTime>12:19am</ExpectedLeaveTime>
+        <ExpectedCountdown>100</ExpectedCountdown>
+        <ScheduleStatus>*</ScheduleStatus>
+        <CancelledTrip>false</CancelledTrip>
+        <CancelledStop>false</CancelledStop>
+        <AddedTrip>false</AddedTrip>
+        <AddedStop>false</AddedStop>
+        <LastUpdate>12:12:12 am</LastUpdate>
+      </Schedule>
+    </Schedules>
+  </NextBus>
+  <NextBus>
+    <RouteNo>010</RouteNo>
+    <RouteName>GRANVILLE/DOWNTOWN          </RouteName>
+    <Direction>SOUTH</Direction>
+    <RouteMap>
+      <Href>http://nb.translink.ca/geodata/010.kmz</Href>
+    </RouteMap>
+    <Schedules>
+      <Schedule>
+        <Pattern>SB1DT</Pattern>
+        <Destination>GRANVILLE</Destination>
+        <ExpectedLeaveTime>10:43pm 2017-01-31</ExpectedLeaveTime>
+        <ExpectedCountdown>4</ExpectedCountdown>
+        <ScheduleStatus> </ScheduleStatus>
+        <CancelledTrip>false</CancelledTrip>
+        <CancelledStop>false</CancelledStop>
+        <AddedTrip>false</AddedTrip>
+        <AddedStop>false</AddedStop>
+        <LastUpdate>09:40:08 pm</LastUpdate>
+      </Schedule>
+      <Schedule>
+        <Pattern>SB1DT</Pattern>
+        <Destination>GRANVILLE</Destination>
+        <ExpectedLeaveTime>11:02pm 2017-01-31</ExpectedLeaveTime>
+        <ExpectedCountdown>23</ExpectedCountdown>
+        <ScheduleStatus> </ScheduleStatus>
+        <CancelledTrip>false</CancelledTrip>
+        <CancelledStop>false</CancelledStop>
+        <AddedTrip>false</AddedTrip>
+        <AddedStop>false</AddedStop>
+        <LastUpdate>10:00:06 pm</LastUpdate>
+      </Schedule>
+      <Schedule>
+        <Pattern>SB1DT</Pattern>
+        <Destination>GRANVILLE</Destination>
+        <ExpectedLeaveTime>11:22pm 2017-01-31</ExpectedLeaveTime>
+        <ExpectedCountdown>43</ExpectedCountdown>
+        <ScheduleStatus> </ScheduleStatus>
+        <CancelledTrip>false</CancelledTrip>
+        <CancelledStop>false</CancelledStop>
+        <AddedTrip>false</AddedTrip>
+        <AddedStop>false</AddedStop>
+        <LastUpdate>10:20:02 pm</LastUpdate>
+      </Schedule>
+      <Schedule>
+        <Pattern>SB1DT</Pattern>
+        <Destination>GRANVILLE</Destination>
+        <ExpectedLeaveTime>11:42pm 2017-01-31</ExpectedLeaveTime>
+        <ExpectedCountdown>63</ExpectedCountdown>
+        <ScheduleStatus>*</ScheduleStatus>
+        <CancelledTrip>false</CancelledTrip>
+        <CancelledStop>false</CancelledStop>
+        <AddedTrip>false</AddedTrip>
+        <AddedStop>false</AddedStop>
+        <LastUpdate>09:00:00 pm</LastUpdate>
+      </Schedule>
+      <Schedule>
+        <Pattern>SB3DT</Pattern>
+        <Destination>GRANVILLE</Destination>
+        <ExpectedLeaveTime>12:12am</ExpectedLeaveTime>
+        <ExpectedCountdown>93</ExpectedCountdown>
+        <ScheduleStatus>*</ScheduleStatus>
+        <CancelledTrip>false</CancelledTrip>
+        <CancelledStop>false</CancelledStop>
+        <AddedTrip>false</AddedTrip>
+        <AddedStop>false</AddedStop>
+        <LastUpdate>09:00:00 pm</LastUpdate>
+      </Schedule>
+    </Schedules>
+  </NextBus>
+  <NextBus>
+    <RouteNo>014</RouteNo>
+    <RouteName>HASTINGS/UBC</RouteName>
+    <Direction>WEST</Direction>
+    <RouteMap>
+      <Href>http://nb.translink.ca/geodata/014.kmz</Href>
+    </RouteMap>
+    <Schedules>
+      <Schedule>
+        <Pattern>WB2</Pattern>
+        <Destination>U B C</Destination>
+        <ExpectedLeaveTime>10:41pm 2017-01-31</ExpectedLeaveTime>
+        <ExpectedCountdown>2</ExpectedCountdown>
+        <ScheduleStatus>-</ScheduleStatus>
+        <CancelledTrip>false</CancelledTrip>
+        <CancelledStop>false</CancelledStop>
+        <AddedTrip>false</AddedTrip>
+        <AddedStop>false</AddedStop>
+        <LastUpdate>09:35:05 pm</LastUpdate>
+      </Schedule>
+      <Schedule>
+        <Pattern>WB2</Pattern>
+        <Destination>U B C</Destination>
+        <ExpectedLeaveTime>11:06pm 2017-01-31</ExpectedLeaveTime>
+        <ExpectedCountdown>27</ExpectedCountdown>
+        <ScheduleStatus>-</ScheduleStatus>
+        <CancelledTrip>false</CancelledTrip>
+        <CancelledStop>false</CancelledStop>
+        <AddedTrip>false</AddedTrip>
+        <AddedStop>false</AddedStop>
+        <LastUpdate>09:55:08 pm</LastUpdate>
+      </Schedule>
+      <Schedule>
+        <Pattern>WB2</Pattern>
+        <Destination>U B C</Destination>
+        <ExpectedLeaveTime>11:20pm 2017-01-31</ExpectedLeaveTime>
+        <ExpectedCountdown>41</ExpectedCountdown>
+        <ScheduleStatus> </ScheduleStatus>
+        <CancelledTrip>false</CancelledTrip>
+        <CancelledStop>false</CancelledStop>
+        <AddedTrip>false</AddedTrip>
+        <AddedStop>false</AddedStop>
+        <LastUpdate>10:15:02 pm</LastUpdate>
+      </Schedule>
+      <Schedule>
+        <Pattern>WB2</Pattern>
+        <Destination>U B C</Destination>
+        <ExpectedLeaveTime>11:40pm 2017-01-31</ExpectedLeaveTime>
+        <ExpectedCountdown>61</ExpectedCountdown>
+        <ScheduleStatus> </ScheduleStatus>
+        <CancelledTrip>false</CancelledTrip>
+        <CancelledStop>false</CancelledStop>
+        <AddedTrip>false</AddedTrip>
+        <AddedStop>false</AddedStop>
+        <LastUpdate>10:35:04 pm</LastUpdate>
+      </Schedule>
+      <Schedule>
+        <Pattern>WB2</Pattern>
+        <Destination>U B C</Destination>
+        <ExpectedLeaveTime>12:10am</ExpectedLeaveTime>
+        <ExpectedCountdown>91</ExpectedCountdown>
+        <ScheduleStatus>*</ScheduleStatus>
+        <CancelledTrip>false</CancelledTrip>
+        <CancelledStop>false</CancelledStop>
+        <AddedTrip>false</AddedTrip>
+        <AddedStop>false</AddedStop>
+        <LastUpdate>09:00:00 pm</LastUpdate>
+      </Schedule>
+      <Schedule>
+        <Pattern>WB2</Pattern>
+        <Destination>U B C</Destination>
+        <ExpectedLeaveTime>12:25am</ExpectedLeaveTime>
+        <ExpectedCountdown>106</ExpectedCountdown>
+        <ScheduleStatus>*</ScheduleStatus>
+        <CancelledTrip>false</CancelledTrip>
+        <CancelledStop>false</CancelledStop>
+        <AddedTrip>false</AddedTrip>
+        <AddedStop>false</AddedStop>
+        <LastUpdate>09:00:00 pm</LastUpdate>
+      </Schedule>
+    </Schedules>
+  </NextBus>
+</NextBuses>

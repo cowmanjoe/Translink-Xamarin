@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Error xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <Code>3002</Code>
+  <Message>Stop number not found, please specify a valid stop number.</Message>
+</Error>

@@ -6,22 +6,27 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using System.IO;
 using System.Xml.Linq;
+using Translink.Exception; 
 using static Translink.StopDataFetcher;
 
 namespace Translink
 {
-    static class DataParser
+    public static class DataParser
     {
         /**
          * Parse the text that the API returns on a departure time request
          * data: the string received from Translink API 
          * RETURNS: mapping of routes to a list of string representations of departure times 
          **/
-        public static Dictionary<string, List<string>> parseDepartureTimes(Stream data)
+        public static Dictionary<string, List<string>> ParseDepartureTimes(Stream data)
         {
             Dictionary<string, List<string>> routeDictionary = new Dictionary<string, List<string>>();
 
             XDocument xDoc = XDocument.Load(data);
+
+            CheckDeparturesForErrors(xDoc); 
+
+
             var nextBuses = xDoc.Descendants("NextBus"); 
 
             foreach(var nextBus in nextBuses)
@@ -51,13 +56,37 @@ namespace Translink
             return routeDictionary; 
         }
 
+        private static void CheckDeparturesForErrors(XDocument xml)
+        {
+
+            if (xml.Root.Name == "Error")
+            {
+                string errorCode = xml.Root.Element("Code").Value;
+                if (errorCode == "3005")
+                {
+                    throw new NoDeparturesFoundException();
+                }
+
+                if (errorCode == "3001")
+                {
+                    throw new InvalidStopException("Stop must be a valid 5 digit number.");
+                }
+
+                if (errorCode == "3002")
+                {
+                    throw new InvalidStopException("Stop not found.");
+                }
+
+                else
+                {
+                    throw new TranslinkAPIErrorException(Convert.ToInt32(errorCode));
+                }
+            }
+        }
+
         public static StopInfo ParseStopInfo(Stream stream)
         {
-            StopInfo stopInfo = new StopInfo(); 
-
-            
             XDocument xDoc = XDocument.Load(stream);
-
             return ParseStopInfo(xDoc.Root); 
         }
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Translink
 {
-    struct Departure
+    public struct Departure
     {
         public Departure(string time, int stopNumber, string routeNumber)
         {

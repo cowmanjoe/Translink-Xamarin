@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Error xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <Code>3001</Code>
+  <Message>Invalid stop number specified. Please use a valid 5 digit number.</Message>
+</Error>

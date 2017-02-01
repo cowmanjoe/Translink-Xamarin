@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<NextBuses xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <NextBus>
+    <RouteNo>050</RouteNo>
+    <RouteName>WATERFRONT STN/FALSE CREEK SOUTH</RouteName>
+    <Direction>SOUTH</Direction>
+    <RouteMap>
+      <Href>http://nb.translink.ca/geodata/050.kmz</Href>
+    </RouteMap>
+    <Schedules>
+      <Schedule>
+        <Pattern>SB1W</Pattern>
+        <Destination>S. FALSE CREEK VIA GRANVILLE ISL.</Destination>
+        <ExpectedLeaveTime>10:43pm 2017-01-31</ExpectedLeaveTime>
+        <ExpectedCountdown>21</ExpectedCountdown>
+        <ScheduleStatus> </ScheduleStatus>
+        <CancelledTrip>false</CancelledTrip>
+        <CancelledStop>false</CancelledStop>
+        <AddedTrip>false</AddedTrip>
+        <AddedStop>false</AddedStop>
+        <LastUpdate>09:28:01 pm</LastUpdate>
+      </Schedule>
+      <Schedule>
+        <Pattern>SB1W</Pattern>
+        <Destination>S. FALSE CREEK VIA GRANVILLE ISL.</Destination>
+        <ExpectedLeaveTime>11:13pm 2017-01-31</ExpectedLeaveTime>
+        <ExpectedCountdown>51</ExpectedCountdown>
+        <ScheduleStatus> </ScheduleStatus>
+        <CancelledTrip>false</CancelledTrip>
+        <CancelledStop>false</CancelledStop>
+        <AddedTrip>false</AddedTrip>
+        <AddedStop>false</AddedStop>
+        <LastUpdate>09:58:02 pm</LastUpdate>
+      </Schedule>
+      <Schedule>
+        <Pattern>SB1W</Pattern>
+        <Destination>S. FALSE CREEK VIA GRANVILLE ISL.</Destination>
+        <ExpectedLeaveTime>11:43pm 2017-01-31</ExpectedLeaveTime>
+        <ExpectedCountdown>81</ExpectedCountdown>
+        <ScheduleStatus>*</ScheduleStatus>
+        <CancelledTrip>false</CancelledTrip>
+        <CancelledStop>false</CancelledStop>
+        <AddedTrip>false</AddedTrip>
+        <AddedStop>false</AddedStop>
+        <LastUpdate>09:00:00 pm</LastUpdate>
+      </Schedule>
+      <Schedule>
+        <Pattern>SB2W</Pattern>
+        <Destination>S. FALSE CREEK VIA GRANVILLE ISL.</Destination>
+        <ExpectedLeaveTime>12:14am</ExpectedLeaveTime>
+        <ExpectedCountdown>112</ExpectedCountdown>
+        <ScheduleStatus>*</ScheduleStatus>
+        <CancelledTrip>false</CancelledTrip>
+        <CancelledStop>false</CancelledStop>
+        <AddedTrip>false</AddedTrip>
+        <AddedStop>false</AddedStop>
+        <LastUpdate>12:15:19 am</LastUpdate>
+      </Schedule>
+    </Schedules>
+  </NextBus>
+</NextBuses>

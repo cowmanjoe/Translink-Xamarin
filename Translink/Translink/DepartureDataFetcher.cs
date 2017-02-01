@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Translink
 {
     // Class containing an HttpClient for fetching the actual Translink API data from the internet 
-    class DepartureDataFetcher 
+    public class DepartureDataFetcher 
     {
         private const string API_KEY = "gmSNagac7UUqdirk3bFj";
         private const int DEFAULT_DEPARTURE_COUNT = 3;
@@ -40,7 +40,7 @@ namespace Translink
         {
             List<Departure> departures = new List<Departure>();
             Stream departureStream = await fetchDepartureData(stop); 
-            Dictionary<string, List<string>> lts = DataParser.parseDepartureTimes(departureStream); 
+            Dictionary<string, List<string>> lts = DataParser.ParseDepartureTimes(departureStream); 
 
             foreach (string route in lts.Keys)
             {
@@ -66,7 +66,7 @@ namespace Translink
             List<Departure> departures = new List<Departure>();
             Debug.WriteLine("Before"); 
             Stream departureStream = await FetchDepartureData(stop, route);
-            Dictionary<string, List<string>> lts = DataParser.parseDepartureTimes(departureStream);
+            Dictionary<string, List<string>> lts = DataParser.ParseDepartureTimes(departureStream);
             Debug.WriteLine("Departure data parsed!");
             
             foreach (string r in lts.Keys)
