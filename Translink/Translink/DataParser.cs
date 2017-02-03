@@ -118,7 +118,7 @@ namespace Translink
             stopInfo.stopNo = stopNo;
 
             string name = stopElement.Element("Name").Value;
-            stopInfo.name = name;
+            stopInfo.name = name.Trim();
 
             string bayNo = stopElement.Element("BayNo").Value;
             if (bayNo != "N")
@@ -127,10 +127,10 @@ namespace Translink
                 stopInfo.bayNo = -1;
 
             string onStreet = stopElement.Element("OnStreet").Value;
-            stopInfo.onStreet = onStreet;
+            stopInfo.onStreet = onStreet.Trim();
 
             string atStreet = stopElement.Element("AtStreet").Value;
-            stopInfo.atStreet = atStreet;
+            stopInfo.atStreet = atStreet.Trim();
 
             double latitude = Convert.ToDouble(stopElement.Element("Latitude").Value);
             stopInfo.latitude = latitude;

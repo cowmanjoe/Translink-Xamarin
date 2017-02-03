@@ -45,13 +45,16 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
   <ItemGroup>
     <Compile Include="DataParserTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DepartureTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Translink\Translink\Translink.csproj">
@@ -63,8 +66,12 @@
     <Content Include="Resources\Departures60980.xml" />
     <Content Include="Resources\Departures60980_50.xml" />
     <Content Include="Resources\InvalidStopNumber.xml" />
+    <Content Include="Resources\Stop55612.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Resources\StopNumberNotFound.xml" />
     <Content Include="Resources\NoDeparturesFound.xml" />
+    <Content Include="Resources\StopSearch1.xml" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

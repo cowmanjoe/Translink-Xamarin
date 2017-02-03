@@ -27,6 +27,31 @@ namespace Translink
             public double longitude;
             public List<string> routes;
             
+            public override bool Equals(Object obj)
+            {
+                if (obj == null || GetType() != obj.GetType())
+                    return false;
+
+                StopInfo s = (StopInfo)obj;
+
+                if (routes.Count != s.routes.Count)
+                    return false; 
+
+                for (int i = 0; i < routes.Count; i++)
+                {
+                    Departure.RouteEquals(routes[i], s.routes[i]); 
+                }
+
+
+                return stopNo == s.stopNo &&
+                    name == s.name &&
+                    bayNo == s.bayNo &&
+                    onStreet == s.onStreet &&
+                    atStreet == s.atStreet &&
+                    latitude.Equals(s.latitude) &&
+                    longitude.Equals(s.longitude); 
+            }
+
         }
 
 

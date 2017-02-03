@@ -130,6 +130,75 @@ namespace TranslinkTests
             }
         }
 
+        [TestMethod]
+        public void TestParseStopInfo()
+        {
+            StopDataFetcher.StopInfo actualStopInfo;
+
+            using (StreamReader sr = new StreamReader(resourcePath + "Stop55612.xml"))
+            {
+                actualStopInfo = DataParser.ParseStopInfo(sr.BaseStream);
+            }
+
+            StopDataFetcher.StopInfo expectedStopInfo;
+
+            expectedStopInfo.stopNo = 55612;
+            expectedStopInfo.name = "SURREY CENTRAL STN BAY 4";
+            expectedStopInfo.bayNo = 4;
+            expectedStopInfo.onStreet = "SURREY CENTRAL STN";
+            expectedStopInfo.atStreet = "BAY 4";
+            expectedStopInfo.latitude = 49.188850;
+            expectedStopInfo.longitude = -122.849370;
+            expectedStopInfo.routes = new List<string>();
+            expectedStopInfo.routes.Add("501");
+            expectedStopInfo.routes.Add("509");
+            expectedStopInfo.routes.Add("N19");
+
+            Assert.AreEqual(expectedStopInfo, actualStopInfo); 
+        }
+
+        [TestMethod]
+        public void TestParseStopsInfo()
+        {
+            List<StopDataFetcher.StopInfo> actualStopInfos;
+            List<StopDataFetcher.StopInfo> expectedStopInfos = new List<StopDataFetcher.StopInfo>();
+            using (StreamReader sr = new StreamReader(resourcePath + "StopSearch1.xml"))
+            {
+                actualStopInfos = DataParser.ParseStopsInfo(sr.BaseStream);
+            }
+
+            StopDataFetcher.StopInfo stop1 = new StopDataFetcher.StopInfo();
+            stop1.stopNo = 51516;
+            stop1.name = "EB W KING EDWARD AVE FS MANITOBA ST";
+            stop1.bayNo = -1;
+            stop1.onStreet = "W KING EDWARD AVE";
+            stop1.atStreet = "MANITOBA ST";
+            stop1.latitude = 49.248820;
+            stop1.longitude = -123.107050;
+            stop1.routes = new List<string>();
+            stop1.routes.Add("025");
+
+            StopDataFetcher.StopInfo stop2 = new StopDataFetcher.StopInfo();
+            stop2.stopNo = 51573;
+            stop2.name = "WB W KING EDWARD AVE FS COLUMBIA ST";
+            stop2.bayNo = -1;
+            stop2.onStreet = "W KING EDWARD AVE";
+            stop2.atStreet = "COLUMBIA ST";
+            stop2.latitude = 49.249020;
+            stop2.longitude = -123.110530;
+            stop2.routes = new List<string>();
+            stop2.routes.Add("025");
+
+            expectedStopInfos.Add(stop1);
+            expectedStopInfos.Add(stop2);
+
+            Assert.AreEqual(expectedStopInfos.Count, actualStopInfos.Count);
+            for (int i = 0; i < expectedStopInfos.Count; i++)
+            {
+                Assert.IsTrue(expectedStopInfos[i].Equals(actualStopInfos[i]));
+            }
+        }
+
         private bool AreTimeDictionariesEqual(Dictionary<string, List<string>> x, Dictionary<string, List<string>> y)
         {
             if (x.Count != y.Count)

@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Stops xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <Stop>
+    <StopNo>51516</StopNo>
+    <Name>EB W KING EDWARD AVE FS MANITOBA ST</Name>
+    <BayNo>N</BayNo>
+    <City>VANCOUVER</City>
+    <OnStreet>W KING EDWARD AVE</OnStreet>
+    <AtStreet>MANITOBA ST</AtStreet>
+    <Latitude>49.248820</Latitude>
+    <Longitude>-123.107050</Longitude>
+    <WheelchairAccess>1</WheelchairAccess>
+    <Distance>131</Distance>
+    <Routes>025</Routes>
+  </Stop>
+  <Stop>
+    <StopNo>51573</StopNo>
+    <Name>WB W KING EDWARD AVE FS COLUMBIA ST</Name>
+    <BayNo>N</BayNo>
+    <City>VANCOUVER</City>
+    <OnStreet>W KING EDWARD AVE</OnStreet>
+    <AtStreet>COLUMBIA ST</AtStreet>
+    <Latitude>49.249020</Latitude>
+    <Longitude>-123.110530</Longitude>
+    <WheelchairAccess>0</WheelchairAccess>
+    <Distance>137</Distance>
+    <Routes>025</Routes>
+  </Stop>
+</Stops>

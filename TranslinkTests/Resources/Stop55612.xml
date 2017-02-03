@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Stop xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <StopNo>55612</StopNo>
+  <Name>SURREY CENTRAL STN BAY 4       </Name>
+  <BayNo>4  </BayNo>
+  <City>SURREY</City>
+  <OnStreet>SURREY CENTRAL STN</OnStreet>
+  <AtStreet>BAY 4</AtStreet>
+  <Latitude>49.188850</Latitude>
+  <Longitude>-122.849370</Longitude>
+  <WheelchairAccess>1</WheelchairAccess>
+  <Distance>-1</Distance>
+  <Routes>501, 509, N19</Routes>
+</Stop>
