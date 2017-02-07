@@ -133,14 +133,14 @@ namespace TranslinkTests
         [TestMethod]
         public void TestParseStopInfo()
         {
-            StopDataFetcher.StopInfo actualStopInfo;
+            StopInfo actualStopInfo;
 
             using (StreamReader sr = new StreamReader(resourcePath + "Stop55612.xml"))
             {
                 actualStopInfo = DataParser.ParseStopInfo(sr.BaseStream);
             }
 
-            StopDataFetcher.StopInfo expectedStopInfo;
+            StopInfo expectedStopInfo;
 
             expectedStopInfo.stopNo = 55612;
             expectedStopInfo.name = "SURREY CENTRAL STN BAY 4";
@@ -160,14 +160,14 @@ namespace TranslinkTests
         [TestMethod]
         public void TestParseStopsInfo()
         {
-            List<StopDataFetcher.StopInfo> actualStopInfos;
-            List<StopDataFetcher.StopInfo> expectedStopInfos = new List<StopDataFetcher.StopInfo>();
+            List<StopInfo> actualStopInfos;
+            List<StopInfo> expectedStopInfos = new List<StopInfo>();
             using (StreamReader sr = new StreamReader(resourcePath + "StopSearch1.xml"))
             {
                 actualStopInfos = DataParser.ParseStopsInfo(sr.BaseStream);
             }
 
-            StopDataFetcher.StopInfo stop1 = new StopDataFetcher.StopInfo();
+            StopInfo stop1 = new StopInfo();
             stop1.stopNo = 51516;
             stop1.name = "EB W KING EDWARD AVE FS MANITOBA ST";
             stop1.bayNo = -1;
@@ -178,7 +178,7 @@ namespace TranslinkTests
             stop1.routes = new List<string>();
             stop1.routes.Add("025");
 
-            StopDataFetcher.StopInfo stop2 = new StopDataFetcher.StopInfo();
+            StopInfo stop2 = new StopInfo();
             stop2.stopNo = 51573;
             stop2.name = "WB W KING EDWARD AVE FS COLUMBIA ST";
             stop2.bayNo = -1;

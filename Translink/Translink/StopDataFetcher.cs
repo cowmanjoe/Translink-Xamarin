@@ -16,48 +16,40 @@ namespace Translink
         private readonly HttpClient mHttpClient;
 
 
-        public struct StopInfo
-        {
-            public int stopNo;
-            public string name;
-            public int bayNo;
-            public string onStreet;
-            public string atStreet;
-            public double latitude;
-            public double longitude;
-            public List<string> routes;
-            
-            public override bool Equals(Object obj)
-            {
-                if (obj == null || GetType() != obj.GetType())
-                    return false;
-
-                StopInfo s = (StopInfo)obj;
-
-                if (routes.Count != s.routes.Count)
-                    return false; 
-
-                for (int i = 0; i < routes.Count; i++)
-                {
-                    Departure.RouteEquals(routes[i], s.routes[i]); 
-                }
-
-
-                return stopNo == s.stopNo &&
-                    name == s.name &&
-                    bayNo == s.bayNo &&
-                    onStreet == s.onStreet &&
-                    atStreet == s.atStreet &&
-                    latitude.Equals(s.latitude) &&
-                    longitude.Equals(s.longitude); 
-            }
-
-        }
+        
 
 
         public StopDataFetcher()
         {
             mHttpClient = new HttpClient(); 
+        }
+
+        public async Task<Stop> FetchStopWithDepartures(int stopNo)
+        {
+            StopInfo stopInfo = await (FetchStopInfo(stopNo));
+
+            DepartureDataFetcher departureDataFetcher = new DepartureDataFetcher();
+            List<Departure> departures = await departureDataFetcher.fetchDepartures(stopNo);
+
+            return new Stop(stopInfo, departures); 
+        }
+
+        public async Task<List<Stop>> SearchStopsWithDepartures(double lat, double lon, int radius) 
+        {
+            List<Stop> stops = new List<Stop>();
+            DepartureDataFetcher departureDataFetcher = new DepartureDataFetcher();
+
+            List<StopInfo> stopInfos = await SearchStopInfo(lat, lon, radius); 
+
+            foreach (StopInfo si in stopInfos)
+            {
+                List<Departure> departures = await departureDataFetcher.fetchDepartures(si.stopNo);
+                Stop stop = new Stop(si, departures);
+                stops.Add(stop); 
+            }
+
+            return stops; 
+
         }
 
         /** 
@@ -66,9 +58,9 @@ namespace Translink
          * RETURNS: a StopInfo object with all info attached 
          * bayNo = -1 if there is no bay number 
          */
-        public async Task<StopInfo> FetchStopInfo(int stop)
+        public async Task<StopInfo> FetchStopInfo(int stopNo)
         {
-            Stream stopXml = await FetchStopXml(stop);
+            Stream stopXml = await FetchStopXml(stopNo);
             Debug.WriteLine("XML:" + stopXml.ToString());
 
             return DataParser.ParseStopInfo(stopXml); 
@@ -89,10 +81,10 @@ namespace Translink
         }
 
 
-        private async Task<Stream> FetchStopXml(int stop)
+        private async Task<Stream> FetchStopXml(int stopNo)
         {
             HttpResponseMessage response = await mHttpClient.GetAsync(
-                "http://api.translink.ca/rttiapi/v1/stops/" + stop +
+                "http://api.translink.ca/rttiapi/v1/stops/" + stopNo +
                 "?apikey=" + API_KEY);
             HttpContent content = response.Content;
             Stream contentStream = await content.ReadAsStreamAsync();

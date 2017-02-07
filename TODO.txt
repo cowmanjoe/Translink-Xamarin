@@ -1,5 +1,6 @@
 TODO:  
-- Handling invalid stop/route numbers
+- Get rid of StopInfo and just use Stop class
+- Handling invalid route numbers
 - Handling possible errors from the API 
 - Drop down menu for routes
 - Saved "favourite" stops 

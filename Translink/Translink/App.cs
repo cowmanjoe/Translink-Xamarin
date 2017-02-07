@@ -9,11 +9,16 @@ namespace Translink
 {
     public class App : Application
     {
+        
+
         public App()
-        { 
-            MainPage = new MainPage();
+        {
+            //MainPage = new MainPage();
+
+            MainPage = new StopPage(); 
         }
 
+        
         protected override void OnStart()
         {
             // Handle when your app starts
