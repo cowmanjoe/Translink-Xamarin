@@ -13,11 +13,11 @@ namespace Translink
     {
 
         // List that populates the ListView of departures 
-        ObservableCollection<Departure> mDepartures;
+        private readonly ObservableCollection<Departure> mDepartures;
 
         // List of stop/routes pairs of searches that have been made
         // if the list is empty then all stops were searched for 
-        Dictionary<int, List<string>> mSearches;
+        private readonly Dictionary<int, List<string>> mSearches;
         
 
 
@@ -156,19 +156,6 @@ namespace Translink
                     }
                 }
             }
-        }
-
-
-
-
-        
-
-
-        
-
-        private int numDigits(int x)
-        {
-            return (int)Math.Ceiling(Math.Log10(x)); 
         }
     }
 }

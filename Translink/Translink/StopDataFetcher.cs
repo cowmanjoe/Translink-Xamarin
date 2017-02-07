@@ -49,6 +49,7 @@ namespace Translink
         {
             List<Stop> stops = new List<Stop>();
             DepartureDataFetcher departureDataFetcher = DepartureDataFetcher.Instance; 
+           
 
             List<StopInfo> stopInfos = await SearchStopInfo(lat, lon, radius); 
 
@@ -80,19 +81,18 @@ namespace Translink
 
         public async Task<List<StopInfo>> SearchStopInfo(double lat, double lon, int radius)
         {
+            lat = Math.Round(lat, 6);
+            lon = Math.Round(lon, 6); 
+
             Stream searchXml = await FetchSearchXml(lat, lon, radius);
-            Debug.WriteLine("XML:" + searchXml.ToString());
-
-            //using (StreamReader sr = new StreamReader(searchXml))
-            //{
-            //    Debug.WriteLine("XML:" + sr.ReadToEnd());
-            //}
-
             return DataParser.ParseStopsInfo(searchXml); 
         }
 
         public async Task<List<StopInfo>> SearchStopInfo(double lat, double lon, int radius, string route)
         {
+            lat = Math.Round(lat, 6);
+            lon = Math.Round(lon, 6);
+
             Stream searchXml = await FetchSearchXml(lat, lon, radius, route);
             return DataParser.ParseStopsInfo(searchXml); 
         }

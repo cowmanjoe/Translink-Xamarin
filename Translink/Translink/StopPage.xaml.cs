@@ -27,8 +27,7 @@ namespace Translink
 
         async void OnRefreshNearestStops(object sender, EventArgs e)
         {
-            StopDataFetcher stopDataFetcher = StopDataFetcher.Instance;
-            List<Stop> stops = await StopLocator.FetchStopsAroundMe(SEARCH_RADIUS); 
+            List<Stop> stops = await StopLocator.FetchStopsAndDeparturesAroundMe(SEARCH_RADIUS); 
             mStops.Clear(); 
             foreach (Stop stop in stops)
             {
