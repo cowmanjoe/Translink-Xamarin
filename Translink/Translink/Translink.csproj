@@ -41,7 +41,6 @@
     <Compile Include="DepartureDataFetcher.cs" />
     <Compile Include="DepartureSearcher.cs" />
     <Compile Include="Exception\InvalidStopException.cs" />
-    <Compile Include="Exception\NoDeparturesFoundException.cs" />
     <Compile Include="Exception\TranslinkAPIErrorException.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>

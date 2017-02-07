@@ -11,8 +11,8 @@ namespace Translink
 
         public static async Task<List<Stop>> FetchStopsAroundMe(int radius)
         {
-            if (radius > 2000)
-                throw new ArgumentOutOfRangeException("Radius must be greater than 0 and at most 2000"); 
+            if (radius < 0 || radius > 2000)
+                throw new ArgumentOutOfRangeException("Radius must be between 0 and 2000"); 
 
             var locator = CrossGeolocator.Current;
             var position = await locator.GetPositionAsync();
@@ -20,7 +20,7 @@ namespace Translink
             double longitude = Math.Round(position.Longitude, 6);
             double latitude = Math.Round(position.Latitude, 6);
 
-            StopDataFetcher stopDataFetcher = StopDataFetcher.getInstance();
+            StopDataFetcher stopDataFetcher = StopDataFetcher.Instance;
 
             return await stopDataFetcher.SearchStopsWithDepartures(latitude, longitude, radius); 
         }

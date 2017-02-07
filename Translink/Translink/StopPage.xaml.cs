@@ -21,35 +21,13 @@ namespace Translink
         {
             InitializeComponent();
             mStops = new ObservableCollection<Stop>();
-
-           
-            
-
-            StopInfo stop1 = new StopInfo();
-            stop1.stopNo = 51516;
-            stop1.name = "EB W KING EDWARD AVE FS MANITOBA ST";
-            stop1.bayNo = -1;
-            stop1.onStreet = "W KING EDWARD AVE";
-            stop1.atStreet = "MANITOBA ST";
-            stop1.latitude = 49.248820;
-            stop1.longitude = -123.107050;
-            stop1.routes = new List<string>();
-            stop1.routes.Add("025");
-
-            List<Departure> departures = new List<Departure>();
-            departures.Add(new Translink.Departure("5:55", 51516, "025")); 
-
-            Stop stop = new Stop(stop1, departures);
-            //mStops.Add(stop); 
             StopList.ItemsSource = mStops; 
-
-            
         }
 
 
         async void OnRefreshNearestStops(object sender, EventArgs e)
         {
-            StopDataFetcher stopDataFetcher = StopDataFetcher.getInstance();
+            StopDataFetcher stopDataFetcher = StopDataFetcher.Instance;
             List<Stop> stops = await StopLocator.FetchStopsAroundMe(SEARCH_RADIUS); 
             mStops.Clear(); 
             foreach (Stop stop in stops)

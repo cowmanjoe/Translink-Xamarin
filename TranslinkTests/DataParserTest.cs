@@ -82,19 +82,6 @@ namespace TranslinkTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NoDeparturesFoundException))]
-        public void TestParseDepartureTimesNoRoutes()
-        {
-            
-            using (StreamReader sr = new StreamReader(resourcePath + "NoDeparturesFound.xml"))
-            {
-                DataParser.ParseDepartureTimes(sr.BaseStream);
-            }
-
-            Assert.Fail("Expected NoDeparturesFoundException not thrown"); 
-        }
-
-        [TestMethod]
         public void TestParseDepartureTimesInvalidStop()
         {
             try

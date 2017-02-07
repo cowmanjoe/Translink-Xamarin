@@ -51,7 +51,7 @@ namespace Translink
 
             if (!alreadySearched)
             {
-                List<Departure> departures = await DepartureDataFetcher.getInstance().fetchDepartures(stop);
+                List<Departure> departures = await DepartureDataFetcher.Instance.fetchDepartures(stop);
                 foreach (Departure d in departures)
                 {
                     mDepartures.Add(d);
@@ -83,7 +83,7 @@ namespace Translink
 
             if (!alreadySearched)
             {
-                List<Departure> departures = await DepartureDataFetcher.getInstance().fetchDepartures(stop, route);
+                List<Departure> departures = await DepartureDataFetcher.Instance.fetchDepartures(stop, route);
                 foreach (Departure d in departures)
                 {
                     mDepartures.Add(d);
@@ -143,14 +143,14 @@ namespace Translink
                 mSearches.TryGetValue(s, out routeList); 
                 if (routeList.Count == 0)
                 {
-                    List<Departure> departures = await DepartureDataFetcher.getInstance().fetchDepartures(s);
+                    List<Departure> departures = await DepartureDataFetcher.Instance.fetchDepartures(s);
                     foreach (Departure d in departures)
                         mDepartures.Add(d);
                 }
                 else {
                     foreach (string r in routeList)
                     {
-                        List<Departure> departures = await DepartureDataFetcher.getInstance().fetchDepartures(s, r);
+                        List<Departure> departures = await DepartureDataFetcher.Instance.fetchDepartures(s, r);
                         foreach (Departure d in departures)
                             mDepartures.Add(d); 
                     }

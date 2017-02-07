@@ -48,47 +48,33 @@ namespace Translink
 
         }
 
+        public override int GetHashCode()
+        {
+            return Time.GetHashCode() * RouteNumber.GetHashCode() * base.GetHashCode();
+        }
+
         /*
          * Check equality of two route strings
          * ASSUMES: both routes are of the form <Optional-Letters><Numbers><Optional-Letters> 
         */
         public static bool RouteEquals(string r1, string r2)
         {
-            string leadingLetters1;
-            string leadingLetters2;
-            string digits1 = "";
-            string digits2 = "";
-            string trailingLetters1 = "";
-            string trailingLetters2 = "";
-            
-            //TODO: clean this up
-            int ll1Length;
-            leadingLetters1 = TakeWhileLetter(r1, out ll1Length);
-            leadingLetters1 = leadingLetters1.ToUpper(); 
-            
-            int n1Length = 0;
-            if (ll1Length < r1.Length)
-                digits1 = TakeWhileDigit(r1.Substring(ll1Length), out n1Length);
+            string leadingLetters1 = TakeWhileLetter(r1);
+            leadingLetters1 = leadingLetters1.ToUpper();
 
-            if (ll1Length + n1Length < r1.Length)
-            {
-                trailingLetters1 = TakeWhileLetter(r1.Substring(ll1Length + n1Length));
-                trailingLetters1 = trailingLetters1.ToUpper();
-            }
+            string digits1 = TakeWhileDigit(r1.Substring(leadingLetters1.Length));
 
-            int ll2Length;
-            leadingLetters2 = TakeWhileLetter(r2, out ll2Length);
+            string trailingLetters1 = TakeWhileLetter(r1.Substring(leadingLetters1.Length + digits1.Length));
+            trailingLetters1 = trailingLetters1.ToUpper();
+
+
+            string leadingLetters2 = TakeWhileLetter(r2);
             leadingLetters2 = leadingLetters2.ToUpper();
 
-            int n2Length = 0;
-            if (ll2Length < r2.Length)
-                digits2 = TakeWhileDigit(r2.Substring(ll2Length), out n2Length);
+            string digits2 = TakeWhileDigit(r2.Substring(leadingLetters2.Length));
 
-            if (ll2Length + n2Length < r2.Length)
-            {
-                trailingLetters2 = TakeWhileLetter(r2.Substring(ll2Length + n2Length));
-                trailingLetters2 = trailingLetters2.ToUpper();
-            }
+            string trailingLetters2 = TakeWhileLetter(r2.Substring(leadingLetters2.Length + digits2.Length));
+            trailingLetters2 = trailingLetters2.ToUpper();
 
             int numbers1;
             int numbers2; 
@@ -108,41 +94,30 @@ namespace Translink
                 return true;
             return false;
         }
+       
 
         private static string TakeWhileLetter(string s)
         {
-            int temp;
-            return TakeWhileLetter(s, out temp); 
+            int i = 0;
+            StringBuilder ans = new StringBuilder(); 
+            while (s.Length > i && Char.IsLetter(s[i]))
+            {
+                ans.Append(s[i]);
+                i++;
+            }
+            return ans.ToString(); 
         }
 
         private static string TakeWhileDigit(string s)
         {
-            int temp;
-            return TakeWhileDigit(s, out temp); 
-        }
-
-        private static string TakeWhileLetter(string s, out int length)
-        {
-            length = 0;
-            string ans = ""; 
-            while (s.Length > length && Char.IsLetter(s[length]))
+            int i = 0;
+            StringBuilder ans = new StringBuilder(); 
+            while (s.Length > i && Char.IsDigit(s[i]))
             {
-                ans += s[length];
-                length++;
+                ans.Append(s[i]); 
+                i++; 
             }
-            return ans; 
-        }
-
-        private static string TakeWhileDigit(string s, out int length)
-        {
-            length = 0;
-            string ans = ""; 
-            while (s.Length > length && Char.IsDigit(s[length]))
-            {
-                ans += s[length];
-                length++; 
-            }
-            return ans; 
+            return ans.ToString(); 
         }
     }
 }

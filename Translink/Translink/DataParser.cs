@@ -64,19 +64,16 @@ namespace Translink
                 string errorCode = xml.Root.Element("Code").Value;
                 if (errorCode == "3005")
                 {
-                    throw new NoDeparturesFoundException();
+                    return;
                 }
-
-                if (errorCode == "3001")
+                else if (errorCode == "3001")
                 {
                     throw new InvalidStopException("Stop must be a valid 5 digit number.");
                 }
-
-                if (errorCode == "3002")
+                else if (errorCode == "3002")
                 {
                     throw new InvalidStopException("Stop not found.");
                 }
-
                 else
                 {
                     throw new TranslinkAPIErrorException(Convert.ToInt32(errorCode));

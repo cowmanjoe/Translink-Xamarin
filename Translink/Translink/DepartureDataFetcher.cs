@@ -26,6 +26,16 @@ namespace Translink
             get; set; 
         }
 
+        public static DepartureDataFetcher Instance
+        {
+            get
+            {
+                if (mInstance == null)
+                    mInstance = new DepartureDataFetcher();
+                return mInstance;
+            }
+        }
+   
 
         private DepartureDataFetcher()
         {
@@ -33,14 +43,7 @@ namespace Translink
             mHttpClient = new HttpClient();
             
         }
-
-
-        public static DepartureDataFetcher getInstance()
-        {
-            if (mInstance == null)
-                mInstance = new DepartureDataFetcher();
-            return mInstance; 
-        }
+        
 
         /**
          * Fethes asynchronously the next DepartureCount departures at the given stop 
@@ -51,14 +54,8 @@ namespace Translink
         {
             List<Departure> departures = new List<Departure>();
             Stream departureStream = await fetchDepartureData(stop);
-            Dictionary<string, List<string>> lts; 
-            try {
-                lts = DataParser.ParseDepartureTimes(departureStream);
-            }
-            catch (NoDeparturesFoundException)
-            {
-                return new List<Departure>(); 
-            }
+
+            Dictionary<string, List<string>> lts = DataParser.ParseDepartureTimes(departureStream);
 
             foreach (string route in lts.Keys)
             {

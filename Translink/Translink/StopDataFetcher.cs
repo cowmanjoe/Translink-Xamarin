@@ -24,18 +24,22 @@ namespace Translink
             mHttpClient = new HttpClient(); 
         }
 
-        public static StopDataFetcher getInstance()
+        public static StopDataFetcher Instance
         {
-            if (mInstance == null)
-                mInstance = new StopDataFetcher();
-            return mInstance; 
+            get
+            {
+                if (mInstance == null)
+                    mInstance = new StopDataFetcher();
+                return mInstance;
+            }
+            
         }
 
         public async Task<Stop> FetchStopWithDepartures(int stopNo)
         {
             StopInfo stopInfo = await (FetchStopInfo(stopNo));
 
-            DepartureDataFetcher departureDataFetcher = DepartureDataFetcher.getInstance(); 
+            DepartureDataFetcher departureDataFetcher = DepartureDataFetcher.Instance; 
             List<Departure> departures = await departureDataFetcher.fetchDepartures(stopNo);
 
             return new Stop(stopInfo, departures); 
@@ -44,7 +48,7 @@ namespace Translink
         public async Task<List<Stop>> SearchStopsWithDepartures(double lat, double lon, int radius) 
         {
             List<Stop> stops = new List<Stop>();
-            DepartureDataFetcher departureDataFetcher = DepartureDataFetcher.getInstance(); 
+            DepartureDataFetcher departureDataFetcher = DepartureDataFetcher.Instance; 
 
             List<StopInfo> stopInfos = await SearchStopInfo(lat, lon, radius); 
 
