@@ -15,20 +15,27 @@ namespace Translink
         private const string API_KEY = "gmSNagac7UUqdirk3bFj";
         private readonly HttpClient mHttpClient;
 
-
+        private static StopDataFetcher mInstance; 
         
 
 
-        public StopDataFetcher()
+        private StopDataFetcher()
         {
             mHttpClient = new HttpClient(); 
+        }
+
+        public static StopDataFetcher getInstance()
+        {
+            if (mInstance == null)
+                mInstance = new StopDataFetcher();
+            return mInstance; 
         }
 
         public async Task<Stop> FetchStopWithDepartures(int stopNo)
         {
             StopInfo stopInfo = await (FetchStopInfo(stopNo));
 
-            DepartureDataFetcher departureDataFetcher = new DepartureDataFetcher();
+            DepartureDataFetcher departureDataFetcher = DepartureDataFetcher.getInstance(); 
             List<Departure> departures = await departureDataFetcher.fetchDepartures(stopNo);
 
             return new Stop(stopInfo, departures); 
@@ -37,7 +44,7 @@ namespace Translink
         public async Task<List<Stop>> SearchStopsWithDepartures(double lat, double lon, int radius) 
         {
             List<Stop> stops = new List<Stop>();
-            DepartureDataFetcher departureDataFetcher = new DepartureDataFetcher();
+            DepartureDataFetcher departureDataFetcher = DepartureDataFetcher.getInstance(); 
 
             List<StopInfo> stopInfos = await SearchStopInfo(lat, lon, radius); 
 
@@ -72,12 +79,18 @@ namespace Translink
             Stream searchXml = await FetchSearchXml(lat, lon, radius);
             Debug.WriteLine("XML:" + searchXml.ToString());
 
+            //using (StreamReader sr = new StreamReader(searchXml))
+            //{
+            //    Debug.WriteLine("XML:" + sr.ReadToEnd());
+            //}
+
             return DataParser.ParseStopsInfo(searchXml); 
         }
 
         public async Task<List<StopInfo>> SearchStopInfo(double lat, double lon, int radius, string route)
         {
-            throw new NotImplementedException(); 
+            Stream searchXml = await FetchSearchXml(lat, lon, radius, route);
+            return DataParser.ParseStopsInfo(searchXml); 
         }
 
 
@@ -94,12 +107,25 @@ namespace Translink
 
         private async Task<Stream> FetchSearchXml(double lat, double lon, int radius) 
         {
+            string uri = "http://api.translink.ca/rttiapi/v1/stops?apikey=" + API_KEY +
+                "&lat=" + lat + "&long=" + lon + "&radius=" + radius;
+            Debug.WriteLine("Getting data from " + uri); 
+            HttpResponseMessage response = await mHttpClient.GetAsync(uri);
+            HttpContent content = response.Content;
+            
+            Stream contentStream = await content.ReadAsStreamAsync();
+            Debug.WriteLine("!!!!" + contentStream.ToString()); 
+            return contentStream; 
+        }
+
+        private async Task<Stream> FetchSearchXml(double lat, double lon, int radius, string route)
+        {
             HttpResponseMessage response = await mHttpClient.GetAsync(
                 "http://api.translink.ca/rttiapi/v1/stops?apikey=" + API_KEY +
-                "&lat=" + lat + "&long=" + lon + "&radius=" + radius);
+                "&lat=" + lat + "&long=" + lon + "&radius=" + radius + "&routeNo=" + route);
             HttpContent content = response.Content;
             Stream contentStream = await content.ReadAsStreamAsync();
-            return contentStream; 
+            return contentStream;
         }
     }
 }

@@ -3,10 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Translink.StopPage">
   <StackLayout VerticalOptions="Start">
-    <ListView x:Name="StopList" HorizontalOptions="Fill">
+    <Button 
+      x:Name="RefreshButton" 
+      HorizontalOptions="Fill" 
+      Clicked="OnRefreshNearestStops" 
+      Text="Refresh"/>
+    <ListView x:Name="StopList" HorizontalOptions="Fill" >
       <ListView.ItemTemplate>
         <DataTemplate>
-          <TextCell Text="{Binding Name}" Detail="{Binding StopDetail}"/>
+          <TextCell Text="{Binding Name}" Detail="{Binding StopDetail}" />
         </DataTemplate>
       </ListView.ItemTemplate>
     </ListView>

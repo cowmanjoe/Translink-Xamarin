@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Plugin.Geolocator; 
 
 using Xamarin.Forms;
 
@@ -12,18 +13,16 @@ namespace Translink
 {
     public partial class StopPage : ContentPage
     {
-        private StopDataFetcher mStopDataFetcher;
-
         private ObservableCollection<Stop> mStops; 
 
-        const int SEARCH_RADIUS = 1000; 
+        const int SEARCH_RADIUS = 500; 
 
         public StopPage()
         {
             InitializeComponent();
             mStops = new ObservableCollection<Stop>();
 
-            mStopDataFetcher = new StopDataFetcher();
+           
             
 
             StopInfo stop1 = new StopInfo();
@@ -41,14 +40,17 @@ namespace Translink
             departures.Add(new Translink.Departure("5:55", 51516, "025")); 
 
             Stop stop = new Stop(stop1, departures);
-            mStops.Add(stop); 
+            //mStops.Add(stop); 
             StopList.ItemsSource = mStops; 
+
+            
         }
 
 
-        public async Task UpdateNearestStops(Location location)
+        async void OnRefreshNearestStops(object sender, EventArgs e)
         {
-            List<Stop> stops = await mStopDataFetcher.SearchStopsWithDepartures(location.Latitude, location.Longitude, SEARCH_RADIUS);
+            StopDataFetcher stopDataFetcher = StopDataFetcher.getInstance();
+            List<Stop> stops = await StopLocator.FetchStopsAroundMe(SEARCH_RADIUS); 
             mStops.Clear(); 
             foreach (Stop stop in stops)
             {

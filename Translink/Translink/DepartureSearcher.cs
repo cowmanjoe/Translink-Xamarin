@@ -18,8 +18,7 @@ namespace Translink
         // List of stop/routes pairs of searches that have been made
         // if the list is empty then all stops were searched for 
         Dictionary<int, List<string>> mSearches;
-
-        DepartureDataFetcher mDepartureDataFetcher;
+        
 
 
         public ObservableCollection<Departure> Departures
@@ -31,7 +30,7 @@ namespace Translink
         {
             mDepartures = new ObservableCollection<Departure>();
 
-            mDepartureDataFetcher = new DepartureDataFetcher();
+            
             mSearches = new Dictionary<int, List<string>>();
             
         }
@@ -52,7 +51,7 @@ namespace Translink
 
             if (!alreadySearched)
             {
-                List<Departure> departures = await mDepartureDataFetcher.fetchDepartures(stop);
+                List<Departure> departures = await DepartureDataFetcher.getInstance().fetchDepartures(stop);
                 foreach (Departure d in departures)
                 {
                     mDepartures.Add(d);
@@ -84,7 +83,7 @@ namespace Translink
 
             if (!alreadySearched)
             {
-                List<Departure> departures = await mDepartureDataFetcher.fetchDepartures(stop, route);
+                List<Departure> departures = await DepartureDataFetcher.getInstance().fetchDepartures(stop, route);
                 foreach (Departure d in departures)
                 {
                     mDepartures.Add(d);
@@ -144,14 +143,14 @@ namespace Translink
                 mSearches.TryGetValue(s, out routeList); 
                 if (routeList.Count == 0)
                 {
-                    List<Departure> departures = await mDepartureDataFetcher.fetchDepartures(s);
+                    List<Departure> departures = await DepartureDataFetcher.getInstance().fetchDepartures(s);
                     foreach (Departure d in departures)
                         mDepartures.Add(d);
                 }
                 else {
                     foreach (string r in routeList)
                     {
-                        List<Departure> departures = await mDepartureDataFetcher.fetchDepartures(s, r);
+                        List<Departure> departures = await DepartureDataFetcher.getInstance().fetchDepartures(s, r);
                         foreach (Departure d in departures)
                             mDepartures.Add(d); 
                     }

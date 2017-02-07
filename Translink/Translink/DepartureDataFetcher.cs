@@ -5,6 +5,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Translink.Exception; 
 
 namespace Translink
 {
@@ -14,7 +15,9 @@ namespace Translink
         private const string API_KEY = "gmSNagac7UUqdirk3bFj";
         private const int DEFAULT_DEPARTURE_COUNT = 3;
 
-        private readonly HttpClient mHttpClient; 
+        private readonly HttpClient mHttpClient;
+
+        private static DepartureDataFetcher mInstance; 
         
 
         // Number of departures (per route) that will be fetched 
@@ -24,11 +27,19 @@ namespace Translink
         }
 
 
-        public DepartureDataFetcher()
+        private DepartureDataFetcher()
         {
             DepartureCount = DEFAULT_DEPARTURE_COUNT;
             mHttpClient = new HttpClient();
             
+        }
+
+
+        public static DepartureDataFetcher getInstance()
+        {
+            if (mInstance == null)
+                mInstance = new DepartureDataFetcher();
+            return mInstance; 
         }
 
         /**
@@ -39,19 +50,26 @@ namespace Translink
         public async Task<List<Departure>> fetchDepartures(int stop)
         {
             List<Departure> departures = new List<Departure>();
-            Stream departureStream = await fetchDepartureData(stop); 
-            Dictionary<string, List<string>> lts = DataParser.ParseDepartureTimes(departureStream); 
+            Stream departureStream = await fetchDepartureData(stop);
+            Dictionary<string, List<string>> lts; 
+            try {
+                lts = DataParser.ParseDepartureTimes(departureStream);
+            }
+            catch (NoDeparturesFoundException)
+            {
+                return new List<Departure>(); 
+            }
 
             foreach (string route in lts.Keys)
             {
                 List<string> times;
                 lts.TryGetValue(route, out times);
                 foreach (string time in times)
-                    departures.Add(new Departure(time, stop, route)); 
+                    departures.Add(new Departure(time, stop, route));
             }
             Debug.WriteLine("Returning departures!");
-            return departures;  
-        }
+            return departures;
+            }
 
         /**
          * Fetches asynchronously the next DepartureCount departures at the given stop and route

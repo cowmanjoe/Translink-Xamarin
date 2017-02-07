@@ -60,20 +60,19 @@ namespace Translink
             string digits2 = "";
             string trailingLetters1 = "";
             string trailingLetters2 = "";
-
             
-
+            //TODO: clean this up
             int ll1Length;
-            leadingLetters1 = TakeWhileLetter(r1, out ll1Length); 
-            leadingLetters1 = leadingLetters1.ToUpper();
-
-            int n1Length = 0; 
+            leadingLetters1 = TakeWhileLetter(r1, out ll1Length);
+            leadingLetters1 = leadingLetters1.ToUpper(); 
+            
+            int n1Length = 0;
             if (ll1Length < r1.Length)
                 digits1 = TakeWhileDigit(r1.Substring(ll1Length), out n1Length);
-            
+
             if (ll1Length + n1Length < r1.Length)
             {
-                trailingLetters1 = TakeWhileLetter(r1.Substring(ll1Length + n1Length)); 
+                trailingLetters1 = TakeWhileLetter(r1.Substring(ll1Length + n1Length));
                 trailingLetters1 = trailingLetters1.ToUpper();
             }
 
@@ -91,7 +90,6 @@ namespace Translink
                 trailingLetters2 = trailingLetters2.ToUpper();
             }
 
-
             int numbers1;
             int numbers2; 
             try
@@ -99,7 +97,7 @@ namespace Translink
                 numbers1 = Convert.ToInt32(digits1);
                 numbers2 = Convert.ToInt32(digits2); 
             }
-            catch(FormatException e)
+            catch(FormatException)
             {
                 throw new FormatException("The route was improperly formatted, there must be some numbers.");
             }

@@ -71,7 +71,7 @@ namespace Translink
         void OnClearDepartures(object sender, EventArgs e)
         {
             mDepartureSearcher.ClearDepartures();
-            StopDataFetcher sdf = new StopDataFetcher();
+            StopDataFetcher sdf = StopDataFetcher.getInstance(); 
             sdf.SearchStopInfo(49.268574, -123.172469, 1000); 
             
         }
