@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Plugin.Geolocator;
 namespace Translink
 {
     public static class StopLocator
@@ -13,8 +12,8 @@ namespace Translink
             if (radius < 0 || radius > 2000)
                 throw new ArgumentOutOfRangeException("Radius must be between 0 and 2000");
 
-            var locator = CrossGeolocator.Current;
-            var position = await locator.GetPositionAsync();
+            
+            var position = await Locator.getPositionAsync(); 
 
             double latitude = position.Latitude;
             double longitude = position.Longitude;
@@ -28,10 +27,9 @@ namespace Translink
         public static async Task<List<Stop>> FetchStopsAndDeparturesAroundMe(int radius)
         {
             if (radius < 0 || radius > 2000)
-                throw new ArgumentOutOfRangeException("Radius must be between 0 and 2000"); 
+                throw new ArgumentOutOfRangeException("Radius must be between 0 and 2000");
 
-            var locator = CrossGeolocator.Current;
-            var position = await locator.GetPositionAsync();
+            var position = await Locator.getPositionAsync(); 
 
             double latitude = position.Latitude;
             double longitude = position.Longitude;

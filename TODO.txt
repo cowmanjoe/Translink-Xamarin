@@ -14,7 +14,9 @@ TODO:
 
 Design ideas 
 
-- Main page lists for stops nearby you 
+- Main page lists for ROUTES nearby you (stops gives unnecessary list entries which are hard to read)
+  - Routes number is in big letters for easy readability 
+  - Tapping it shows stops nearby on route and departure times 
 - Search bar for custom location/address (hard!!)
 - Results are listed by distance from you/address 
 - Tap search results to get more information about it 

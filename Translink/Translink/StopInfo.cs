@@ -41,6 +41,11 @@ namespace Translink
                 latitude.Equals(s.latitude) &&
                 longitude.Equals(s.longitude);
         }
-
+        public override int GetHashCode()
+        {
+            return 89 * stopNo.GetHashCode() * name.GetHashCode() * latitude.GetHashCode() * longitude.GetHashCode(); 
+        }
     }
+
+    
 }
