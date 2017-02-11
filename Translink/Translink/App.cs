@@ -15,7 +15,7 @@ namespace Translink
         {
             //MainPage = new MainPage();
 
-            MainPage = new StopPage(); 
+            MainPage = new RoutePage(); 
         }
 
         

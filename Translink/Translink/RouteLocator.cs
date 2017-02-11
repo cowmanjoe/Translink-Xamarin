@@ -25,5 +25,34 @@ namespace Translink
         }
 
 
+        public static async Task<List<Route>> FetchRoutesWithStopsAroundMe(int radius)
+        {
+            List<StopInfo> stopInfos = await StopLocator.FetchStopsAroundMe(radius);
+
+            List<Route> routeList = new List<Route>(); 
+
+             
+            foreach (StopInfo si in stopInfos)
+            {
+                foreach (string r in si.routes)
+                {
+                    Route route = Route.GetRouteWithNumber(r, routeList); 
+                    if (route != null)
+                    {
+                        route.AddStop(si.stopNo); 
+                    }
+                    else
+                    {
+                        route = new Translink.Route(r);
+                        route.AddStop(si.stopNo);
+                        routeList.Add(route);
+                    }
+                    
+                }
+            }
+
+            return routeList; 
+        }
+
     }
 }
