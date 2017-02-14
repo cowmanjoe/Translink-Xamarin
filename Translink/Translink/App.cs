@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using Translink.PageModels;
+using Translink.Services;
 using Xamarin.Forms;
 
 namespace Translink
@@ -15,7 +16,18 @@ namespace Translink
         {
             //MainPage = new MainPage();
 
-            MainPage = new RoutePage(); 
+            //MainPage = new RoutePage(); 
+
+            SetupIOC();
+
+            var routeList = FreshMvvm.FreshPageModelResolver.ResolvePageModel<RouteListPageModel>();
+            var navContainer = new FreshMvvm.FreshNavigationContainer(routeList);
+            MainPage = navContainer; 
+        }
+
+        private void SetupIOC()
+        {
+            FreshMvvm.FreshIOC.Container.Register<IRouteDataService, RouteDataService>(); 
         }
 
         

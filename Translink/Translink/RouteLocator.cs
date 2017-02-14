@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Translink.Models;
 
 namespace Translink
 {
     public static class RouteLocator
     {
-        public static async Task<List<string>> FetchRoutesAroundMe(int radius)
+        public static async Task<List<string>> FetchRouteNumbersAroundMe(int radius)
         { 
             List<StopInfo> stopInfos = await StopLocator.FetchStopsAroundMe(radius); 
 
@@ -43,7 +44,7 @@ namespace Translink
                     }
                     else
                     {
-                        route = new Translink.Route(r);
+                        route = new Route(r);
                         route.AddStop(si.stopNo);
                         routeList.Add(route);
                     }
