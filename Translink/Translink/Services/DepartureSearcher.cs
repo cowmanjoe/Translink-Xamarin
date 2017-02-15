@@ -5,42 +5,38 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Translink.Exception; 
+using Translink.Exception;
+using Translink.Services;
 
-namespace Translink
+namespace Translink.Services
 {
-    public class DepartureSearcher
+    public class DepartureSearcher : IDepartureDataService
     {
 
         // List that populates the ListView of departures 
-        private readonly ObservableCollection<Departure> mDepartures;
+        private readonly List<Departure> mDepartures;
 
         // List of stop/routes pairs of searches that have been made
         // if the list is empty then all stops were searched for 
         private readonly Dictionary<int, List<string>> mSearches;
         
-
-
-        public ObservableCollection<Departure> Departures
-        {
-            get { return mDepartures; }
-        }
         
         public DepartureSearcher()
         {
-            mDepartures = new ObservableCollection<Departure>();
+            mDepartures = new List<Departure>();
 
             
             mSearches = new Dictionary<int, List<string>>();
             
         }
-        
-        
+
+        #region IDepartureDataService implementation
+
         /**
          * Searches for departures using Translink API and adds them to mDepartures 
          * stop: the stop number 
-         */ 
-        public async Task SearchAndAddDepartures(int stop)
+         */
+        public async Task SearchDepartures(int stop)
         {
             
             bool alreadySearched = false;
@@ -67,7 +63,7 @@ namespace Translink
          * stop: the stop number 
          * route: the route number 
          */ 
-        public async Task SearchAndAddDepartures(int stop, string route)
+        public async Task SearchDepartures(int stop, string route)
         {
             
             bool alreadySearched = false;
@@ -157,5 +153,12 @@ namespace Translink
                 }
             }
         }
+
+        public List<Departure> GetDepartures()
+        {
+            return mDepartures; 
+        }
+
+        #endregion
     }
 }

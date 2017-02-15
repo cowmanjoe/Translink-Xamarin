@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Translink.MainPage">
+             x:Class="Translink.Pages.StopSearchPage">
   <StackLayout VerticalOptions="Start">
     <Label Text="Stop Number:" HorizontalOptions="Start" />
-    <Entry x:Name="StopEntry" Text="50586" HorizontalTextAlignment="Start" Keyboard="Numeric" />
+    <Entry x:Name="StopEntry" Text="{Binding StopNumber}" HorizontalTextAlignment="Start" Keyboard="Numeric" />
     <Label Text="Route Number:" HorizontalOptions="Start"/>
     <StackLayout Orientation="Horizontal">
-      <Switch x:Name="RouteSwitch" IsToggled="false" Toggled="OnToggleRouteSwitch" HorizontalOptions="Start"/>
-      <Entry x:Name="RouteEntry" Text="4" HorizontalOptions="FillAndExpand" IsVisible="false" />
+      <Switch x:Name="RouteSwitch" IsToggled="{Binding RouteToggled}" HorizontalOptions="Start"/>
+      <Entry x:Name="RouteEntry" Text="{Binding RouteNumber}" HorizontalOptions="FillAndExpand" IsVisible="{Binding RouteToggled}" />
     </StackLayout>
 
     <StackLayout Spacing="10" Orientation="Horizontal">
@@ -16,20 +16,20 @@
         x:Name="AddButton"
         HorizontalOptions="FillAndExpand"
         Text="Add"
-        Clicked="OnAddDeparturesRequested"/>
+        Command="{Binding SearchDepartures}"/>
       <Button
         x:Name="RefreshButton"
         HorizontalOptions="FillAndExpand"
         Text="Refresh"
-        Clicked="OnRefreshDepartures"/>
+        Command="{Binding RefreshDepartures}"/>
       <Button
         x:Name="ClearButton"
         HorizontalOptions="FillAndExpand"
         Text="Clear"
-        Clicked="OnClearDepartures"/>
+        Command="{Binding ClearDepartures}"/>
     </StackLayout>
 
-    <ListView x:Name="DepartureListView" HorizontalOptions="Fill">
+    <ListView x:Name="DepartureListView" ItemsSource="{Binding DepartureList}" HorizontalOptions="Fill">
       <ListView.ItemTemplate>
         <DataTemplate>
           <TextCell Text="{Binding AsString}" />
@@ -37,5 +37,4 @@
       </ListView.ItemTemplate>
     </ListView>
   </StackLayout>
-
 </ContentPage>

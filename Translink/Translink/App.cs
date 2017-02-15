@@ -14,22 +14,24 @@ namespace Translink
 
         public App()
         {
-            //MainPage = new MainPage();
-
-            //MainPage = new RoutePage(); 
-
             SetupIOC();
 
-            var routeList = FreshMvvm.FreshPageModelResolver.ResolvePageModel<RouteListPageModel>();
-            var navContainer = new FreshMvvm.FreshNavigationContainer(routeList);
-            MainPage = navContainer; 
+            SetupTabbedNav(); 
         }
 
         private void SetupIOC()
         {
-            FreshMvvm.FreshIOC.Container.Register<IRouteDataService, RouteDataService>(); 
+            FreshMvvm.FreshIOC.Container.Register<IRouteDataService, RouteDataService>();
+            FreshMvvm.FreshIOC.Container.Register<IDepartureDataService, DepartureSearcher>(); 
         }
-
+        
+        private void SetupTabbedNav()
+        {
+            var tabbedNav = new FreshMvvm.FreshTabbedNavigationContainer();
+            tabbedNav.AddTab<RouteListPageModel>("Routes", null);
+            tabbedNav.AddTab<StopSearchPageModel>("Stop Search", null);
+            MainPage = tabbedNav; 
+        }
         
         protected override void OnStart()
         {

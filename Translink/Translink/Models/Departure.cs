@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PropertyChanged;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace Translink
 {
-    public struct Departure
+    [ImplementPropertyChanged]
+    public class Departure
     {
         public Departure(string time, int stopNumber, string routeNumber)
         {

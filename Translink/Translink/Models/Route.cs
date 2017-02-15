@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Translink.Models
+namespace Translink
 {
     [ImplementPropertyChanged]
     public class Route

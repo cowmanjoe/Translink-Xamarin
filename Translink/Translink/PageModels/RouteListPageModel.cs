@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Translink.Models;
 using Translink.Services;
 using FreshMvvm;
 using Xamarin.Forms;
