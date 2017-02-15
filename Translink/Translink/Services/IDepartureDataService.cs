@@ -10,12 +10,14 @@ namespace Translink.Services
     {
         List<Departure> GetDepartures();
 
-        Task SearchDepartures(int stop); 
+        Task SearchDepartures(int stop);
 
         Task SearchDepartures(int stop, string route);
 
         Task RefreshDepartures();
 
-        void ClearDepartures(); 
+        void ClearDepartures();
+
+        
     }
 }

@@ -17,14 +17,14 @@ namespace Translink.PageModels
         public ObservableCollection<Departure> DepartureList { get; set; }
 
         public int StopNumber { get; set; }
-        
+
         public string RouteNumber { get; set; }
 
-        public Boolean RouteToggled { get; set; } 
+        public Boolean RouteToggled { get; set; }
 
         public StopSearchPageModel(IDepartureDataService dataService)
         {
-            mDataService = dataService; 
+            mDataService = dataService;
         }
 
         public async override void Init(object initData)
@@ -32,8 +32,8 @@ namespace Translink.PageModels
             base.Init(initData);
             DepartureList = new ObservableCollection<Departure>();
             StopNumber = 50586;
-            RouteNumber = "004"; 
-            RouteToggled = false; 
+            RouteNumber = "004";
+            RouteToggled = false;
         }
 
         public Command SearchDepartures
@@ -42,25 +42,33 @@ namespace Translink.PageModels
             {
                 return new Command(async () =>
                 {
-                    List<Departure> departureList;  
+                    List<Departure> departureList;
                     if (RouteToggled)
                     {
-                        await mDataService.SearchDepartures(StopNumber, RouteNumber);
-                        departureList = mDataService.GetDepartures(); 
-
-                        
+                        try {
+                            await mDataService.SearchDepartures(StopNumber, RouteNumber);
+                            departureList = mDataService.GetDepartures();
+                        }
+                        catch (InvalidStopException e)
+                        {
+                            throw new InvalidStopException("InvalidStopException, display alert with this message: " + e.Message);
+                        }
+                        catch (TranslinkAPIErrorException e)
+                        {
+                            throw new Exception("TranslinkAPIErrorException, display alert with this message: " + e.Message);
+                        }
                     }
                     else
                     {
-                        await mDataService.SearchDepartures(StopNumber); 
+                        await mDataService.SearchDepartures(StopNumber);
                         departureList = mDataService.GetDepartures();
                     }
 
-                    DepartureList.Clear(); 
+                    DepartureList.Clear();
                     foreach(Departure d in departureList)
                     {
-                        DepartureList.Add(d); 
-                        Debug.WriteLine("Departure added: " + d.AsString); 
+                        DepartureList.Add(d);
+                        Debug.WriteLine("Departure added: " + d.AsString);
                     }
                 });
             }
@@ -75,7 +83,7 @@ namespace Translink.PageModels
                     await mDataService.RefreshDepartures();
                     List<Departure> departureList = mDataService.GetDepartures();
 
-                    DepartureList.Clear(); 
+                    DepartureList.Clear();
 
                     foreach (Departure d in departureList)
                     {
@@ -93,10 +101,10 @@ namespace Translink.PageModels
                 return new Command(() =>
                 {
                     mDataService.ClearDepartures();
-                    DepartureList.Clear(); 
+                    DepartureList.Clear();
                 });
             }
         }
-        
+
     }
 }
