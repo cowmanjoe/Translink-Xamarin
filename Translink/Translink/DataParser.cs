@@ -15,8 +15,8 @@ namespace Translink
     {
         /**
          * Parse the text that the API returns on a departure time request
-         * data: the string received from Translink API 
-         * RETURNS: mapping of routes to a list of string representations of departure times 
+         * data: the string received from Translink API
+         * RETURNS: mapping of routes and directions in the form "route:direction" to a list of string representations of departure times
          **/
         public static Dictionary<string, List<string>> ParseDepartureTimes(Stream data)
         {
@@ -24,36 +24,36 @@ namespace Translink
 
             XDocument xDoc = XDocument.Load(data);
 
-            CheckDeparturesForErrors(xDoc); 
+            CheckDeparturesForErrors(xDoc);
 
 
-            var nextBuses = xDoc.Descendants("NextBus"); 
+            var nextBuses = xDoc.Descendants("NextBus");
 
             foreach(var nextBus in nextBuses)
             {
                 string routeNo = nextBus.Element("RouteNo").Value;
-
+                string direction = nextBus.Element("Direction").Value;
 
                 var schedules = nextBus.Descendants("Schedule");
-                List<string> times = new List<string>(); 
+                List<string> times = new List<string>();
                 foreach(var schedule in schedules)
                 {
                     String time = schedule.Element("ExpectedLeaveTime").Value;
                     time = time.Substring(0, time.IndexOf('m') + 1);
-                    times.Add(time); 
+                    times.Add(time);
                 }
-                routeDictionary.Add(routeNo, times); 
+                routeDictionary.Add(routeNo + ":" + direction, times);
             }
 
-            Debug.WriteLine("Parsing this: " + data); 
+            Debug.WriteLine("Parsing this: " + data);
 
-          
+
             foreach (string r in routeDictionary.Keys)
             {
-                Debug.WriteLine("Route #" + r + " being returned"); 
+                Debug.WriteLine("Route #" + r + " being returned");
             }
 
-            return routeDictionary; 
+            return routeDictionary;
         }
 
         private static void CheckDeparturesForErrors(XDocument xml)
@@ -84,10 +84,10 @@ namespace Translink
         public static StopInfo ParseStopInfo(Stream stream)
         {
             XDocument xDoc = XDocument.Load(stream);
-            return ParseStopInfo(xDoc.Root); 
+            return ParseStopInfo(xDoc.Root);
         }
 
-        
+
 
         public static List<StopInfo> ParseStopsInfo(Stream stream)
         {
@@ -100,16 +100,16 @@ namespace Translink
             foreach (var stopElem in stopContainer)
             {
                 StopInfo stopInfo = ParseStopInfo(stopElem);
-                stops.Add(stopInfo); 
+                stops.Add(stopInfo);
             }
 
-            return stops; 
+            return stops;
         }
 
 
         private static StopInfo ParseStopInfo(XElement stopElement)
         {
-            StopInfo stopInfo = new StopInfo(); 
+            StopInfo stopInfo = new StopInfo();
 
             int stopNo = Convert.ToInt32(stopElement.Element("StopNo").Value);
             stopInfo.stopNo = stopNo;

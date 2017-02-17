@@ -12,19 +12,21 @@ namespace Translink
     {
         public string Number
         {
-            get; 
+            get;
         }
 
+        public string Direction { get; }
+
         private readonly HashSet<int> mStops;
-        
+
 
         public Route(string number)
         {
             Number = number;
-            mStops = new HashSet<int>(); 
+            mStops = new HashSet<int>();
         }
 
-        
+
 
         public string StopsAsString
         {
@@ -34,13 +36,13 @@ namespace Translink
                 foreach (int stop in mStops)
                 {
                     stops.Append(stop);
-                    stops.Append(" "); 
+                    stops.Append(" ");
                 }
                 return stops.ToString();
             }
         }
 
-        
+
         public Route(string number, HashSet<int> stops)
         {
             Number = number;
@@ -49,7 +51,7 @@ namespace Translink
 
         public void AddStop(int stop)
         {
-            mStops.Add(stop); 
+            mStops.Add(stop);
         }
 
         public static Route GetRouteWithNumber(string number, IEnumerable<Route> routes)
@@ -58,11 +60,11 @@ namespace Translink
             {
                 if (route.Number == number)
                 {
-                    return route; 
+                    return route;
                 }
             }
 
-            return null; 
+            return null;
         }
     }
 }

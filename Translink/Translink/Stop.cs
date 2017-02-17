@@ -10,7 +10,7 @@ namespace Translink
     {
         private StopInfo mStopInfo;
 
-        
+
 
         public String Name
         {
@@ -19,7 +19,20 @@ namespace Translink
 
         public List<Departure> Departures
         {
-            get; set; 
+            get; set;
+        }
+
+        public List<string> Routes
+        {
+            get
+            {
+                return mStopInfo.routes;
+            }
+        }
+
+        public int Number
+        {
+            get { return mStopInfo.stopNo; }
         }
 
         // For departures
@@ -30,20 +43,20 @@ namespace Translink
                 string stopDetail = mStopInfo.stopNo + " ";
                 if (Departures.Count >= 1)
                     stopDetail += Departures[0].Time;
-                return stopDetail;  
+                return stopDetail;
             }
         }
 
         public Stop(StopInfo stopInfo)
         {
             mStopInfo = stopInfo;
-            Departures = new List<Departure>(); 
+            Departures = new List<Departure>();
         }
 
         public Stop(StopInfo stopInfo, List<Departure> departures)
         {
             Departures = departures;
-            mStopInfo = stopInfo; 
+            mStopInfo = stopInfo;
         }
     }
 }

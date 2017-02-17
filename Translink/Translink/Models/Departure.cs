@@ -10,31 +10,36 @@ namespace Translink
     [ImplementPropertyChanged]
     public class Departure
     {
-        public Departure(string time, int stopNumber, string routeNumber)
-        {
-            Time = time;
-            StopNumber = stopNumber;
-            RouteNumber = routeNumber;
-        }
+        private Stop mStop;
 
         public string Time
         {
-            get; 
+            get;
         }
 
         public int StopNumber
         {
-            get; 
+            get mStop.Number;
         }
 
         public string RouteNumber
         {
-            get; 
+            get;
         }
+
+        public string Direction { get; }
 
         public string AsString
         {
             get { return StopNumber + " [" + RouteNumber + "] " + Time; }
+        }
+
+        public Departure(string time, Stop stop, string routeNumber, string direction)
+        {
+            Time = time;
+            StopNumber = stopNumber;
+            RouteNumber = routeNumber;
+            Direction = direction;
         }
 
         public override bool Equals(Object obj)
@@ -44,9 +49,9 @@ namespace Translink
 
             Departure d = (Departure)obj;
 
-            return Time == d.Time && StopNumber == d.StopNumber && RouteEquals(RouteNumber, d.RouteNumber); 
+            return Time == d.Time && StopNumber == d.StopNumber && RouteEquals(RouteNumber, d.RouteNumber) && Direction == d.Direction;
 
-            
+
 
         }
 
@@ -57,7 +62,7 @@ namespace Translink
 
         /*
          * Check equality of two route strings
-         * ASSUMES: both routes are of the form <Optional-Letters><Numbers><Optional-Letters> 
+         * ASSUMES: both routes are of the form <Optional-Letters><Numbers><Optional-Letters>
         */
         public static bool RouteEquals(string r1, string r2)
         {
@@ -79,11 +84,11 @@ namespace Translink
             trailingLetters2 = trailingLetters2.ToUpper();
 
             int numbers1;
-            int numbers2; 
+            int numbers2;
             try
             {
                 numbers1 = Convert.ToInt32(digits1);
-                numbers2 = Convert.ToInt32(digits2); 
+                numbers2 = Convert.ToInt32(digits2);
             }
             catch(FormatException)
             {
@@ -96,30 +101,30 @@ namespace Translink
                 return true;
             return false;
         }
-       
+
 
         private static string TakeWhileLetter(string s)
         {
             int i = 0;
-            StringBuilder ans = new StringBuilder(); 
+            StringBuilder ans = new StringBuilder();
             while (s.Length > i && Char.IsLetter(s[i]))
             {
                 ans.Append(s[i]);
                 i++;
             }
-            return ans.ToString(); 
+            return ans.ToString();
         }
 
         private static string TakeWhileDigit(string s)
         {
             int i = 0;
-            StringBuilder ans = new StringBuilder(); 
+            StringBuilder ans = new StringBuilder();
             while (s.Length > i && Char.IsDigit(s[i]))
             {
-                ans.Append(s[i]); 
-                i++; 
+                ans.Append(s[i]);
+                i++;
             }
-            return ans.ToString(); 
+            return ans.ToString();
         }
     }
 }
