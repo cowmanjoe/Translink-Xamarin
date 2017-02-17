@@ -7,6 +7,7 @@ using System.Windows.Input;
 using Translink.Services;
 using FreshMvvm;
 using Xamarin.Forms;
+using System.Collections.ObjectModel;
 
 namespace Translink.PageModels
 {
@@ -14,7 +15,7 @@ namespace Translink.PageModels
     {
         private IRouteDataService mDataService;
 
-        public List<Route> RouteList { get; set; }
+        public ObservableCollection<Route> RouteList { get; set; }
 
         public Route SelectedRoute
         {
@@ -35,8 +36,7 @@ namespace Translink.PageModels
         public async override void Init(object initData)
         {
             base.Init(initData);
-            
-            RouteList = await mDataService.GetRoutes();
+            RouteList = new ObservableCollection<Route>(); 
         }
 
         public Command RefreshRoutes
@@ -45,7 +45,12 @@ namespace Translink.PageModels
             {
                 return new Command(async () =>
                 {
-                    RouteList = await mDataService.GetRoutes();
+                    List<Route> routeList = await mDataService.GetRoutes();
+                    RouteList.Clear(); 
+                    foreach (Route r in routeList)
+                    {
+                        RouteList.Add(r); 
+                    }
                 }); 
             }
         }

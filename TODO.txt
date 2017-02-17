@@ -1,6 +1,6 @@
 TODO:  
 - Get rid of StopInfo and just use Stop class
-- Use ObservableCollection instead of List for RouteListPageModel
+- Make alert appear for when GPS is not available or disabled
 - Handling invalid route numbers
 - Handling possible errors from the API 
 - Drop down menu for routes
@@ -24,4 +24,3 @@ Design ideas
   - schedule 
   - distance from you 
   - 
-- Button on main page (or side menu) for search by stop number 
