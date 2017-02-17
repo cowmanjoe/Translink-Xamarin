@@ -1,5 +1,6 @@
 TODO:  
 - Get rid of StopInfo and just use Stop class
+- Instead of listing all stops for a route, show the nearest one/two e.g. if there is a WB and EB, show both but if not show only the nearest
 - Make alert appear for when GPS is not available or disabled
 - Handling invalid route numbers
 - Handling possible errors from the API 
