@@ -13,7 +13,7 @@ namespace Translink
                 throw new ArgumentOutOfRangeException("Radius must be between 0 and 2000");
 
             
-            var position = await Locator.getPositionAsync(); 
+            var position = await Locator.GetPositionAsync(); 
 
             double latitude = position.Latitude;
             double longitude = position.Longitude;
@@ -29,7 +29,7 @@ namespace Translink
             if (radius < 0 || radius > 2000)
                 throw new ArgumentOutOfRangeException("Radius must be between 0 and 2000");
 
-            var position = await Locator.getPositionAsync(); 
+            var position = await Locator.GetPositionAsync(); 
 
             double latitude = position.Latitude;
             double longitude = position.Longitude;

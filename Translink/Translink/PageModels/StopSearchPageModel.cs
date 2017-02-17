@@ -6,7 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Translink.Services;
+using Translink.Exception; 
 using Xamarin.Forms;
+
 
 namespace Translink.PageModels
 {
@@ -42,33 +44,36 @@ namespace Translink.PageModels
             {
                 return new Command(async () =>
                 {
-                    List<Departure> departureList;
-                    if (RouteToggled)
+                    List<Departure> departureList = new List<Departure>();
+                    try
                     {
-                        try {
+                        if (RouteToggled)
+                        {
                             await mDataService.SearchDepartures(StopNumber, RouteNumber);
                             departureList = mDataService.GetDepartures();
                         }
-                        catch (InvalidStopException e)
+                        else
                         {
-                            throw new InvalidStopException("InvalidStopException, display alert with this message: " + e.Message);
+                            await mDataService.SearchDepartures(StopNumber);
+                            departureList = mDataService.GetDepartures();
                         }
-                        catch (TranslinkAPIErrorException e)
+                        DepartureList.Clear();
+                        foreach (Departure d in departureList)
                         {
-                            throw new Exception("TranslinkAPIErrorException, display alert with this message: " + e.Message);
+                            DepartureList.Add(d);
+                            Debug.WriteLine("Departure added: " + d.AsString);
                         }
                     }
-                    else
+                    catch (InvalidStopException e)
                     {
-                        await mDataService.SearchDepartures(StopNumber);
-                        departureList = mDataService.GetDepartures();
-                    }
+                        Alert alert = new Alert("Invalid Stop", "Use a valid 5 digit stop number.", "OK");
+                        MessagingCenter.Send<FreshMvvm.FreshBasePageModel, Alert>(this, "Display Alert", alert);
 
-                    DepartureList.Clear();
-                    foreach(Departure d in departureList)
+                    }
+                    catch (TranslinkAPIErrorException e)
                     {
-                        DepartureList.Add(d);
-                        Debug.WriteLine("Departure added: " + d.AsString);
+                        Alert alert = new Alert("API Error", "An error occurred in the Translink API", "OK");
+                        MessagingCenter.Send<FreshMvvm.FreshBasePageModel, Alert>(this, "Display Alert", alert);
                     }
                 });
             }

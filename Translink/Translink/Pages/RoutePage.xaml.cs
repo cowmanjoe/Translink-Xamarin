@@ -8,7 +8,7 @@ using Xamarin.Forms;
 
 namespace Translink.Pages
 {
-    public partial class RoutePage : ContentPage
+    public partial class RoutePage : BasePage
     {
         public RoutePage()
         {

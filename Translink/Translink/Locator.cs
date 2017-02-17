@@ -9,12 +9,14 @@ namespace Translink
 {
     public static class Locator
     {
-        public static async Task<Plugin.Geolocator.Abstractions.Position> getPositionAsync()
+        public static async Task<Plugin.Geolocator.Abstractions.Position> GetPositionAsync()
         {
             var geolocator = CrossGeolocator.Current;
 
-            return await geolocator.GetPositionAsync(); 
+            return await geolocator.GetPositionAsync();
         }
+        
+
         
     }
 }

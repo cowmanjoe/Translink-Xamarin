@@ -10,8 +10,6 @@ namespace Translink
 {
     public class App : Application
     {
-        
-
         public App()
         {
             SetupIOC();

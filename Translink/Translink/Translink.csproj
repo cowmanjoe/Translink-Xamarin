@@ -35,10 +35,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Alert.cs" />
     <Compile Include="App.cs" />
     <Compile Include="DataParser.cs" />
     <Compile Include="Models\Departure.cs" />
     <Compile Include="DepartureDataFetcher.cs" />
+    <Compile Include="Pages\BasePage.cs" />
     <Compile Include="Services\DepartureSearcher.cs" />
     <Compile Include="Exception\InvalidStopException.cs" />
     <Compile Include="Exception\TranslinkAPIErrorException.cs" />

@@ -35,8 +35,8 @@ namespace Translink.PageModels
         public async override void Init(object initData)
         {
             base.Init(initData);
-
-            RouteList = await mDataService.GetRoutes(); 
+            
+            RouteList = await mDataService.GetRoutes();
         }
 
         public Command RefreshRoutes

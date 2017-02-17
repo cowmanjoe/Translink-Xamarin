@@ -9,7 +9,6 @@ namespace Translink.Services
 {
     public interface IRouteDataService
     {
-        Task<List<Route>> GetRoutes(); 
-
+        Task<List<Route>> GetRoutes();
     }
 }
