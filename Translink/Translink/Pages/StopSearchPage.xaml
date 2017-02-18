@@ -45,8 +45,9 @@
       VerticalOptions="CenterAndExpand"
       HorizontalOptions="CenterAndExpand"
       RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
-        Property=Height,
-        Factor=0.33}"
+        Property=Width,
+        Factor=0.5,
+        Constant=-40}"
       RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
         Property=Height,
         Factor=0.33}"/>

@@ -39,7 +39,7 @@ namespace Translink.PageModels
             mDataService = dataService; 
         }
 
-        public async override void Init(object initData)
+        public override void Init(object initData)
         {
             base.Init(initData);
             RouteList = new ObservableCollection<Route>();

@@ -6,9 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Translink.Services;
-using Translink.Exception; 
 using Xamarin.Forms;
-
 
 namespace Translink.PageModels
 {
@@ -19,24 +17,24 @@ namespace Translink.PageModels
         public ObservableCollection<Departure> DepartureList { get; set; }
 
         public int StopNumber { get; set; }
-
+        
         public string RouteNumber { get; set; }
 
-        public Boolean RouteToggled { get; set; }
+        public bool RouteToggled { get; set; } 
 
         public bool IsBusy { get; private set; }
 
         public StopSearchPageModel(IDepartureDataService dataService)
         {
-            mDataService = dataService;
+            mDataService = dataService; 
         }
 
-        public async override void Init(object initData)
+        public override void Init(object initData)
         {
             base.Init(initData);
             DepartureList = new ObservableCollection<Departure>();
             StopNumber = 50586;
-            RouteNumber = "004";
+            RouteNumber = "004"; 
             RouteToggled = false;
             IsBusy = false; 
         }
@@ -48,41 +46,28 @@ namespace Translink.PageModels
                 return new Command(async () =>
                 {
                     IsBusy = true; 
-                    List<Departure> departureList = new List<Departure>();
-                    try
+                    List<Departure> departureList;  
+                    if (RouteToggled)
                     {
-                        if (RouteToggled)
-                        {
-                            await mDataService.SearchDepartures(StopNumber, RouteNumber);
-                            departureList = mDataService.GetDepartures();
-                        }
-                        else
-                        {
-                            await mDataService.SearchDepartures(StopNumber);
-                            departureList = mDataService.GetDepartures();
-                        }
-                        DepartureList.Clear();
-                        foreach (Departure d in departureList)
-                        {
-                            DepartureList.Add(d);
-                            Debug.WriteLine("Departure added: " + d.AsString);
-                        }
-                    }
-                    catch (InvalidStopException e)
-                    {
-                        Alert alert = new Alert("Invalid Stop", "Use a valid 5 digit stop number.", "OK");
-                        MessagingCenter.Send<FreshMvvm.FreshBasePageModel, Alert>(this, "Display Alert", alert);
+                        await mDataService.SearchDepartures(StopNumber, RouteNumber);
+                        departureList = mDataService.GetDepartures(); 
 
+                        
                     }
-                    catch (TranslinkAPIErrorException e)
+                    else
                     {
-                        Alert alert = new Alert("API Error", "An error occurred in the Translink API", "OK");
-                        MessagingCenter.Send<FreshMvvm.FreshBasePageModel, Alert>(this, "Display Alert", alert);
+                        await mDataService.SearchDepartures(StopNumber); 
+                        departureList = mDataService.GetDepartures();
                     }
-                    finally
+
+                    DepartureList.Clear(); 
+                    foreach(Departure d in departureList)
                     {
-                        IsBusy = false; 
+                        DepartureList.Add(d); 
+                        Debug.WriteLine("Departure added: " + d.AsString); 
                     }
+
+                    IsBusy = false; 
                 });
             }
         }
@@ -97,13 +82,14 @@ namespace Translink.PageModels
                     await mDataService.RefreshDepartures();
                     List<Departure> departureList = mDataService.GetDepartures();
 
-                    DepartureList.Clear();
+                    DepartureList.Clear(); 
 
                     foreach (Departure d in departureList)
                     {
                         DepartureList.Add(d);
                         Debug.WriteLine("Departure added: " + d.AsString);
                     }
+
                     IsBusy = false; 
                 });
             }
@@ -116,10 +102,10 @@ namespace Translink.PageModels
                 return new Command(() =>
                 {
                     mDataService.ClearDepartures();
-                    DepartureList.Clear();
+                    DepartureList.Clear(); 
                 });
             }
         }
-
+        
     }
 }
