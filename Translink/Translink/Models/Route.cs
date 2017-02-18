@@ -15,43 +15,37 @@ namespace Translink
             get;
         }
 
-        public string Direction { get; }
-
-        private readonly HashSet<int> mStops;
-
-
-        public Route(string number)
+        public int StopNumber
         {
-            Number = number;
-            mStops = new HashSet<int>();
+            get { return mStop.Number; }
         }
 
+        public string Direction { get; }
 
+        private readonly Stop mStop;
+        
 
-        public string StopsAsString
+        public string StopName
         {
             get
             {
-                StringBuilder stops = new StringBuilder();
-                foreach (int stop in mStops)
-                {
-                    stops.Append(stop);
-                    stops.Append(" ");
-                }
-                return stops.ToString();
+
+                return mStop.Name; 
             }
         }
 
-
-        public Route(string number, HashSet<int> stops)
+        public string StopWithDirection
         {
-            Number = number;
-            mStops = stops;
+            get { return mStop.Name + " " + Direction + "BOUND"; }
         }
 
-        public void AddStop(int stop)
+        
+
+        public Route(string number, string direction, Stop stop)
         {
-            mStops.Add(stop);
+            Number = number;
+            Direction = direction; 
+            mStop = stop;
         }
 
         public static Route GetRouteWithNumber(string number, IEnumerable<Route> routes)
@@ -65,6 +59,24 @@ namespace Translink
             }
 
             return null;
+        }
+
+        public override bool Equals(Object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+                return false;
+
+            Route r = (Route)obj;
+
+            return Number == r.Number && Direction == r.Direction && StopNumber == r.StopNumber; 
+
+
+
+        }
+
+        public override int GetHashCode()
+        {
+            return Number.GetHashCode() * StopNumber.GetHashCode() * Direction.GetHashCode(); 
         }
     }
 }

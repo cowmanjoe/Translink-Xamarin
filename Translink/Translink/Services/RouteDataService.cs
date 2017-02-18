@@ -9,7 +9,7 @@ namespace Translink.Services
 {
     public class RouteDataService : IRouteDataService
     {
-        private const int DEFAULT_RADIUS = 500;
+        private const int DEFAULT_RADIUS = 300;
 
         public async Task<List<Route>> GetRoutes()
         {

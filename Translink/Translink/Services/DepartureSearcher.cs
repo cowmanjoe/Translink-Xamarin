@@ -19,15 +19,30 @@ namespace Translink.Services
         // List of stop/routes pairs of searches that have been made
         // if the list is empty then all stops were searched for 
         private readonly Dictionary<int, List<string>> mSearches;
+
+        private readonly List<Stop> mStops; 
         
         
         public DepartureSearcher()
         {
             mDepartures = new List<Departure>();
 
-            
+            mStops = new List<Stop>(); 
             mSearches = new Dictionary<int, List<string>>();
             
+        }
+
+        /*
+         * Gets stop with given number in mStops if it is contained in it, null otherwise
+         */
+        private Stop GetStop(int stopNo)
+        {
+            foreach (Stop s in mStops)
+            {
+                if (s.Number == stopNo)
+                    return s; 
+            }
+            return null; 
         }
 
         #region IDepartureDataService implementation
@@ -36,25 +51,32 @@ namespace Translink.Services
          * Searches for departures using Translink API and adds them to mDepartures 
          * stop: the stop number 
          */
-        public async Task SearchDepartures(int stop)
+        public async Task SearchDepartures(int stopNo)
         {
             
             bool alreadySearched = false;
 
             List<string> routeList;
-            if (mSearches.TryGetValue(stop, out routeList))
+            if (mSearches.TryGetValue(stopNo, out routeList))
                 alreadySearched = routeList.Count == 0;
 
             if (!alreadySearched)
             {
-                List<Departure> departures = await DepartureDataFetcher.Instance.fetchDepartures(stop);
+                Stop stop = GetStop(stopNo);
+                if (stop == null)
+                {
+                    stop = await StopDataFetcher.Instance.FetchStopWithDepartures(stopNo);
+                    mStops.Add(stop); 
+                }
+
+                List<Departure> departures = await DepartureDataFetcher.Instance.fetchDepartures(stop); 
                 foreach (Departure d in departures)
                 {
                     mDepartures.Add(d);
                 }
 
-                if (mSearches.ContainsKey(stop)) mSearches.Remove(stop);
-                mSearches.Add(stop, new List<string>());
+                if (mSearches.ContainsKey(stopNo)) mSearches.Remove(stopNo);
+                mSearches.Add(stopNo, new List<string>());
             }
         }
 
@@ -63,41 +85,48 @@ namespace Translink.Services
          * stop: the stop number 
          * route: the route number 
          */ 
-        public async Task SearchDepartures(int stop, string route)
+        public async Task SearchDepartures(int stopNo, string routeNo)
         {
             
             bool alreadySearched = false;
             List<string> routeList;
-            if (mSearches.TryGetValue(stop, out routeList))
+            if (mSearches.TryGetValue(stopNo, out routeList))
             {
                 foreach (string r in routeList)
                 {
-                    if (Departure.RouteEquals(r, route)) alreadySearched = true;
+                    if (Departure.RouteEquals(r, routeNo)) alreadySearched = true;
                 }
                 if (routeList.Count == 0) alreadySearched = true;
             }
 
             if (!alreadySearched)
             {
-                List<Departure> departures = await DepartureDataFetcher.Instance.fetchDepartures(stop, route);
+                Stop stop = GetStop(stopNo);
+                if (stop == null)
+                {
+                    stop = await StopDataFetcher.Instance.FetchStopWithDepartures(stopNo);
+                    mStops.Add(stop); 
+                }
+
+                List<Departure> departures = stop.GetRouteDepartures(routeNo); 
                 foreach (Departure d in departures)
                 {
                     mDepartures.Add(d);
                 }
 
 
-                if (mSearches.TryGetValue(stop, out routeList))
+                if (mSearches.TryGetValue(stopNo, out routeList))
                 {
                     if (routeList.Count > 0)
                     {
-                        routeList.Add(route);
+                        routeList.Add(routeNo);
                     }
                 }
                 else
                 {
                     routeList = new List<string>();
-                    routeList.Add(route);
-                    mSearches.Add(stop, routeList);
+                    routeList.Add(routeNo);
+                    mSearches.Add(stopNo, routeList);
                 }
             }
             Debug.WriteLine("Contents of mSearches:");
@@ -133,20 +162,28 @@ namespace Translink.Services
         {
             mDepartures.Clear();
 
-            foreach (int s in mSearches.Keys)
+            foreach (int stopNo in mSearches.Keys)
             {
                 List<string> routeList;
-                mSearches.TryGetValue(s, out routeList); 
+                mSearches.TryGetValue(stopNo, out routeList); 
                 if (routeList.Count == 0)
                 {
-                    List<Departure> departures = await DepartureDataFetcher.Instance.fetchDepartures(s);
+                    Stop stop = GetStop(stopNo);
+                    if (stop == null)
+                        throw new System.Exception("Failed to find a stop in memory even though it should be saved.");
+
+                    List<Departure> departures = await DepartureDataFetcher.Instance.fetchDepartures(stop);
                     foreach (Departure d in departures)
                         mDepartures.Add(d);
                 }
                 else {
                     foreach (string r in routeList)
                     {
-                        List<Departure> departures = await DepartureDataFetcher.Instance.fetchDepartures(s, r);
+                        Stop stop = GetStop(stopNo);
+                        if (stop == null)
+                            throw new System.Exception("Failed to find a stop in memory even though it should be saved.");
+
+                        List<Departure> departures = await DepartureDataFetcher.Instance.fetchDepartures(stop, r);
                         foreach (Departure d in departures)
                             mDepartures.Add(d); 
                     }

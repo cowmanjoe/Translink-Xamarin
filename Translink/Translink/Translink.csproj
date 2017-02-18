@@ -41,6 +41,7 @@
     <Compile Include="Models\Departure.cs" />
     <Compile Include="DepartureDataFetcher.cs" />
     <Compile Include="Pages\BasePage.cs" />
+    <Compile Include="RouteCell.cs" />
     <Compile Include="Services\DepartureSearcher.cs" />
     <Compile Include="Exception\InvalidStopException.cs" />
     <Compile Include="Exception\TranslinkAPIErrorException.cs" />
@@ -63,7 +64,7 @@
     <Compile Include="Services\IRouteDataService.cs" />
     <Compile Include="Services\IDepartureDataService.cs" />
     <Compile Include="Services\RouteDataService.cs" />
-    <Compile Include="Stop.cs" />
+    <Compile Include="Models\Stop.cs" />
     <Compile Include="StopDataFetcher.cs" />
     <Compile Include="StopInfo.cs" />
     <Compile Include="StopLocator.cs" />

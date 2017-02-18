@@ -45,17 +45,6 @@ namespace Translink
 
         }
 
-
-        public async Task<List<Departure>> fetchDepartures(int stop)
-        {
-            throw new NotImplementedException(); 
-        }
-
-        public async Task<List<Departure>> fetchDepartures(int stop, string route)
-        {
-            throw new NotImplementedException(); 
-        }
-
         /**
          * Fethes asynchronously the next DepartureCount departures at the given stop
          * stop: is the 5 digit ID of the stop

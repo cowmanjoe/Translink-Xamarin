@@ -37,23 +37,16 @@ namespace Translink
             {
                 foreach (Departure d in s.Departures)
                 {
-                    Route route = Route.GetRouteWithNumber(d.RouteNumber, routeList);
-                    List<string> directions;
-                    if (route == null)
-                    {
-                        route = new Route(d.RouteNumber);
-                        route.AddStop(s.Number);
-                        routeList.Add(route);
+                    Route route = new Route(d.RouteNumber, d.Direction, s);
 
-                        directions = new List<string>();
-                        directions.Add(d.Direction);
-                        routeDirectionsAdded.Add(d.RouteNumber, directions);
-                    }
-                    else if (routeDirectionsAdded.TryGetValue(d.RouteNumber, out directions) &&
-                        !directions.Contains(d.Direction))
+                    bool duplicateNumberAndDirection = false; 
+                    foreach (Route r in routeList)
                     {
-                        route.AddStop(s.Number);
+                        if (r.Number == route.Number && r.Direction == route.Direction)
+                            duplicateNumberAndDirection = true; 
                     }
+                    if (!duplicateNumberAndDirection)
+                        routeList.Add(route); 
                 }
             }
 
