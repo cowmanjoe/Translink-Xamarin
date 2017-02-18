@@ -38,11 +38,12 @@ namespace Translink
         public async Task<Stop> FetchStopWithDepartures(int stopNo)
         {
             StopInfo stopInfo = await (FetchStopInfo(stopNo));
+            Stop stop = new Stop(stopInfo); 
 
             DepartureDataFetcher departureDataFetcher = DepartureDataFetcher.Instance; 
-            List<Departure> departures = await departureDataFetcher.fetchDepartures(stopNo);
-
-            return new Stop(stopInfo, departures); 
+            List<Departure> departures = await departureDataFetcher.fetchDepartures(stop);
+            stop.Departures = departures;
+            return stop; 
         }
 
         public async Task<List<Stop>> SearchStopsWithDepartures(double lat, double lon, int radius) 
@@ -55,8 +56,9 @@ namespace Translink
 
             foreach (StopInfo si in stopInfos)
             {
-                List<Departure> departures = await departureDataFetcher.fetchDepartures(si.stopNo);
-                Stop stop = new Stop(si, departures);
+                Stop stop = new Stop(si); 
+                List<Departure> departures = await departureDataFetcher.fetchDepartures(stop);
+                stop.Departures = departures; 
                 stops.Add(stop); 
             }
 

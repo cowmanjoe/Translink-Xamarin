@@ -19,7 +19,7 @@ namespace Translink
 
         public int StopNumber
         {
-            get mStop.Number;
+            get { return mStop.Number; }
         }
 
         public string RouteNumber
@@ -37,7 +37,7 @@ namespace Translink
         public Departure(string time, Stop stop, string routeNumber, string direction)
         {
             Time = time;
-            StopNumber = stopNumber;
+            mStop = stop;
             RouteNumber = routeNumber;
             Direction = direction;
         }

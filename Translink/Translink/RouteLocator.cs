@@ -35,7 +35,7 @@ namespace Translink
 
             foreach (Stop s in stops)
             {
-                foreach (string d in s.Departures)
+                foreach (Departure d in s.Departures)
                 {
                     Route route = Route.GetRouteWithNumber(d.RouteNumber, routeList);
                     List<string> directions;

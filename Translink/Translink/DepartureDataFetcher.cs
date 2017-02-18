@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Translink.Exception;
+using System;
 
 namespace Translink
 {
@@ -45,6 +46,16 @@ namespace Translink
         }
 
 
+        public async Task<List<Departure>> fetchDepartures(int stop)
+        {
+            throw new NotImplementedException(); 
+        }
+
+        public async Task<List<Departure>> fetchDepartures(int stop, string route)
+        {
+            throw new NotImplementedException(); 
+        }
+
         /**
          * Fethes asynchronously the next DepartureCount departures at the given stop
          * stop: is the 5 digit ID of the stop
@@ -63,7 +74,8 @@ namespace Translink
             {
                 List<string> times;
                 lts.TryGetValue(route, out times);
-                String[] routeAndDirection = r.Split({':'});
+                char[] separator = { ':' };
+                string[] routeAndDirection = route.Split(separator);
                 foreach (string time in times)
                     departures.Add(new Departure(time, stop, routeAndDirection[0], routeAndDirection[1]));
             }
@@ -91,7 +103,7 @@ namespace Translink
 
             List<Departure> departures = new List<Departure>();
             Debug.WriteLine("Before");
-            Stream departureStream = await FetchDepartureData(stop, route);
+            Stream departureStream = await FetchDepartureData(stop.Number, route);
             Dictionary<string, List<string>> lts = DataParser.ParseDepartureTimes(departureStream);
             Debug.WriteLine("Departure data parsed!");
 
@@ -100,7 +112,8 @@ namespace Translink
                 List<string> times;
                 lts.TryGetValue(r, out times);
                 Debug.WriteLine("Route value found!");
-                String[] routeAndDirection = r.Split({':'});
+                char[] separator = { ':' };
+                string[] routeAndDirection = route.Split(separator);
                 foreach (string time in times)
                     departures.Add(new Departure(time, stop, routeAndDirection[0], routeAndDirection[1]));
             }
