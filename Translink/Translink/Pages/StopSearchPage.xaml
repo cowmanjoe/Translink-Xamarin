@@ -3,39 +3,52 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="clr-namespace:Translink.Pages;assembly=Translink.Pages"
              x:Class="Translink.Pages.StopSearchPage">
-  <StackLayout VerticalOptions="Start">
-    <Label Text="Stop Number:" HorizontalOptions="Start" />
-    <Entry x:Name="StopEntry" Text="{Binding StopNumber}" HorizontalTextAlignment="Start" Keyboard="Numeric" />
-    <Label Text="Route Number:" HorizontalOptions="Start"/>
-    <StackLayout Orientation="Horizontal">
-      <Switch x:Name="RouteSwitch" IsToggled="{Binding RouteToggled}" HorizontalOptions="Start"/>
-      <Entry x:Name="RouteEntry" Text="{Binding RouteNumber}" HorizontalOptions="FillAndExpand" IsVisible="{Binding RouteToggled}" />
+  <RelativeLayout>
+    <StackLayout VerticalOptions="Start">
+      <Label Text="Stop Number:" HorizontalOptions="Start" />
+      <Entry x:Name="StopEntry" Text="{Binding StopNumber}" HorizontalTextAlignment="Start" Keyboard="Numeric" />
+      <Label Text="Route Number:" HorizontalOptions="Start"/>
+      <StackLayout Orientation="Horizontal">
+        <Switch x:Name="RouteSwitch" IsToggled="{Binding RouteToggled}" HorizontalOptions="Start"/>
+        <Entry x:Name="RouteEntry" Text="{Binding RouteNumber}" HorizontalOptions="FillAndExpand" IsVisible="{Binding RouteToggled}" />
+      </StackLayout>
+
+      <StackLayout Spacing="10" Orientation="Horizontal">
+        <Button
+          x:Name="AddButton"
+          HorizontalOptions="FillAndExpand"
+          Text="Add"
+          Command="{Binding SearchDepartures}"/>
+        <Button
+          x:Name="RefreshButton"
+          HorizontalOptions="FillAndExpand"
+          Text="Refresh"
+          Command="{Binding RefreshDepartures}"/>
+        <Button
+          x:Name="ClearButton"
+          HorizontalOptions="FillAndExpand"
+          Text="Clear"
+          Command="{Binding ClearDepartures}"/>
+      </StackLayout>
+
+      <ListView x:Name="DepartureListView" ItemsSource="{Binding DepartureList}" HorizontalOptions="Fill">
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <TextCell Text="{Binding AsString}" />
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
     </StackLayout>
 
-    <StackLayout Spacing="10" Orientation="Horizontal">
-      <Button
-        x:Name="AddButton"
-        HorizontalOptions="FillAndExpand"
-        Text="Add"
-        Command="{Binding SearchDepartures}"/>
-      <Button
-        x:Name="RefreshButton"
-        HorizontalOptions="FillAndExpand"
-        Text="Refresh"
-        Command="{Binding RefreshDepartures}"/>
-      <Button
-        x:Name="ClearButton"
-        HorizontalOptions="FillAndExpand"
-        Text="Clear"
-        Command="{Binding ClearDepartures}"/>
-    </StackLayout>
-
-    <ListView x:Name="DepartureListView" ItemsSource="{Binding DepartureList}" HorizontalOptions="Fill">
-      <ListView.ItemTemplate>
-        <DataTemplate>
-          <TextCell Text="{Binding AsString}" />
-        </DataTemplate>
-      </ListView.ItemTemplate>
-    </ListView>
-  </StackLayout>
+    <ActivityIndicator
+      IsRunning="{Binding IsBusy}"
+      VerticalOptions="CenterAndExpand"
+      HorizontalOptions="CenterAndExpand"
+      RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
+        Property=Height,
+        Factor=0.33}"
+      RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
+        Property=Height,
+        Factor=0.33}"/>
+  </RelativeLayout>
 </d:BasePage>

@@ -24,6 +24,8 @@ namespace Translink.PageModels
 
         public Boolean RouteToggled { get; set; }
 
+        public bool IsBusy { get; private set; }
+
         public StopSearchPageModel(IDepartureDataService dataService)
         {
             mDataService = dataService;
@@ -36,6 +38,7 @@ namespace Translink.PageModels
             StopNumber = 50586;
             RouteNumber = "004";
             RouteToggled = false;
+            IsBusy = false; 
         }
 
         public Command SearchDepartures
@@ -44,6 +47,7 @@ namespace Translink.PageModels
             {
                 return new Command(async () =>
                 {
+                    IsBusy = true; 
                     List<Departure> departureList = new List<Departure>();
                     try
                     {
@@ -75,6 +79,10 @@ namespace Translink.PageModels
                         Alert alert = new Alert("API Error", "An error occurred in the Translink API", "OK");
                         MessagingCenter.Send<FreshMvvm.FreshBasePageModel, Alert>(this, "Display Alert", alert);
                     }
+                    finally
+                    {
+                        IsBusy = false; 
+                    }
                 });
             }
         }
@@ -85,6 +93,7 @@ namespace Translink.PageModels
             {
                 return new Command(async () =>
                 {
+                    IsBusy = true; 
                     await mDataService.RefreshDepartures();
                     List<Departure> departureList = mDataService.GetDepartures();
 
@@ -95,6 +104,7 @@ namespace Translink.PageModels
                         DepartureList.Add(d);
                         Debug.WriteLine("Departure added: " + d.AsString);
                     }
+                    IsBusy = false; 
                 });
             }
         }

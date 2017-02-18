@@ -27,6 +27,12 @@ namespace Translink.PageModels
             }
         }
 
+        public bool IsBusy
+        {
+            get;
+            private set; 
+        }
+
 
         public RouteListPageModel (IRouteDataService dataService) 
         {
@@ -36,7 +42,8 @@ namespace Translink.PageModels
         public async override void Init(object initData)
         {
             base.Init(initData);
-            RouteList = new ObservableCollection<Route>(); 
+            RouteList = new ObservableCollection<Route>();
+            IsBusy = false; 
         }
 
         public Command RefreshRoutes
@@ -45,12 +52,14 @@ namespace Translink.PageModels
             {
                 return new Command(async () =>
                 {
+                    IsBusy = true; 
                     List<Route> routeList = await mDataService.GetRoutes();
                     RouteList.Clear(); 
                     foreach (Route r in routeList)
                     {
                         RouteList.Add(r); 
                     }
+                    IsBusy = false; 
                 }); 
             }
         }
