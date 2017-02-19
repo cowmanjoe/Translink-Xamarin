@@ -3,8 +3,22 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="clr-namespace:Translink.Pages;assembly=Translink.Pages"
              x:Class="Translink.Pages.RoutePage">
-  <StackLayout>
-    <Entry Text="{Binding Route.Number}"/>
-    <Entry Text="{Binding Route.StopsAsString}"/>
-  </StackLayout>
+  <RelativeLayout>
+    <StackLayout>
+      <Entry Text="{Binding Route.Number}"/>
+      <Entry Text="{Binding Route.StopsAsString}"/>
+    </StackLayout>
+
+    <ActivityIndicator
+      IsRunning="{Binding IsBusy}"
+      VerticalOptions="CenterAndExpand"
+      HorizontalOptions="CenterAndExpand"
+      RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
+        Property=Width,
+        Factor=0.5,
+        Constant=-20}"
+      RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
+        Property=Height,
+        Factor=0.33}"/>
+  </RelativeLayout>
 </d:BasePage>

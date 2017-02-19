@@ -12,6 +12,8 @@ namespace Translink.PageModels
     {
 
         public Route Route { get; set; }
+        
+        public bool IsBusy { get; private set; }
 
         public RoutePageModel ()
         {

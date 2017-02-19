@@ -1,6 +1,6 @@
 TODO:  
 - Get rid of StopInfo and just use Stop class
-- Indicate when work is being done with ActivityIndicator (searching for stops etc.)
+- Make ActivityIndicator properly centered in pages
 - Make alert appear for when GPS is not available or disabled
 - Handling invalid route numbers
 - Handling possible errors from the API 
