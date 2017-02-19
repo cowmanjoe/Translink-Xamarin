@@ -22,6 +22,20 @@ namespace Translink
 
         public string Direction { get; }
 
+        public List<Departure> Departures
+        {
+            get
+            {
+                List<Departure> departures = new List<Departure>(); 
+                foreach (Departure d in mStop.Departures)
+                {
+                    if (Departure.RouteEquals(Number, d.RouteNumber))
+                        departures.Add(d); 
+                }
+                return departures; 
+            }
+        }
+
         private readonly Stop mStop;
         
 
@@ -29,17 +43,14 @@ namespace Translink
         {
             get
             {
-
                 return mStop.Name; 
             }
         }
 
-        public string StopWithDirection
+        public string NumberAndDirection
         {
-            get { return mStop.Name + " " + Direction + "BOUND"; }
+            get { return Number + " " + Direction + "BOUND"; }
         }
-
-        
 
         public Route(string number, string direction, Stop stop)
         {

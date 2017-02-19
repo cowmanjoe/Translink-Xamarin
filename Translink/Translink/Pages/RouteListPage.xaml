@@ -13,7 +13,7 @@
       <ListView ItemsSource="{Binding RouteList}" SelectedItem="{Binding SelectedRoute}">
         <ListView.ItemTemplate>
           <DataTemplate>
-            <TextCell Text="{Binding Number}" Detail="{Binding StopWithDirection}"/>
+            <TextCell Text="{Binding NumberAndDirection}" Detail="{Binding StopName}"/>
           </DataTemplate>
         </ListView.ItemTemplate>
       </ListView>

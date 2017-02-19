@@ -5,8 +5,17 @@
              x:Class="Translink.Pages.RoutePage">
   <RelativeLayout>
     <StackLayout>
-      <Entry Text="{Binding Route.Number}"/>
-      <Entry Text="{Binding Route.StopsAsString}"/>
+      <Label Text="{Binding Route.NumberAndDirection}"/>
+      <Label Text="{Binding Route.StopName}"/>
+      <Label Text="Departures:"/>
+      
+      <ListView ItemsSource="{Binding Route.Departures}" HorizontalOptions="Fill">
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <TextCell Text="{Binding AsString}" />
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
     </StackLayout>
 
     <ActivityIndicator
