@@ -64,7 +64,7 @@ namespace Translink
             List<Departure> ans = new List<Departure>(); 
             foreach (Departure d in Departures)
             {
-                if (Departure.RouteEquals(route, d.RouteNumber))
+                if (Util.RouteEquals(route, d.RouteNumber))
                     ans.Add(d); 
             }
             return ans; 

@@ -84,7 +84,7 @@ namespace Translink
         {
             bool stopHasRoute = false;
             foreach (string r in stop.Routes) {
-                if (Departure.RouteEquals(r, route))
+                if (Util.RouteEquals(r, route))
                     stopHasRoute = true;
             }
             if (!stopHasRoute)

@@ -67,6 +67,7 @@
     <Compile Include="StopDataFetcher.cs" />
     <Compile Include="StopInfo.cs" />
     <Compile Include="StopLocator.cs" />
+    <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FreshIOC, Version=1.0.6071.17008, Culture=neutral, processorArchitecture=MSIL">

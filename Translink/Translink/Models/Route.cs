@@ -29,7 +29,7 @@ namespace Translink
                 List<Departure> departures = new List<Departure>(); 
                 foreach (Departure d in mStop.Departures)
                 {
-                    if (Departure.RouteEquals(Number, d.RouteNumber))
+                    if (Util.RouteEquals(Number, d.RouteNumber))
                         departures.Add(d); 
                 }
                 return departures; 

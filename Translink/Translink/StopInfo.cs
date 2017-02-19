@@ -29,7 +29,7 @@ namespace Translink
 
             for (int i = 0; i < routes.Count; i++)
             {
-                Departure.RouteEquals(routes[i], s.routes[i]);
+                Util.RouteEquals(routes[i], s.routes[i]);
             }
 
 

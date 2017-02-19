@@ -94,7 +94,7 @@ namespace Translink.Services
             {
                 foreach (string r in routeList)
                 {
-                    if (Departure.RouteEquals(r, routeNo)) alreadySearched = true;
+                    if (Util.RouteEquals(r, routeNo)) alreadySearched = true;
                 }
                 if (routeList.Count == 0) alreadySearched = true;
             }
