@@ -6,32 +6,29 @@
   <RelativeLayout>
     <StackLayout VerticalOptions="Start">
       <Label Text="Stop Number:" HorizontalOptions="Start" />
-      <Entry x:Name="StopEntry" Text="{Binding StopNumber}" HorizontalTextAlignment="Start" Keyboard="Numeric" />
+      <Entry Text="{Binding StopNumber}" HorizontalTextAlignment="Start" Keyboard="Numeric" />
       <Label Text="Route Number:" HorizontalOptions="Start"/>
       <StackLayout Orientation="Horizontal">
-        <Switch x:Name="RouteSwitch" IsToggled="{Binding RouteToggled}" HorizontalOptions="Start"/>
-        <Entry x:Name="RouteEntry" Text="{Binding RouteNumber}" HorizontalOptions="FillAndExpand" IsVisible="{Binding RouteToggled}" />
+        <Switch IsToggled="{Binding RouteToggled}" HorizontalOptions="Start"/>
+        <Entry Text="{Binding RouteNumber}" HorizontalOptions="FillAndExpand" IsVisible="{Binding RouteToggled}" />
       </StackLayout>
 
       <StackLayout Spacing="10" Orientation="Horizontal">
         <Button
-          x:Name="AddButton"
           HorizontalOptions="FillAndExpand"
           Text="Add"
           Command="{Binding SearchDepartures}"/>
         <Button
-          x:Name="RefreshButton"
           HorizontalOptions="FillAndExpand"
           Text="Refresh"
           Command="{Binding RefreshDepartures}"/>
         <Button
-          x:Name="ClearButton"
           HorizontalOptions="FillAndExpand"
           Text="Clear"
           Command="{Binding ClearDepartures}"/>
       </StackLayout>
 
-      <ListView x:Name="DepartureListView" ItemsSource="{Binding DepartureList}" HorizontalOptions="Fill">
+      <ListView ItemsSource="{Binding DepartureList}" HorizontalOptions="Fill">
         <ListView.ItemTemplate>
           <DataTemplate>
             <TextCell Text="{Binding AsString}" />
