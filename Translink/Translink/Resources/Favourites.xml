@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Favourites>
+  <Stops>
+    <Stop Number="50586"/>
+    <Stop Number="60980"/>
+  </Stops>
+
+  <Routes>
+    <Route Number="004"/>
+  </Routes>
+</Favourites>

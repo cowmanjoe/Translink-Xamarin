@@ -28,6 +28,7 @@ namespace Translink
             var tabbedNav = new FreshMvvm.FreshTabbedNavigationContainer();
             tabbedNav.AddTab<RouteListPageModel>("Routes", null);
             tabbedNav.AddTab<StopSearchPageModel>("Stop Search", null);
+            tabbedNav.AddTab<FavouritesMenuPage>("Favourites", null); 
             MainPage = tabbedNav; 
         }
         

@@ -40,7 +40,19 @@
     <Compile Include="DataParser.cs" />
     <Compile Include="Models\Departure.cs" />
     <Compile Include="DepartureDataFetcher.cs" />
+    <Compile Include="PageModels\FavouriteRoutesPageModel.cs" />
+    <Compile Include="PageModels\FavouritesMenuPage.cs" />
+    <Compile Include="PageModels\FavouriteStopsPageModel.cs" />
     <Compile Include="Pages\BasePage.cs" />
+    <Compile Include="Pages\FavouriteRoutesPage.xaml.cs">
+      <DependentUpon>FavouriteRoutesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\FavouritesMenuPage.xaml.cs">
+      <DependentUpon>FavouritesMenuPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\FavouriteStopsPage.xaml.cs">
+      <DependentUpon>FavouriteStopsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Services\DepartureSearcher.cs" />
     <Compile Include="Exception\InvalidStopException.cs" />
     <Compile Include="Exception\TranslinkAPIErrorException.cs" />
@@ -145,9 +157,28 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />
+    <Content Include="Resources\Favourites.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Pages\StopSearchPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\FavouritesMenuPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\FavouriteStopsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\FavouriteRoutesPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
