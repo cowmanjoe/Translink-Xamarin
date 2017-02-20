@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Translink.Services
 {
-    public interface IDepartureDataService
+    public interface IStopDataService
     {
         List<Departure> GetDepartures();
 
@@ -18,6 +18,6 @@ namespace Translink.Services
 
         void ClearDepartures();
 
-        
+        Task<StopInfo> FetchStopInfo(int stop); 
     }
 }

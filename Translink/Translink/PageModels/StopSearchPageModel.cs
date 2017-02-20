@@ -13,7 +13,8 @@ namespace Translink.PageModels
 {
     public class StopSearchPageModel : FreshMvvm.FreshBasePageModel
     {
-        private IDepartureDataService mDataService;
+        private IStopDataService mStopDataService;
+        private IFavouritesDataService mFavouritesDataService; 
 
         public ObservableCollection<Departure> DepartureList { get; set; }
 
@@ -25,9 +26,10 @@ namespace Translink.PageModels
 
         public bool IsBusy { get; private set; }
 
-        public StopSearchPageModel(IDepartureDataService dataService)
+        public StopSearchPageModel(IStopDataService stopDataService, IFavouritesDataService favouritesDataService)
         {
-            mDataService = dataService; 
+            mStopDataService = stopDataService;
+            mFavouritesDataService = favouritesDataService; 
         }
 
         public override void Init(object initData)
@@ -52,13 +54,13 @@ namespace Translink.PageModels
                     {
                         if (RouteToggled)
                         {
-                            await mDataService.SearchDepartures(StopNumber, RouteNumber);
-                            departureList = mDataService.GetDepartures();
+                            await mStopDataService.SearchDepartures(StopNumber, RouteNumber);
+                            departureList = mStopDataService.GetDepartures();
                         }
                         else
                         {
-                            await mDataService.SearchDepartures(StopNumber);
-                            departureList = mDataService.GetDepartures();
+                            await mStopDataService.SearchDepartures(StopNumber);
+                            departureList = mStopDataService.GetDepartures();
                         }
 
                         DepartureList.Clear();
@@ -96,8 +98,8 @@ namespace Translink.PageModels
                 return new Command(async () =>
                 {
                     IsBusy = true; 
-                    await mDataService.RefreshDepartures();
-                    List<Departure> departureList = mDataService.GetDepartures();
+                    await mStopDataService.RefreshDepartures();
+                    List<Departure> departureList = mStopDataService.GetDepartures();
 
                     DepartureList.Clear(); 
 
@@ -118,11 +120,21 @@ namespace Translink.PageModels
             {
                 return new Command(() =>
                 {
-                    mDataService.ClearDepartures();
+                    mStopDataService.ClearDepartures();
                     DepartureList.Clear(); 
                 });
             }
         }
         
+        public Command AddStopToFavourites
+        {
+            get
+            {
+                return new Command (() =>
+                {
+                    
+                })
+            }
+        }
     }
 }

@@ -10,6 +10,14 @@ namespace Translink.Services
     {
         Task<List<StopInfo>> GetFavouriteStopInfos();
 
-        Task<List<string>> GetFavouriteRouteNumbers(); 
+        Task<List<string>> GetFavouriteRouteNumbers();
+
+        Task AddFavouriteStop(StopInfo stopInfo);
+
+        Task AddFavouriteRoute(string routeNumber);
+
+        Task RemoveFavouriteStop(int stopNumber);
+
+        Task RemoveFavouriteRoute(string routeNumber);
     }
 }

@@ -10,7 +10,7 @@ using Translink.Services;
 
 namespace Translink.Services
 {
-    public class DepartureSearcher : IDepartureDataService
+    public class StopDataService : IStopDataService
     {
 
         // List that populates the ListView of departures 
@@ -23,7 +23,7 @@ namespace Translink.Services
         private readonly List<Stop> mStops; 
         
         
-        public DepartureSearcher()
+        public StopDataService()
         {
             mDepartures = new List<Departure>();
 
@@ -194,6 +194,11 @@ namespace Translink.Services
         public List<Departure> GetDepartures()
         {
             return mDepartures; 
+        }
+
+        public Task<StopInfo> FetchStopInfo(int stop)
+        {
+            return StopDataFetcher.Instance.FetchStopInfo(stop); 
         }
 
         #endregion
