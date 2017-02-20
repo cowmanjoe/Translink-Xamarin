@@ -130,10 +130,11 @@ namespace Translink.PageModels
         {
             get
             {
-                return new Command (() =>
-                {
-                    
-                })
+                return new Command(async () =>
+               {
+                   StopInfo stopInfo = await mStopDataService.FetchStopInfo(StopNumber);
+                   await mFavouritesDataService.AddFavouriteStop(stopInfo);
+               });
             }
         }
     }

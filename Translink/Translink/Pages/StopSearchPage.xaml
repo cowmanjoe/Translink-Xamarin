@@ -48,5 +48,16 @@
       RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
         Property=Height,
         Factor=0.33}"/>
+
+    <Button
+      Text="Favourite"
+      RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, 
+        Property=Width, 
+        Factor=0.8}"
+      RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, 
+        Property=Height,
+        Factor=0,
+        Constant=10}"
+      Command="{Binding AddStopToFavourites}"/>
   </RelativeLayout>
 </d:BasePage>
