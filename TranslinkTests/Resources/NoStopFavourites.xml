@@ -1,10 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Favourites>
   <Stops>
-    <Stop Number="50586" Name="WB W 4 AVE FS BAYSWATER STN"/>
-    <Stop Number="60980" Name="SB GRANVILLE ST NS W GEORGIA STN"/>
   </Stops>
-
+  
   <Routes>
     <Route Number="004"/>
   </Routes>

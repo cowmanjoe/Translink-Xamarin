@@ -14,7 +14,7 @@ namespace Translink
 
         public String Name
         {
-            get { return mStopInfo.name; }
+            get { return mStopInfo.Name; }
         }
 
         public List<Departure> Departures
@@ -26,13 +26,13 @@ namespace Translink
         {
             get
             {
-                return mStopInfo.routes;
+                return mStopInfo.Routes;
             }
         }
 
         public int Number
         {
-            get { return mStopInfo.stopNo; }
+            get { return mStopInfo.Number; }
         }
 
         // For departures
@@ -40,7 +40,7 @@ namespace Translink
         {
             get
             {
-                string stopDetail = mStopInfo.stopNo + " ";
+                string stopDetail = mStopInfo.Number + " ";
                 if (Departures.Count >= 1)
                     stopDetail += Departures[0].Time;
                 return stopDetail;

@@ -16,7 +16,7 @@ namespace Translink
             List<string> routes = new List<string>();
             foreach (StopInfo si in stopInfos)
             {
-                foreach (string r in si.routes)
+                foreach (string r in si.Routes)
                 {
                     if (!routes.Contains(r))
                         routes.Add(r);

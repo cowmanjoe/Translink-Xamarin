@@ -113,28 +113,28 @@ namespace Translink
             StopInfo stopInfo = new StopInfo();
 
             int stopNo = Convert.ToInt32(stopElement.Element("StopNo").Value);
-            stopInfo.stopNo = stopNo;
+            stopInfo.Number = stopNo;
 
             string name = stopElement.Element("Name").Value;
-            stopInfo.name = name.Trim();
+            stopInfo.Name = name.Trim();
 
             string bayNo = stopElement.Element("BayNo").Value;
             if (bayNo != "N")
-                stopInfo.bayNo = Convert.ToInt32(bayNo);
+                stopInfo.BayNumber = Convert.ToInt32(bayNo);
             else
-                stopInfo.bayNo = -1;
+                stopInfo.BayNumber = -1;
 
             string onStreet = stopElement.Element("OnStreet").Value;
-            stopInfo.onStreet = onStreet.Trim();
+            stopInfo.OnStreet = onStreet.Trim();
 
             string atStreet = stopElement.Element("AtStreet").Value;
-            stopInfo.atStreet = atStreet.Trim();
+            stopInfo.AtStreet = atStreet.Trim();
 
             double latitude = Convert.ToDouble(stopElement.Element("Latitude").Value);
-            stopInfo.latitude = latitude;
+            stopInfo.Latitude = latitude;
 
             double longitude = Convert.ToDouble(stopElement.Element("Longitude").Value);
-            stopInfo.longitude = longitude;
+            stopInfo.Longitude = longitude;
 
             List<string> routes = new List<string>();
             string[] r = stopElement.Element("Routes").Value.Split(',');
@@ -143,23 +143,23 @@ namespace Translink
             {
                 routes.Add(r[i].Trim());
             }
-            stopInfo.routes = routes;
+            stopInfo.Routes = routes;
 
 
             Debug.WriteLine("Stop info received: ");
-            Debug.WriteLine("  stopNo = " + stopInfo.stopNo +
-                "\n  name = " + stopInfo.name +
-                "\n  onStreet = " + stopInfo.onStreet +
-                "\n  atStreet = " + stopInfo.atStreet +
-                "\n  latitude = " + stopInfo.latitude +
-                "\n  longitude = " + stopInfo.longitude);
+            Debug.WriteLine("  stopNo = " + stopInfo.Number +
+                "\n  name = " + stopInfo.Name +
+                "\n  onStreet = " + stopInfo.OnStreet +
+                "\n  atStreet = " + stopInfo.AtStreet +
+                "\n  latitude = " + stopInfo.Latitude +
+                "\n  longitude = " + stopInfo.Longitude);
             Debug.WriteLine("  Routes: ");
-            foreach (string route in stopInfo.routes)
+            foreach (string route in stopInfo.Routes)
             {
                 Debug.WriteLine("    " + route);
             }
 
-            Debug.WriteLine(stopInfo.bayNo);
+            Debug.WriteLine(stopInfo.BayNumber);
 
 
             return stopInfo;

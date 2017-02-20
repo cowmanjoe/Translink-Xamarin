@@ -29,7 +29,7 @@ namespace TranslinkTests
             expectedTimes.Add("11:43pm");
             expectedTimes.Add("12:14am");
 
-            expectedTimeDict.Add("050", expectedTimes);
+            expectedTimeDict.Add("050:SOUTH", expectedTimes);
 
             Assert.IsTrue(AreTimeDictionariesEqual(expectedTimeDict, actualTimeDict)); 
         }
@@ -50,7 +50,7 @@ namespace TranslinkTests
             expectedTimes4.Add("11:29pm");
             expectedTimes4.Add("11:49pm");
             expectedTimes4.Add("12:09am");
-            expectedTimeDict.Add("004", expectedTimes4);
+            expectedTimeDict.Add("004:WEST", expectedTimes4);
 
             List<string> expectedTimes7 = new List<string>();
             expectedTimes7.Add("10:39pm");
@@ -59,7 +59,7 @@ namespace TranslinkTests
             expectedTimes7.Add("11:39pm");
             expectedTimes7.Add("11:59pm"); 
             expectedTimes7.Add("12:19am");
-            expectedTimeDict.Add("007", expectedTimes7);
+            expectedTimeDict.Add("007:WEST", expectedTimes7);
 
             List<string> expectedTimes10 = new List<string>();
             expectedTimes10.Add("10:43pm");
@@ -67,7 +67,7 @@ namespace TranslinkTests
             expectedTimes10.Add("11:22pm");
             expectedTimes10.Add("11:42pm");
             expectedTimes10.Add("12:12am");
-            expectedTimeDict.Add("010", expectedTimes10);
+            expectedTimeDict.Add("010:SOUTH", expectedTimes10);
 
             List<string> expectedTimes14 = new List<string>();
             expectedTimes14.Add("10:41pm");
@@ -76,13 +76,13 @@ namespace TranslinkTests
             expectedTimes14.Add("11:40pm");
             expectedTimes14.Add("12:10am");
             expectedTimes14.Add("12:25am");
-            expectedTimeDict.Add("014", expectedTimes14);
+            expectedTimeDict.Add("014:WEST", expectedTimes14);
 
             Assert.IsTrue(AreTimeDictionariesEqual(expectedTimeDict, actualTimeDict)); 
         }
 
         [TestMethod]
-        public void TestParseDepartureTimesInvalidStop()
+        public void TestParseDepartureTimes_InvalidStop_ThrowException()
         {
             try
             {
@@ -100,7 +100,7 @@ namespace TranslinkTests
         }
 
         [TestMethod]
-        public void TestParseDepartureTimesStopNotFound()
+        public void TestParseDepartureTimes_StopNotFound_ThrowException()
         {
             try
             {
@@ -118,7 +118,7 @@ namespace TranslinkTests
         }
 
         [TestMethod]
-        public void TestParseStopInfo()
+        public void TestParseStopInfo_56612()
         {
             StopInfo actualStopInfo;
 
@@ -127,25 +127,25 @@ namespace TranslinkTests
                 actualStopInfo = DataParser.ParseStopInfo(sr.BaseStream);
             }
 
-            StopInfo expectedStopInfo;
+            StopInfo expectedStopInfo = new StopInfo();
 
-            expectedStopInfo.stopNo = 55612;
-            expectedStopInfo.name = "SURREY CENTRAL STN BAY 4";
-            expectedStopInfo.bayNo = 4;
-            expectedStopInfo.onStreet = "SURREY CENTRAL STN";
-            expectedStopInfo.atStreet = "BAY 4";
-            expectedStopInfo.latitude = 49.188850;
-            expectedStopInfo.longitude = -122.849370;
-            expectedStopInfo.routes = new List<string>();
-            expectedStopInfo.routes.Add("501");
-            expectedStopInfo.routes.Add("509");
-            expectedStopInfo.routes.Add("N19");
+            expectedStopInfo.Number = 55612;
+            expectedStopInfo.Name = "SURREY CENTRAL STN BAY 4";
+            expectedStopInfo.BayNumber = 4;
+            expectedStopInfo.OnStreet = "SURREY CENTRAL STN";
+            expectedStopInfo.AtStreet = "BAY 4";
+            expectedStopInfo.Latitude = 49.188850;
+            expectedStopInfo.Longitude = -122.849370;
+            expectedStopInfo.Routes = new List<string>();
+            expectedStopInfo.Routes.Add("501");
+            expectedStopInfo.Routes.Add("509");
+            expectedStopInfo.Routes.Add("N19");
 
             Assert.AreEqual(expectedStopInfo, actualStopInfo); 
         }
 
         [TestMethod]
-        public void TestParseStopsInfo()
+        public void TestParseStopsInfo_StopSearch1()
         {
             List<StopInfo> actualStopInfos;
             List<StopInfo> expectedStopInfos = new List<StopInfo>();
@@ -155,26 +155,26 @@ namespace TranslinkTests
             }
 
             StopInfo stop1 = new StopInfo();
-            stop1.stopNo = 51516;
-            stop1.name = "EB W KING EDWARD AVE FS MANITOBA ST";
-            stop1.bayNo = -1;
-            stop1.onStreet = "W KING EDWARD AVE";
-            stop1.atStreet = "MANITOBA ST";
-            stop1.latitude = 49.248820;
-            stop1.longitude = -123.107050;
-            stop1.routes = new List<string>();
-            stop1.routes.Add("025");
+            stop1.Number = 51516;
+            stop1.Name = "EB W KING EDWARD AVE FS MANITOBA ST";
+            stop1.BayNumber = -1;
+            stop1.OnStreet = "W KING EDWARD AVE";
+            stop1.AtStreet = "MANITOBA ST";
+            stop1.Latitude = 49.248820;
+            stop1.Longitude = -123.107050;
+            stop1.Routes = new List<string>();
+            stop1.Routes.Add("025");
 
             StopInfo stop2 = new StopInfo();
-            stop2.stopNo = 51573;
-            stop2.name = "WB W KING EDWARD AVE FS COLUMBIA ST";
-            stop2.bayNo = -1;
-            stop2.onStreet = "W KING EDWARD AVE";
-            stop2.atStreet = "COLUMBIA ST";
-            stop2.latitude = 49.249020;
-            stop2.longitude = -123.110530;
-            stop2.routes = new List<string>();
-            stop2.routes.Add("025");
+            stop2.Number = 51573;
+            stop2.Name = "WB W KING EDWARD AVE FS COLUMBIA ST";
+            stop2.BayNumber = -1;
+            stop2.OnStreet = "W KING EDWARD AVE";
+            stop2.AtStreet = "COLUMBIA ST";
+            stop2.Latitude = 49.249020;
+            stop2.Longitude = -123.110530;
+            stop2.Routes = new List<string>();
+            stop2.Routes.Add("025");
 
             expectedStopInfos.Add(stop1);
             expectedStopInfos.Add(stop2);

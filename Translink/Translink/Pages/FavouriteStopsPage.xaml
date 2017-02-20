@@ -3,5 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Translink.Pages.FavouriteStopsPage"
              xmlns:d="clr-namespace:Translink.Pages;assembly=Translink.Pages">
-  <Label Text="Favourite stops listed here!"/>
+  <StackLayout>
+    <Button Text="Test Button"/>
+    <ListView ItemsSource="{Binding StopList}">
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <TextCell Text="{Binding Name}" Detail="Test Detail"/>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
+  </StackLayout>
 </d:BasePage>

@@ -3,6 +3,7 @@
   <Stops>
     <Stop Number="50586" Name="WB W 4 AVE FS BAYSWATER STN"/>
     <Stop Number="60980" Name="SB GRANVILLE ST NS W GEORGIA STN"/>
+    <Stop Number="50585" Name="WB W 4 AVE FS MACDONALD STN"/>
   </Stops>
 
   <Routes>
