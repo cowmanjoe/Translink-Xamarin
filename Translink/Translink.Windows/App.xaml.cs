@@ -80,7 +80,7 @@ namespace Translink.Windows
                 // parameter
                 if (!rootFrame.Navigate(typeof(MainPage), e.Arguments))
                 {
-                    throw new Exception("Failed to create initial page");
+                    throw new System.Exception("Failed to create initial page");
                 }
             }
 

@@ -4,11 +4,10 @@
              x:Class="Translink.Pages.FavouriteStopsPage"
              xmlns:d="clr-namespace:Translink.Pages;assembly=Translink.Pages">
   <StackLayout>
-    <Button Text="Test Button"/>
     <ListView ItemsSource="{Binding StopList}">
       <ListView.ItemTemplate>
         <DataTemplate>
-          <TextCell Text="{Binding Name}" Detail="Test Detail"/>
+          <TextCell Text="{Binding Name}" Detail="{Binding Number}"/>
         </DataTemplate>
       </ListView.ItemTemplate>
     </ListView>

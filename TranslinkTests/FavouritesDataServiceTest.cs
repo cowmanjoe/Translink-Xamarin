@@ -35,9 +35,9 @@ namespace TranslinkTests
             }
 
             List<StopInfo> expectedStopInfos = new List<StopInfo>();
-            StopInfo s1 = new StopInfo { Number = 50586, Name = "WB W 4 AVE FS BAYSWATER STN" };
-            StopInfo s2 = new StopInfo { Number = 60980, Name = "SB GRANVILLE ST NS W GEORGIA STN" };
-            StopInfo s3 = new StopInfo { Number = 50585, Name = "WB W 4 AVE FS MACDONALD STN" };
+            StopInfo s1 = new StopInfo(50586, "WB W 4 AVE FS BAYSWATER STN");
+            StopInfo s2 = new StopInfo(60980, "SB GRANVILLE ST NS W GEORGIA STN");
+            StopInfo s3 = new StopInfo(50585, "WB W 4 AVE FS MACDONALD STN");
             expectedStopInfos.Add(s1);
             expectedStopInfos.Add(s2);
             expectedStopInfos.Add(s3);

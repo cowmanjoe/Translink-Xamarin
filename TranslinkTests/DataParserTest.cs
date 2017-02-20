@@ -127,10 +127,10 @@ namespace TranslinkTests
                 actualStopInfo = DataParser.ParseStopInfo(sr.BaseStream);
             }
 
-            StopInfo expectedStopInfo = new StopInfo();
-
-            expectedStopInfo.Number = 55612;
-            expectedStopInfo.Name = "SURREY CENTRAL STN BAY 4";
+            int number = 55612;
+            string name = "SURREY CENTRAL STN BAY 4";
+            StopInfo expectedStopInfo = new StopInfo(number, name);
+            
             expectedStopInfo.BayNumber = 4;
             expectedStopInfo.OnStreet = "SURREY CENTRAL STN";
             expectedStopInfo.AtStreet = "BAY 4";
@@ -153,10 +153,8 @@ namespace TranslinkTests
             {
                 actualStopInfos = DataParser.ParseStopsInfo(sr.BaseStream);
             }
-
-            StopInfo stop1 = new StopInfo();
-            stop1.Number = 51516;
-            stop1.Name = "EB W KING EDWARD AVE FS MANITOBA ST";
+            
+            StopInfo stop1 = new StopInfo(51516, "EB W KING EDWARD AVE FS MANITOBA ST"); 
             stop1.BayNumber = -1;
             stop1.OnStreet = "W KING EDWARD AVE";
             stop1.AtStreet = "MANITOBA ST";
@@ -165,9 +163,7 @@ namespace TranslinkTests
             stop1.Routes = new List<string>();
             stop1.Routes.Add("025");
 
-            StopInfo stop2 = new StopInfo();
-            stop2.Number = 51573;
-            stop2.Name = "WB W KING EDWARD AVE FS COLUMBIA ST";
+            StopInfo stop2 = new StopInfo(51573, "WB W KING EDWARD AVE FS COLUMBIA ST");
             stop2.BayNumber = -1;
             stop2.OnStreet = "W KING EDWARD AVE";
             stop2.AtStreet = "COLUMBIA ST";

@@ -36,6 +36,7 @@ namespace Translink.Services
             }
             else
             {
+                //TODO: change to a blank favourites page
                 XElement favourites = new XElement("Favourites");
                 XElement stops = new XElement("Stops");
                 XElement routes = new XElement("Routes");
@@ -51,7 +52,7 @@ namespace Translink.Services
 
                 await fileService.SaveTextAsync("Favourites.xml", favourites.ToString());
 
-                return new List<StopInfo>();  
+                return await GetFavouriteStopInfos();   
             }
         }
 
@@ -65,9 +66,9 @@ namespace Translink.Services
 
             foreach (var stopElement in stopContainer)
             {
-                StopInfo stopInfo = new StopInfo();
-                stopInfo.Number = Convert.ToInt32(stopElement.Attribute("Number").Value);
-                stopInfo.Name = stopElement.Attribute("Name").Value;
+                int number = Convert.ToInt32(stopElement.Attribute("Number").Value);
+                string name = stopElement.Attribute("Name").Value;
+                StopInfo stopInfo = new StopInfo(number, name);
                 stopInfos.Add(stopInfo);
             }
 

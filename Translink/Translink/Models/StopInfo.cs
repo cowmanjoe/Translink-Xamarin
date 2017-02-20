@@ -10,8 +10,8 @@ namespace Translink
     [ImplementPropertyChanged]
     public class StopInfo
     {
-        public int Number;
-        public string Name;
+        public int Number { get; }
+        public string Name { get; }
         public int BayNumber;
         public string OnStreet;
         public string AtStreet;
@@ -19,10 +19,7 @@ namespace Translink
         public double Longitude;
         public List<string> Routes;
 
-        public StopInfo()
-        {
-            Routes = new List<string>(); 
-        }
+     
 
         public StopInfo(int number, string name)
         {
