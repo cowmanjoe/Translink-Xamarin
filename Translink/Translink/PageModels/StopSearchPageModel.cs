@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Translink.Exception;
 using Translink.Services;
 using Xamarin.Forms;
 
@@ -46,25 +47,41 @@ namespace Translink.PageModels
                 return new Command(async () =>
                 {
                     IsBusy = true; 
-                    List<Departure> departureList;  
-                    if (RouteToggled)
+                    List<Departure> departureList;
+                    try
                     {
-                        await mDataService.SearchDepartures(StopNumber, RouteNumber);
-                        departureList = mDataService.GetDepartures(); 
+                        if (RouteToggled)
+                        {
+                            await mDataService.SearchDepartures(StopNumber, RouteNumber);
+                            departureList = mDataService.GetDepartures();
+                        }
+                        else
+                        {
+                            await mDataService.SearchDepartures(StopNumber);
+                            departureList = mDataService.GetDepartures();
+                        }
 
-                        
+                        DepartureList.Clear();
+                        foreach (Departure d in departureList)
+                        {
+                            DepartureList.Add(d);
+                            Debug.WriteLine("Departure added: " + d.AsString);
+                        }
                     }
-                    else
+                    catch (InvalidStopException e)
                     {
-                        await mDataService.SearchDepartures(StopNumber); 
-                        departureList = mDataService.GetDepartures();
+                        Alert alert = new Alert("Invalid Stop", e.Message, "OK");
+                        MessagingCenter.Send<StopSearchPageModel, Alert>(this, "Display Alert", alert);
                     }
-
-                    DepartureList.Clear(); 
-                    foreach(Departure d in departureList)
+                    catch (TranslinkAPIErrorException e)
                     {
-                        DepartureList.Add(d); 
-                        Debug.WriteLine("Departure added: " + d.AsString); 
+                        Alert alert = new Alert("API Error", "An error occurred in the Translink API.", "OK");
+                        MessagingCenter.Send<StopSearchPageModel, Alert>(this, "Display Alert", alert);
+                    }
+                    catch (System.Exception e)
+                    {
+                        Alert alert = new Alert("Error", "Something went wrong with that request.", "OK");
+                        MessagingCenter.Send<StopSearchPageModel, Alert>(this, "Display Alert", alert); 
                     }
 
                     IsBusy = false; 

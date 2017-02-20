@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Translink.PageModels;
 using Xamarin.Forms;
 
 namespace Translink.Pages
@@ -12,6 +12,7 @@ namespace Translink.Pages
     {
         public RouteListPage()
         {
+            MessagingCenter.Subscribe<RouteListPageModel, Alert>(this, "Display Alert", async (pageModel, alert) => await DisplayAlert(alert));
             InitializeComponent();
         }
     }

@@ -84,6 +84,7 @@ namespace Translink
         public static StopInfo ParseStopInfo(Stream stream)
         {
             XDocument xDoc = XDocument.Load(stream);
+            CheckStopInfoForErrors(xDoc); 
             return ParseStopInfo(xDoc.Root);
         }
 
@@ -162,6 +163,27 @@ namespace Translink
 
 
             return stopInfo;
+        }
+
+        private static void CheckStopInfoForErrors(XDocument xml)
+        {
+
+            if (xml.Root.Name == "Error")
+            {
+                string errorCode = xml.Root.Element("Code").Value;
+                if (errorCode == "1001")
+                {
+                    throw new InvalidStopException("Stop must be a valid 5 digit number.");
+                }
+                else if (errorCode == "1002")
+                {
+                    throw new InvalidStopException("Stop not found.");
+                }
+                else
+                {
+                    throw new TranslinkAPIErrorException(Convert.ToInt32(errorCode));
+                }
+            }
         }
     }
 }
