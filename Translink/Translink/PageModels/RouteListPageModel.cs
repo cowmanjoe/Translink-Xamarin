@@ -22,8 +22,11 @@ namespace Translink.PageModels
             get { return null; }
             set
             {
-                CoreMethods.PushPageModel<RoutePageModel>(value);
-                RaisePropertyChanged();
+                if (value != null)
+                {
+                    CoreMethods.PushPageModel<RoutePageModel>(value);
+                    RaisePropertyChanged();
+                }
             }
         }
 
@@ -43,7 +46,7 @@ namespace Translink.PageModels
         {
             base.Init(initData);
             RouteList = new ObservableCollection<Route>();
-            IsBusy = false; 
+            IsBusy = false;
         }
 
         public Command RefreshRoutes

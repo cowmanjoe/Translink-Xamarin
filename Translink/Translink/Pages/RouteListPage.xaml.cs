@@ -15,5 +15,11 @@ namespace Translink.Pages
             MessagingCenter.Subscribe<RouteListPageModel, Alert>(this, "Display Alert", async (pageModel, alert) => await DisplayAlert(alert));
             InitializeComponent();
         }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            RouteListView.SelectedItem = null; 
+        }
     }
 }

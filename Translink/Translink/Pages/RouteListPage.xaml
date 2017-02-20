@@ -10,7 +10,7 @@
         HorizontalOptions="Fill"
         Command="{Binding RefreshRoutes}"
         Text="Refresh"/>
-      <ListView ItemsSource="{Binding RouteList}" SelectedItem="{Binding SelectedRoute}">
+      <ListView x:Name ="RouteListView" ItemsSource="{Binding RouteList}" SelectedItem="{Binding SelectedRoute}">
         <ListView.ItemTemplate>
           <DataTemplate>
             <TextCell Text="{Binding NumberAndDirection}" Detail="{Binding StopName}"/>
