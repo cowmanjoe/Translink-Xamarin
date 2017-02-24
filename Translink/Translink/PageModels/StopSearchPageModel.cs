@@ -73,17 +73,17 @@ namespace Translink.PageModels
                     catch (InvalidStopException e)
                     {
                         Alert alert = new Alert("Invalid Stop", e.Message, "OK");
-                        MessagingCenter.Send<StopSearchPageModel, Alert>(this, "Display Alert", alert);
+                        MessagingCenter.Send(this, "Display Alert", alert);
                     }
                     catch (TranslinkAPIErrorException e)
                     {
                         Alert alert = new Alert("API Error", "An error occurred in the Translink API.", "OK");
-                        MessagingCenter.Send<StopSearchPageModel, Alert>(this, "Display Alert", alert);
+                        MessagingCenter.Send(this, "Display Alert", alert);
                     }
                     catch (System.Exception e)
                     {
                         Alert alert = new Alert("Error", "Something went wrong with that request.", "OK");
-                        MessagingCenter.Send<StopSearchPageModel, Alert>(this, "Display Alert", alert); 
+                        MessagingCenter.Send(this, "Display Alert", alert); 
                     }
 
                     IsBusy = false; 
@@ -132,8 +132,26 @@ namespace Translink.PageModels
             {
                 return new Command(async () =>
                {
-                   StopInfo stopInfo = await mStopDataService.FetchStopInfo(StopNumber);
-                   await mFavouritesDataService.AddFavouriteStop(stopInfo);
+                   try
+                   {
+                       StopInfo stopInfo = await mStopDataService.FetchStopInfo(StopNumber);
+                       await mFavouritesDataService.AddFavouriteStop(stopInfo);
+                   }
+                   catch (InvalidStopException e)
+                   {
+                       Alert alert = new Alert("Invalid Stop", e.Message, "OK");
+                       MessagingCenter.Send(this, "Display Alert", alert);
+                   }
+                   catch (TranslinkAPIErrorException e)
+                   {
+                       Alert alert = new Alert("API Error", "An error occurred in the Translink API.", "OK");
+                       MessagingCenter.Send(this, "Display Alert", alert);
+                   }
+                   catch (System.Exception e)
+                   {
+                       Alert alert = new Alert("Error", "Something went wrong with that request.", "OK");
+                       MessagingCenter.Send(this, "Display Alert", alert);
+                   }
                });
             }
         }

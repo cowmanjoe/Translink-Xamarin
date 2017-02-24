@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Translink.Services;
+using Xamarin.Forms;
 
 namespace Translink.PageModels
 {
@@ -34,6 +35,17 @@ namespace Translink.PageModels
             foreach (StopInfo si in stopList)
             {
                 StopList.Add(si);
+            }
+        }
+
+        public Command ClearFavouriteStops
+        {
+            get
+            {
+                return new Command(async () => {
+                    await mDataService.ClearFavouriteStops();
+                    StopList.Clear(); 
+                    }); 
             }
         }
     }

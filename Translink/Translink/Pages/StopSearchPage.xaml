@@ -6,7 +6,11 @@
   <RelativeLayout>
     <StackLayout VerticalOptions="Start">
       <Label Text="Stop Number:" HorizontalOptions="Start" />
-      <Entry Text="{Binding StopNumber}" HorizontalTextAlignment="Start" Keyboard="Numeric" />
+      <StackLayout Orientation="Horizontal">
+        <Entry Text="{Binding StopNumber}" x:Name="StopEntry" HorizontalTextAlignment="Start" HorizontalOptions="FillAndExpand" Keyboard="Numeric" />
+        <Button Text="Favourite" Command="{Binding AddStopToFavourites}"/>
+      </StackLayout>
+
       <Label Text="Route Number:" HorizontalOptions="Start"/>
       <StackLayout Orientation="Horizontal">
         <Switch IsToggled="{Binding RouteToggled}" HorizontalOptions="Start"/>
@@ -49,15 +53,6 @@
         Property=Height,
         Factor=0.33}"/>
 
-    <Button
-      Text="Favourite"
-      RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, 
-        Property=Width, 
-        Factor=0.8}"
-      RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, 
-        Property=Height,
-        Factor=0,
-        Constant=10}"
-      Command="{Binding AddStopToFavourites}"/>
+    
   </RelativeLayout>
 </d:BasePage>

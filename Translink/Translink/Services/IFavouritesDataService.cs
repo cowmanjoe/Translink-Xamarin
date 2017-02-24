@@ -19,5 +19,9 @@ namespace Translink.Services
         Task RemoveFavouriteStop(int stopNumber);
 
         Task RemoveFavouriteRoute(string routeNumber);
+
+        Task ClearFavouriteStops();
+
+        Task ClearFavouriteRoutes(); 
     }
 }

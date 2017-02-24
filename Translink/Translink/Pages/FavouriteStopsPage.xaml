@@ -4,6 +4,7 @@
              x:Class="Translink.Pages.FavouriteStopsPage"
              xmlns:d="clr-namespace:Translink.Pages;assembly=Translink.Pages">
   <StackLayout>
+    <Button Text="Clear Favourite Stops" Command="{Binding ClearFavouriteStops}"/>
     <ListView ItemsSource="{Binding StopList}">
       <ListView.ItemTemplate>
         <DataTemplate>

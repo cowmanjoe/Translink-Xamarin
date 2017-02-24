@@ -61,13 +61,25 @@ namespace Translink.Services
             string text = await fileService.LoadTextAsync("Favourites.xml");
             using (Stream stream = GenerateStreamFromString(text))
             {
-                XDocument xDoc = new XDocument(stream);
-                XElement stops = xDoc.Root.Element("Stops");
-                XElement newStop = new XElement("Stop");
-                newStop.SetAttributeValue("Number", stopInfo.Number);
-                newStop.SetAttributeValue("Name", stopInfo.Name);
-                stops.Add(newStop); 
-                await fileService.SaveTextAsync("Favourites.xml", xDoc.ToString());
+                XDocument xDoc = XDocument.Load(stream); 
+                XElement stopsObj = xDoc.Root.Element("Stops");
+                var stops = stopsObj.Descendants();
+
+                bool alreadyAdded = false; 
+                foreach (var s in stops)
+                {
+                    if (Convert.ToInt32(s.Attribute("Number").Value) == stopInfo.Number)
+                        alreadyAdded = true; 
+                }
+                if (!alreadyAdded)
+                {
+                    XElement newStop = new XElement("Stop");
+                    newStop.SetAttributeValue("Number", stopInfo.Number);
+                    newStop.SetAttributeValue("Name", stopInfo.Name);
+
+                    stopsObj.Add(newStop); 
+                    await fileService.SaveTextAsync("Favourites.xml", xDoc.ToString());
+                }
             }
         }
 
@@ -87,7 +99,7 @@ namespace Translink.Services
             string text = await fileService.LoadTextAsync("Favourites.xml");
             using (Stream stream = GenerateStreamFromString(text))
             {
-                XDocument xDoc = new XDocument(stream);
+                XDocument xDoc = XDocument.Load(stream); 
                 XElement stops = xDoc.Root.Element("Stops");
                 var stopContainer = xDoc.Descendants("Stop"); 
 
@@ -102,6 +114,30 @@ namespace Translink.Services
                 }
             }
             throw new ArgumentException("Stop #" + stopNumber + " not found in favourites.");
+        }
+
+        public async Task ClearFavouriteStops()
+        {
+            ISaveAndLoadService fileService = DependencyService.Get<ISaveAndLoadService>();
+            if (fileService.FileExists("Favourites.xml"))
+            {
+                string text = await fileService.LoadTextAsync("Favourites.xml");
+                using (Stream stream = GenerateStreamFromString(text))
+                {
+                    XDocument xDoc = XDocument.Load(stream);
+                    XElement stopsObj = xDoc.Root.Element("Stops");
+                    stopsObj.Remove();
+                    XElement newStopsObj = new XElement("Stops");
+                    xDoc.Root.Add(newStopsObj);
+
+                    await fileService.SaveTextAsync("Favourites.xml", xDoc.ToString()); 
+                }
+            }
+        }
+
+        public Task ClearFavouriteRoutes()
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -147,5 +183,7 @@ namespace Translink.Services
             stream.Position = 0;
             return stream; 
         }
+
+        
     }
 }
