@@ -3,5 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Translink.Pages.FavouriteRoutesPage"
              xmlns:d="clr-namespace:Translink.Pages;assembly=Translink.Pages">
-  <Label Text="Favourite routes listed here!"/>
+  <StackLayout>
+    <Button Text="Clear Favourite Routes" Command="{Binding ClearFavouriteRoutes}"/>
+    <ListView ItemsSource="{Binding RouteList}">
+    </ListView>
+  </StackLayout>
 </d:BasePage>

@@ -45,6 +45,36 @@ namespace TranslinkTests
             Assert.IsTrue(ListEquals<StopInfo>(expectedStopInfos, actualStopInfos)); 
         }
 
+        [TestMethod]
+        public void ParseFavouriteRouteNumbers_Empty()
+        {
+            FavouritesDataService dataService = new FavouritesDataService();
+            List<string> actualRoutes;
+            using (StreamReader sr = new StreamReader(resourcePath + "NoRouteFavourites.xml"))
+            {
+                actualRoutes = dataService.ParseFavouriteRouteNumbers(sr.BaseStream); 
+            }
+
+            Assert.AreEqual(0, actualRoutes.Count); 
+        }
+
+        [TestMethod]
+        public void ParseFavouriteRouteNumbers_2Entries()
+        {
+            FavouritesDataService dataService = new FavouritesDataService();
+            List<string> actualRoutes;
+            using (StreamReader sr = new StreamReader(resourcePath + "Favourites1.xml"))
+            {
+                actualRoutes = dataService.ParseFavouriteRouteNumbers(sr.BaseStream);
+            }
+
+            List<string> expectedRoutes = new List<string>();
+            expectedRoutes.Add("004");
+            expectedRoutes.Add("C18"); 
+
+            Assert.IsTrue(ListEquals(expectedRoutes, actualRoutes)); 
+        }
+
         private bool ListEquals<T>(List<T> list1, List<T> list2)
         {
             if (list1.Count != list2.Count)

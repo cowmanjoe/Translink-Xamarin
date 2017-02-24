@@ -114,6 +114,7 @@ namespace Translink
 
             int stopNo = Convert.ToInt32(stopElement.Element("StopNo").Value);
             string name = stopElement.Element("Name").Value;
+            name = name.Trim(); 
             StopInfo stopInfo = new StopInfo(stopNo, name); 
 
             string bayNo = stopElement.Element("BayNo").Value;

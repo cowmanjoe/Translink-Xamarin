@@ -14,12 +14,30 @@ namespace Translink.Services
 {
     public class FavouritesDataService : IFavouritesDataService
     {
-        
-        #region IFavouritesDataService Implmentation
+        #region IFavouritesDataService Implementation
 
         public async Task<List<string>> GetFavouriteRouteNumbers()
         {
-            throw new NotImplementedException(); 
+            ISaveAndLoadService fileService = DependencyService.Get<ISaveAndLoadService>();
+
+            if (fileService.FileExists("Favourites.xml"))
+            {
+                string text = await fileService.LoadTextAsync("Favourites.xml");
+
+                List<string> routeNumbers;
+                using (Stream stream = GenerateStreamFromString(text))
+                {
+                    routeNumbers = ParseFavouriteRouteNumbers(stream);
+                }
+
+                return routeNumbers;
+            }
+            else
+            {
+                await CreateNewFavouritesFile(fileService);
+
+                return await GetFavouriteRouteNumbers();
+            }
         }
 
         public async Task<List<StopInfo>> GetFavouriteStopInfos()
@@ -47,7 +65,30 @@ namespace Translink.Services
 
         public async Task AddFavouriteRoute(string routeNumber)
         {
-            throw new NotImplementedException();
+            ISaveAndLoadService fileService = DependencyService.Get<ISaveAndLoadService>();
+            if (!fileService.FileExists("Favourites.xml"))
+            {
+                await CreateNewFavouritesFile(fileService);
+            }
+
+            string text = await fileService.LoadTextAsync("Favourites.xml");
+            using (Stream stream = GenerateStreamFromString(text))
+            {
+                XDocument xDoc = XDocument.Load(stream);
+                XElement routesElement = xDoc.Root.Element("Routes");
+                var routes = routesElement.Descendants("Route");
+
+                foreach (var r in routes)
+                {
+                    if (r.Attribute("Number").Value == routeNumber)
+                        return;
+                }
+                XElement newRoute = new XElement("Route");
+                newRoute.SetAttributeValue("Number", routeNumber);
+
+                routesElement.Add(newRoute);
+                await fileService.SaveTextAsync("Favourites.xml", xDoc.ToString());
+            }
         }
 
         public async Task AddFavouriteStop(StopInfo stopInfo)
@@ -62,30 +103,50 @@ namespace Translink.Services
             using (Stream stream = GenerateStreamFromString(text))
             {
                 XDocument xDoc = XDocument.Load(stream); 
-                XElement stopsObj = xDoc.Root.Element("Stops");
-                var stops = stopsObj.Descendants();
-
-                bool alreadyAdded = false; 
+                XElement stopsElement = xDoc.Root.Element("Stops");
+                var stops = stopsElement.Descendants();
+                
                 foreach (var s in stops)
                 {
                     if (Convert.ToInt32(s.Attribute("Number").Value) == stopInfo.Number)
-                        alreadyAdded = true; 
+                        return; 
                 }
-                if (!alreadyAdded)
-                {
-                    XElement newStop = new XElement("Stop");
-                    newStop.SetAttributeValue("Number", stopInfo.Number);
-                    newStop.SetAttributeValue("Name", stopInfo.Name);
+                XElement newStop = new XElement("Stop");
+                newStop.SetAttributeValue("Number", stopInfo.Number);
+                newStop.SetAttributeValue("Name", stopInfo.Name);
 
-                    stopsObj.Add(newStop); 
-                    await fileService.SaveTextAsync("Favourites.xml", xDoc.ToString());
-                }
+                stopsElement.Add(newStop); 
+                await fileService.SaveTextAsync("Favourites.xml", xDoc.ToString());
+                
             }
         }
 
-        public Task RemoveFavouriteRoute(string routeNumber)
+        public async Task RemoveFavouriteRoute(string routeNumber)
         {
-            throw new NotImplementedException();
+            ISaveAndLoadService fileService = DependencyService.Get<ISaveAndLoadService>(); 
+            if (!fileService.FileExists("Favourites.xml"))
+            {
+                throw new ArgumentException("No Favourites.xml file exits yet, so there are no favourites to remove.");
+            }
+
+            string text = await fileService.LoadTextAsync("Favourites.xml");
+            using (Stream stream = GenerateStreamFromString(text))
+            {
+                XDocument xDoc = XDocument.Load(stream);
+                XElement routesElement = xDoc.Root.Element("Routes");
+                var routes = routesElement.Descendants("Route"); 
+
+                foreach(var r in routes)
+                {
+                    if (Util.RouteEquals(r.Attribute("Number").Value, routeNumber))
+                    {
+                        r.Remove();
+                        await fileService.SaveTextAsync("Favourites.xml", xDoc.ToString());
+                        return; 
+                    }
+                }
+            }
+            throw new ArgumentException("Route " + routeNumber + " not found in favourites."); 
         }
 
         public async Task RemoveFavouriteStop(int stopNumber)
@@ -125,19 +186,33 @@ namespace Translink.Services
                 using (Stream stream = GenerateStreamFromString(text))
                 {
                     XDocument xDoc = XDocument.Load(stream);
-                    XElement stopsObj = xDoc.Root.Element("Stops");
-                    stopsObj.Remove();
-                    XElement newStopsObj = new XElement("Stops");
-                    xDoc.Root.Add(newStopsObj);
+                    XElement stopsElement = xDoc.Root.Element("Stops");
+                    stopsElement.Remove();
+                    XElement newStopsElement = new XElement("Stops");
+                    xDoc.Root.Add(newStopsElement);
 
                     await fileService.SaveTextAsync("Favourites.xml", xDoc.ToString()); 
                 }
             }
         }
 
-        public Task ClearFavouriteRoutes()
+        public async Task ClearFavouriteRoutes()
         {
-            throw new NotImplementedException();
+            ISaveAndLoadService fileService = DependencyService.Get<ISaveAndLoadService>();
+            if (fileService.FileExists("Favourites.xml"))
+            {
+                string text = await fileService.LoadTextAsync("Favourites.xml");
+                using (Stream stream = GenerateStreamFromString(text))
+                {
+                    XDocument xDoc = XDocument.Load(stream);
+                    XElement routesElement = xDoc.Root.Element("Routes");
+                    routesElement.Remove();
+                    XElement newRoutesElement = new XElement("Routes");
+                    xDoc.Root.Add(newRoutesElement);
+
+                    await fileService.SaveTextAsync("Favourites.xml", xDoc.ToString());
+                }
+            }
         }
 
         #endregion
@@ -160,6 +235,24 @@ namespace Translink.Services
             }
 
             return stopInfos;
+        }
+
+        // TODO: make private (public for testing)
+        public List<string> ParseFavouriteRouteNumbers(Stream stream)
+        {
+            List<string> routeNumbers = new List<string>();
+
+            XDocument xDoc = XDocument.Load(stream);
+            var routesElement = xDoc.Root.Element("Routes");
+            var routeContainer = routesElement.Descendants("Route");
+
+            foreach (var r in routeContainer)
+            {
+                string routeNumber = r.Attribute("Number").Value;
+                routeNumbers.Add(routeNumber);
+            }
+
+            return routeNumbers;
         }
 
         async Task CreateNewFavouritesFile(ISaveAndLoadService fileService)

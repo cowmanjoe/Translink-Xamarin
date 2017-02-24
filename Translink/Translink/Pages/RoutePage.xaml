@@ -5,6 +5,7 @@
              x:Class="Translink.Pages.RoutePage">
   <RelativeLayout>
     <StackLayout>
+      <Button Text="Favourite" Command="{Binding AddToFavourites}"/>
       <Label Text="{Binding Route.NumberAndDirection}"/>
       <Label Text="{Binding Route.StopName}"/>
       <Label Text="Departures:"/>

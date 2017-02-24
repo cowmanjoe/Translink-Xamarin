@@ -47,11 +47,7 @@ namespace Translink
 
             return Number == s.Number &&
                 Name == s.Name &&
-                BayNumber == s.BayNumber &&
-                OnStreet == s.OnStreet &&
-                AtStreet == s.AtStreet &&
-                Latitude.Equals(s.Latitude) &&
-                Longitude.Equals(s.Longitude);
+                BayNumber == s.BayNumber;
         }
         public override int GetHashCode()
         {
