@@ -16,7 +16,7 @@ namespace Translink.Services
     {
         #region IFavouritesDataService Implementation
 
-        public async Task<List<string>> GetFavouriteRouteNumbers()
+        public async Task<List<string>> GetFavouriteRoutesAndDirections()
         {
             ISaveAndLoadService fileService = DependencyService.Get<ISaveAndLoadService>();
 
@@ -36,7 +36,7 @@ namespace Translink.Services
             {
                 await CreateNewFavouritesFile(fileService);
 
-                return await GetFavouriteRouteNumbers();
+                return await GetFavouriteRoutesAndDirections();
             }
         }
 
@@ -63,7 +63,7 @@ namespace Translink.Services
             }
         }
 
-        public async Task AddFavouriteRoute(string routeNumber)
+        public async Task AddFavouriteRoute(string routeNumber, string direction)
         {
             ISaveAndLoadService fileService = DependencyService.Get<ISaveAndLoadService>();
             if (!fileService.FileExists("Favourites.xml"))
@@ -80,11 +80,13 @@ namespace Translink.Services
 
                 foreach (var r in routes)
                 {
-                    if (r.Attribute("Number").Value == routeNumber)
+                    if (Util.RouteEquals(r.Attribute("Number").Value, routeNumber) &&
+                        r.Attribute("Direction").Value == direction)
                         return;
                 }
                 XElement newRoute = new XElement("Route");
                 newRoute.SetAttributeValue("Number", routeNumber);
+                newRoute.SetAttributeValue("Direction", direction);
 
                 routesElement.Add(newRoute);
                 await fileService.SaveTextAsync("Favourites.xml", xDoc.ToString());
@@ -121,7 +123,7 @@ namespace Translink.Services
             }
         }
 
-        public async Task RemoveFavouriteRoute(string routeNumber)
+        public async Task RemoveFavouriteRoute(string routeNumber, string direction)
         {
             ISaveAndLoadService fileService = DependencyService.Get<ISaveAndLoadService>(); 
             if (!fileService.FileExists("Favourites.xml"))
@@ -138,7 +140,8 @@ namespace Translink.Services
 
                 foreach(var r in routes)
                 {
-                    if (Util.RouteEquals(r.Attribute("Number").Value, routeNumber))
+                    if (Util.RouteEquals(r.Attribute("Number").Value, routeNumber) &&
+                        r.Attribute("Direction").Value == direction)
                     {
                         r.Remove();
                         await fileService.SaveTextAsync("Favourites.xml", xDoc.ToString());
@@ -146,7 +149,7 @@ namespace Translink.Services
                     }
                 }
             }
-            throw new ArgumentException("Route " + routeNumber + " not found in favourites."); 
+            throw new ArgumentException("Route " + routeNumber + " " + direction + "BOUND not found in favourites."); 
         }
 
         public async Task RemoveFavouriteStop(int stopNumber)
@@ -249,7 +252,9 @@ namespace Translink.Services
             foreach (var r in routeContainer)
             {
                 string routeNumber = r.Attribute("Number").Value;
-                routeNumbers.Add(routeNumber);
+                string direction = r.Attribute("Direction").Value; 
+                
+                routeNumbers.Add(routeNumber + ":" + direction);
             }
 
             return routeNumbers;

@@ -6,6 +6,11 @@
   <StackLayout>
     <Button Text="Clear Favourite Routes" Command="{Binding ClearFavouriteRoutes}"/>
     <ListView ItemsSource="{Binding RouteList}">
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <TextCell Text="{Binding RouteNumber}" Detail="{Binding Direction}"/>
+        </DataTemplate>
+      </ListView.ItemTemplate>
     </ListView>
   </StackLayout>
 </d:BasePage>

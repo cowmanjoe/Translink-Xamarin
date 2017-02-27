@@ -1,4 +1,5 @@
 TODO:  
+- Implement pages that appear when a favourite stop/route is selected
 - Get rid of StopInfo and just use Stop class
 - Make ActivityIndicator properly centered in pages
 - Figure out ways to minimize usage of xaml.cs classes e.g. removal of definition of OnAppearing() in RouteListPage.xaml.cs

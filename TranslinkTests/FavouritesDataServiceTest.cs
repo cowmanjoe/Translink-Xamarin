@@ -69,8 +69,8 @@ namespace TranslinkTests
             }
 
             List<string> expectedRoutes = new List<string>();
-            expectedRoutes.Add("004");
-            expectedRoutes.Add("C18"); 
+            expectedRoutes.Add("004:WEST");
+            expectedRoutes.Add("C18:SOUTH"); 
 
             Assert.IsTrue(ListEquals(expectedRoutes, actualRoutes)); 
         }

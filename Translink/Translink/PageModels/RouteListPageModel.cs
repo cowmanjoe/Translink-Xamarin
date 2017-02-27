@@ -62,12 +62,11 @@ namespace Translink.PageModels
                     {
                         RouteList.Add(r); 
                     }
-
-                    await DependencyService.Get<ISaveAndLoadService>().SaveTextAsync("temp.txt", "Refresh button pressed!");
-
                     IsBusy = false; 
                 }); 
             }
         }
+
+        
     }
 }

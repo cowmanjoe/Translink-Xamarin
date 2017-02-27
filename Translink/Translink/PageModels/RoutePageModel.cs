@@ -35,7 +35,7 @@ namespace Translink.PageModels
             {
                 return new Command(async () =>
                 {
-                    await mFavouritesDataService.AddFavouriteRoute(Route.Number);
+                    await mFavouritesDataService.AddFavouriteRoute(Route.Number, Route.Direction);
                 });
             }
         }
