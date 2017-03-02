@@ -5,7 +5,7 @@
              xmlns:d="clr-namespace:Translink.Pages;assembly=Translink.Pages">
   <StackLayout>
     <Button Text="Clear Favourite Routes" Command="{Binding ClearFavouriteRoutes}"/>
-    <ListView ItemsSource="{Binding RouteList}">
+    <ListView ItemsSource="{Binding RouteList}" SelectedItem="{Binding SelectedRouteDirection}">
       <ListView.ItemTemplate>
         <DataTemplate>
           <TextCell Text="{Binding RouteNumber}" Detail="{Binding Direction}"/>

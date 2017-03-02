@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<d:BasePage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="clr-namespace:Translink.Pages;assembly=Translink.Pages"
+             x:Class="Translink.Pages.FavouriteRoutePage">
+    <StackLayout>
+        <Label Text="{Binding NumberAndDirection}"/>
+        <Label Text="{Binding Route.StopName}" IsVisible="{Binding StopsAvailable}"/>
+        <Label Text="Departures:" IsVisible="{Binding StopsAvailable}"/>
+
+        <ListView 
+            ItemsSource="{Binding Route.Departures}"
+            HorizontalOptions="Fill" 
+            IsVisible="{Binding StopsAvailable}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding AsString}"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Label Text="No stops were found for the given route and direction" IsVisible="{Binding StopsNotAvailable}"/>
+
+    </StackLayout>
+    
+</d:BasePage>

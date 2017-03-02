@@ -17,6 +17,19 @@ namespace Translink.PageModels
 
         public ObservableCollection<RouteDirection> RouteList { get; set; }
 
+        public RouteDirection SelectedRouteDirection
+        {
+            get
+            {
+                return null; 
+            }
+            set
+            {
+                CoreMethods.PushPageModel<FavouriteRoutePageModel>(value);
+                RaisePropertyChanged(); 
+            }
+        }
+
         public FavouriteRoutesPageModel(IFavouritesDataService dataService)
         {
             mDataService = dataService;
