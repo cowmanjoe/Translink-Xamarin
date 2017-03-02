@@ -14,5 +14,11 @@ namespace Translink.Pages
         {
             InitializeComponent();
         }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            MessagingCenter.Send(this, "On Appearing"); 
+        }
     }
 }

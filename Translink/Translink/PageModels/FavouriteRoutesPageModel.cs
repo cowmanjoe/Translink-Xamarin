@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Translink.Services;
 using Xamarin.Forms;
+using Translink.Pages; 
 
 namespace Translink.PageModels
 {
@@ -34,12 +35,19 @@ namespace Translink.PageModels
         {
             mDataService = dataService;
             RouteList = new ObservableCollection<RouteDirection>();
+            MessagingCenter.Subscribe<FavouriteRoutesPage>(
+                this,
+                "On Appearing",
+                async (page) => await RefreshRouteList());
         }
 
         public async override void Init(object initData)
         {
             base.Init(initData);
+            
+
             await RefreshRouteList();
+            
         }
 
         async Task RefreshRouteList()

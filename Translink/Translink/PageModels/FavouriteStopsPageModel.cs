@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Translink.Pages;
 using Translink.Services;
 using Xamarin.Forms;
 
@@ -19,16 +20,20 @@ namespace Translink.PageModels
         public FavouriteStopsPageModel(IFavouritesDataService dataService)
         {
             mDataService = dataService;
-            StopList = new ObservableCollection<StopInfo>(); 
+            StopList = new ObservableCollection<StopInfo>();
+            MessagingCenter.Subscribe<FavouriteStopsPage>(
+                this,
+                "On Appearing",
+                async (page) => await RefreshStopList()); 
         }
 
         public async override void Init(object initData)
         {
             base.Init(initData);
-            await InitStopList();
+            await RefreshStopList();
         }
 
-        async Task InitStopList()
+        async Task RefreshStopList()
         {
             List<StopInfo> stopList = await mDataService.GetFavouriteStopInfos();
             StopList.Clear();
