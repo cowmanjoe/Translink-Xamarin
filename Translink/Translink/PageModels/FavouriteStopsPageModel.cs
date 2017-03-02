@@ -16,6 +16,16 @@ namespace Translink.PageModels
         private IFavouritesDataService mDataService;
 
         public ObservableCollection<StopInfo> StopList { get; set; }
+
+        public StopInfo SelectedStopInfo
+        {
+            get { return null; }
+            set
+            {
+                CoreMethods.PushPageModel<FavouriteStopPageModel>(value);
+                RaisePropertyChanged(); 
+            }
+        }
        
         public FavouriteStopsPageModel(IFavouritesDataService dataService)
         {

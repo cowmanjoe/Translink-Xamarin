@@ -43,6 +43,7 @@
     <Compile Include="PageModels\FavouriteRoutePageModel.cs" />
     <Compile Include="PageModels\FavouriteRoutesPageModel.cs" />
     <Compile Include="PageModels\FavouritesMenuPage.cs" />
+    <Compile Include="PageModels\FavouriteStopPageModel.cs" />
     <Compile Include="PageModels\FavouriteStopsPageModel.cs" />
     <Compile Include="Pages\BasePage.cs" />
     <Compile Include="Pages\FavouriteRoutePage.xaml.cs">
@@ -53,6 +54,9 @@
     </Compile>
     <Compile Include="Pages\FavouritesMenuPage.xaml.cs">
       <DependentUpon>FavouritesMenuPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\FavouriteStopPage.xaml.cs">
+      <DependentUpon>FavouriteStopPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\FavouriteStopsPage.xaml.cs">
       <DependentUpon>FavouriteStopsPage.xaml</DependentUpon>
@@ -191,6 +195,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Pages\FavouriteRoutePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\FavouriteStopPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
