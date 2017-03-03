@@ -8,16 +8,8 @@ namespace Translink.Services
 {
     public interface IStopDataService
     {
-        List<Departure> GetDepartures();
+        Task<StopInfo> FetchStopInfo(int stop);
 
-        Task SearchDepartures(int stop);
-
-        Task SearchDepartures(int stop, string route);
-
-        Task RefreshDepartures();
-
-        void ClearDepartures();
-
-        Task<StopInfo> FetchStopInfo(int stop); 
+        Task<Stop> FetchStopWithDepartures(int stop); 
     }
 }

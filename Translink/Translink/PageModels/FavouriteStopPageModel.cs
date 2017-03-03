@@ -10,7 +10,7 @@ namespace Translink.PageModels
 {
     public class FavouriteStopPageModel : FreshMvvm.FreshBasePageModel
     {
-        private IStopDataService mStopDataService;
+        private IDepartureDataService mStopDataService;
 
         public string StopName
         {
@@ -30,7 +30,7 @@ namespace Translink.PageModels
             private set; 
         }
 
-        public FavouriteStopPageModel(IStopDataService dataService)
+        public FavouriteStopPageModel(IDepartureDataService dataService)
         {
             mStopDataService = dataService; 
         }

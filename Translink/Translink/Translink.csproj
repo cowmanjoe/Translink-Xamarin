@@ -61,7 +61,7 @@
     <Compile Include="Pages\FavouriteStopsPage.xaml.cs">
       <DependentUpon>FavouriteStopsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Services\StopDataService.cs" />
+    <Compile Include="Services\DepartureDataService.cs" />
     <Compile Include="Exception\InvalidStopException.cs" />
     <Compile Include="Exception\TranslinkAPIErrorException.cs" />
     <Compile Include="Locator.cs" />
@@ -83,10 +83,12 @@
     <Compile Include="Services\FavouritesDataService.cs" />
     <Compile Include="Services\IFavouritesDataService.cs" />
     <Compile Include="Services\IRouteDataService.cs" />
-    <Compile Include="Services\IStopDataService.cs" />
+    <Compile Include="Services\IDepartureDataService.cs" />
     <Compile Include="Services\ISaveAndLoadService.cs" />
+    <Compile Include="Services\IStopDataService.cs" />
     <Compile Include="Services\RouteDataService.cs" />
     <Compile Include="Models\Stop.cs" />
+    <Compile Include="Services\StopDataService.cs" />
     <Compile Include="StopDataFetcher.cs" />
     <Compile Include="Models\StopInfo.cs" />
     <Compile Include="StopLocator.cs" />

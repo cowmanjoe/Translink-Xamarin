@@ -20,8 +20,9 @@ namespace Translink
         private void SetupIOC()
         {
             FreshMvvm.FreshIOC.Container.Register<IRouteDataService, RouteDataService>();
-            FreshMvvm.FreshIOC.Container.Register<IStopDataService, StopDataService>();
-            FreshMvvm.FreshIOC.Container.Register<IFavouritesDataService, FavouritesDataService>(); 
+            FreshMvvm.FreshIOC.Container.Register<IDepartureDataService, DepartureDataService>();
+            FreshMvvm.FreshIOC.Container.Register<IFavouritesDataService, FavouritesDataService>();
+            FreshMvvm.FreshIOC.Container.Register<IStopDataService, StopDataService>(); 
         }
         
         private void SetupTabbedNav()
