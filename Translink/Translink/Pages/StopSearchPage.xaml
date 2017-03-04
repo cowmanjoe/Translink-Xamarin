@@ -11,31 +11,23 @@
         <Button Text="Favourite" Command="{Binding AddStopToFavourites}"/>
       </StackLayout>
 
-      <Label Text="Route Number:" HorizontalOptions="Start"/>
-      <StackLayout Orientation="Horizontal">
-        <Switch IsToggled="{Binding RouteToggled}" HorizontalOptions="Start"/>
-        <Entry Text="{Binding RouteNumber}" HorizontalOptions="FillAndExpand" IsVisible="{Binding RouteToggled}" />
-      </StackLayout>
-
       <StackLayout Spacing="10" Orientation="Horizontal">
         <Button
           HorizontalOptions="FillAndExpand"
-          Text="Add"
-          Command="{Binding PushStopPage}"/>
+          Text="Search"
+          Command="{Binding SearchStop}"/>
         <Button
           HorizontalOptions="FillAndExpand"
           Text="Refresh"
-          Command="{Binding RefreshDepartures}"/>
-        <Button
-          HorizontalOptions="FillAndExpand"
-          Text="Clear"
-          Command="{Binding ClearDepartures}"/>
+          Command="{Binding RefreshStops}"/>
       </StackLayout>
 
-      <ListView ItemsSource="{Binding DepartureList}" HorizontalOptions="Fill">
+      <Label Text="Nearby Stops:"/>
+
+      <ListView ItemsSource="{Binding StopList}" SelectedItem="{Binding SelectedStop}" HorizontalOptions="Fill">
         <ListView.ItemTemplate>
           <DataTemplate>
-            <TextCell Text="{Binding AsString}" />
+            <TextCell Text="{Binding Name}" Detail="{Binding Number}"/>
           </DataTemplate>
         </ListView.ItemTemplate>
       </ListView>

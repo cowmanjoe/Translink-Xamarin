@@ -10,6 +10,8 @@ namespace Translink.Services
     {
         Task<StopInfo> FetchStopInfo(int stop);
 
-        Task<Stop> FetchStopWithDepartures(int stop); 
+        Task<Stop> FetchStopWithDepartures(int stop);
+
+        Task<List<StopInfo>> FetchStopInfosAroundMe(); 
     }
 }

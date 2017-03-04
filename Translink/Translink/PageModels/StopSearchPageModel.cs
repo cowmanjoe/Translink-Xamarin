@@ -17,6 +17,8 @@ namespace Translink.PageModels
         private IFavouritesDataService mFavouritesDataService;
         private IStopDataService mStopDataService; 
 
+        public ObservableCollection<StopInfo> StopList { get; private set; }
+
         public ObservableCollection<Departure> DepartureList { get; set; }
 
         public int StopNumber { get; set; }
@@ -26,6 +28,19 @@ namespace Translink.PageModels
         public bool RouteToggled { get; set; } 
 
         public bool IsBusy { get; private set; }
+
+        public StopInfo SelectedStop
+        {
+            get
+            {
+                return null; 
+            }
+            set
+            {
+                CoreMethods.PushPageModel<StopPageModel>(value);
+                RaisePropertyChanged(); 
+            }
+        }
 
         public StopSearchPageModel(IDepartureDataService departureDataService, IFavouritesDataService favouritesDataService, IStopDataService stopDataService)
         {
@@ -38,109 +53,60 @@ namespace Translink.PageModels
         {
             base.Init(initData);
             DepartureList = new ObservableCollection<Departure>();
+            StopList = new ObservableCollection<StopInfo>(); 
             StopNumber = 50586;
             RouteNumber = "004"; 
             RouteToggled = false;
             IsBusy = false; 
         }
         
-        // TEST COMMAND
-        public Command PushStopPage
+        public Command SearchStop
         {
             get
             {
                 return new Command(async () =>
                 {
-                    StopInfo stopInfo = await mStopDataService.FetchStopInfo(50586); 
-                    await CoreMethods.PushPageModel<StopPageModel>(stopInfo);
-                    RaisePropertyChanged();
-                });
-            }
-        }
-
-        public Command SearchDepartures
-        {
-            get
-            {
-                return new Command(async () =>
-                {
-                    IsBusy = true; 
-                    List<Departure> departureList;
                     try
                     {
-                        if (RouteToggled)
-                        {
-                            await mDepartureDataService.SearchDepartures(StopNumber, RouteNumber);
-                            departureList = mDepartureDataService.GetDepartures();
-                        }
-                        else
-                        {
-                            await mDepartureDataService.SearchDepartures(StopNumber);
-                            departureList = mDepartureDataService.GetDepartures();
-                        }
-
-                        DepartureList.Clear();
-                        foreach (Departure d in departureList)
-                        {
-                            DepartureList.Add(d);
-                            Debug.WriteLine("Departure added: " + d.AsString);
-                        }
+                        StopInfo stopInfo = await mStopDataService.FetchStopInfo(StopNumber);
+                        await CoreMethods.PushPageModel<StopPageModel>(stopInfo);
+                        RaisePropertyChanged();
                     }
                     catch (InvalidStopException e)
                     {
                         Alert alert = new Alert("Invalid Stop", e.Message, "OK");
-                        MessagingCenter.Send(this, "Display Alert", alert);
-                    }
-                    catch (TranslinkAPIErrorException e)
-                    {
-                        Alert alert = new Alert("API Error", "An error occurred in the Translink API.", "OK");
-                        MessagingCenter.Send(this, "Display Alert", alert);
+                        MessagingCenter.Send(this, "Display Alert", alert); 
                     }
                     catch (System.Exception e)
                     {
                         Alert alert = new Alert("Error", "Something went wrong with that request.", "OK");
                         MessagingCenter.Send(this, "Display Alert", alert); 
                     }
-
-                    IsBusy = false; 
                 });
             }
         }
+        
 
-        public Command RefreshDepartures
+        public Command RefreshStops
         {
             get
             {
                 return new Command(async () =>
                 {
-                    IsBusy = true; 
-                    await mDepartureDataService.RefreshDepartures();
-                    List<Departure> departureList = mDepartureDataService.GetDepartures();
+                    IsBusy = true;
+                    List<StopInfo> stopInfos = await mStopDataService.FetchStopInfosAroundMe();
 
-                    DepartureList.Clear(); 
-
-                    foreach (Departure d in departureList)
+                    StopList.Clear(); 
+                    foreach(StopInfo si in stopInfos)
                     {
-                        DepartureList.Add(d);
-                        Debug.WriteLine("Departure added: " + d.AsString);
+                        StopList.Add(si); 
                     }
 
                     IsBusy = false; 
                 });
             }
         }
-
-        public Command ClearDepartures
-        {
-            get
-            {
-                return new Command(() =>
-                {
-                    mDepartureDataService.ClearDepartures();
-                    DepartureList.Clear(); 
-                });
-            }
-        }
+       
         
         public Command AddStopToFavourites
         {

@@ -4,6 +4,7 @@
              xmlns:d="clr-namespace:Translink.Pages;assembly=Translink.Pages"
              x:Class="Translink.Pages.StopPage">
     <StackLayout>
+        <Button Text="Favourite" Command="{Binding FavouriteThisStop}"/>
         <Label Text="{Binding StopName}"/>
         <Label Text="{Binding StopNumber}"/>
         <Picker x:Name="RoutePicker" Title="Route" SelectedIndex="{Binding SelectedRouteIndex}"/>

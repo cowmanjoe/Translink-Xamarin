@@ -5,13 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Translink.Services;
+using Xamarin.Forms;
 
 namespace Translink.PageModels
 {
     public class StopPageModel : FreshMvvm.FreshBasePageModel
     {
         private readonly IStopDataService mStopDataService;
-        private readonly IDepartureDataService mDepartureDataService; 
+        private readonly IDepartureDataService mDepartureDataService;
+        private readonly IFavouritesDataService mFavouritesDataService; 
+
+        private StopInfo mStopInfo; 
 
         public string StopName
         {
@@ -51,11 +55,24 @@ namespace Translink.PageModels
                 FilterDepartures(); 
             } 
         }      
+
+
+        public Command FavouriteThisStop
+        {
+            get
+            {
+                return new Command(async () =>
+                {
+                    await mFavouritesDataService.AddFavouriteStop(mStopInfo); 
+                });
+            }
+        }
         
-        public StopPageModel(IDepartureDataService departureDataService, IStopDataService stopDataService)
+        public StopPageModel(IDepartureDataService departureDataService, IStopDataService stopDataService, IFavouritesDataService favouritesDataService)
         {
             mDepartureDataService = departureDataService;
             mStopDataService = stopDataService;
+            mFavouritesDataService = favouritesDataService; 
             AvailableRoutes = new List<string>();
             Departures = new ObservableCollection<Departure>(); 
         }
@@ -64,15 +81,15 @@ namespace Translink.PageModels
         public async override void Init(object initData)
         {
             base.Init(initData);
-            var stopInfo = initData as StopInfo;
+            mStopInfo = initData as StopInfo;
 
-            StopName = stopInfo.Name;
-            StopNumber = stopInfo.Number;
+            StopName = mStopInfo.Name;
+            StopNumber = mStopInfo.Number;
 
             
 
             AvailableRoutes.Add("All"); 
-            foreach (string route in stopInfo.Routes)
+            foreach (string route in mStopInfo.Routes)
             {
                 AvailableRoutes.Add(route); 
             }
