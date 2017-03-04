@@ -24,7 +24,7 @@
 
       <Label Text="Nearby Stops:"/>
 
-      <ListView ItemsSource="{Binding StopList}" SelectedItem="{Binding SelectedStop}" HorizontalOptions="Fill">
+      <ListView x:Name="StopListView" ItemsSource="{Binding StopList}" SelectedItem="{Binding SelectedStop}" HorizontalOptions="Fill">
         <ListView.ItemTemplate>
           <DataTemplate>
             <TextCell Text="{Binding Name}" Detail="{Binding Number}"/>

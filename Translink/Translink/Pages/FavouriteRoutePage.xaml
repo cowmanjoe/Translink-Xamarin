@@ -3,24 +3,38 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="clr-namespace:Translink.Pages;assembly=Translink.Pages"
              x:Class="Translink.Pages.FavouriteRoutePage">
-    <StackLayout>
-        <Label Text="{Binding NumberAndDirection}"/>
-        <Label Text="{Binding Route.StopName}" IsVisible="{Binding StopsAvailable}"/>
-        <Label Text="Departures:" IsVisible="{Binding StopsAvailable}"/>
+    <RelativeLayout>
+        <StackLayout>
+            <Label Text="{Binding NumberAndDirection}"/>
+            <Label Text="{Binding Route.StopName}" IsVisible="{Binding StopsAvailable}"/>
+            <Label Text="Departures:" IsVisible="{Binding StopsAvailable}"/>
 
-        <ListView 
-            ItemsSource="{Binding Route.Departures}"
-            HorizontalOptions="Fill" 
-            IsVisible="{Binding StopsAvailable}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextCell Text="{Binding AsString}"/>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            <ListView 
+                ItemsSource="{Binding Route.Departures}"
+                HorizontalOptions="Fill" 
+                IsVisible="{Binding StopsAvailable}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Text="{Binding AsString}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
 
-        <Label Text="No stops were found for the given route and direction" IsVisible="{Binding StopsNotAvailable}"/>
+            <Label Text="No stops were found for the given route and direction" IsVisible="{Binding StopsNotAvailable}"/>
 
-    </StackLayout>
-    
+        </StackLayout>
+
+        <ActivityIndicator
+          IsRunning="{Binding IsBusy}"
+          VerticalOptions="CenterAndExpand"
+          HorizontalOptions="CenterAndExpand"
+          RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
+            Property=Width,
+            Factor=0.5,
+            Constant=-20}"
+          RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
+            Property=Height,
+            Factor=0.33}"/>
+    </RelativeLayout>
+
 </d:BasePage>

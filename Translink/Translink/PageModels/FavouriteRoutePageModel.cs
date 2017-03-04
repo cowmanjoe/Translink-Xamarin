@@ -34,6 +34,11 @@ namespace Translink.PageModels
             get { return !StopsAvailable; }
         }
 
+        public bool IsBusy
+        {
+            get; private set; 
+        }
+
         public FavouriteRoutePageModel (IRouteDataService dataService)
         {
             mRouteDataService = dataService; 
@@ -42,6 +47,8 @@ namespace Translink.PageModels
         public async override void Init (object initData)
         {
             base.Init(initData);
+            IsBusy = true; 
+
             StopsAvailable = true; 
             var routeDirection = initData as FavouriteRoutesPageModel.RouteDirection;
 
@@ -51,7 +58,9 @@ namespace Translink.PageModels
             if (Route == null)
                 StopsAvailable = false;
             else
-                StopsAvailable = true; 
+                StopsAvailable = true;
+
+            IsBusy = false; 
         }
 
 

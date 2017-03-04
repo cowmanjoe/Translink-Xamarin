@@ -30,6 +30,11 @@ namespace Translink.PageModels
             private set; 
         }
 
+        public bool IsBusy
+        {
+            get;
+            private set; 
+        }
         public FavouriteStopPageModel(IDepartureDataService dataService)
         {
             mDepartureDataService = dataService; 
@@ -38,6 +43,8 @@ namespace Translink.PageModels
         public async override void Init(object initData)
         {
             base.Init(initData);
+            IsBusy = true; 
+
             var stopInfo = initData as StopInfo;
 
             StopName = stopInfo.Name;
@@ -50,7 +57,9 @@ namespace Translink.PageModels
             foreach (Departure d in departures)
             {
                 Departures.Add(d); 
-            } 
+            }
+
+            IsBusy = false; 
         }
 
 
