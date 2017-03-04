@@ -2,6 +2,7 @@ TODO:
 - Implement page that appear when a favourite stop is selected
 - Refactor DepartureDataService, it is more complex than necessary 
 - Figure out how to cache translink data ESPECIALLY in favourites pages to reduce loading times 
+- Maybe order departures by time instead of route number 
 - Replace const DEFAULT_RADIUS and other defaults with something else like a parameter or a setting that can be changed 
 - Figure out how to cache gps data 
 - Get rid of StopInfo and just use Stop class

@@ -45,12 +45,55 @@ namespace Translink
 
         }
 
+        public async Task<List<Departure>> FetchDepartures(int stopNo)
+        {
+            List<Departure> departures = new List<Departure>();
+            Stream departureStream = await fetchDepartureData(stopNo);
+
+            Dictionary<string, List<string>> lts = DataParser.ParseDepartureTimes(departureStream);
+
+            foreach (string route in lts.Keys)
+            {
+                List<string> times;
+                lts.TryGetValue(route, out times);
+                char[] separator = { ':' };
+                string[] routeAndDirection = route.Split(separator);
+                foreach (string time in times)
+                    departures.Add(new Departure(time, stopNo, routeAndDirection[0], routeAndDirection[1]));
+            }
+            Debug.WriteLine("Returning departures!");
+            return departures;
+        }
+
+        public async Task<List<Departure>> FetchDepartures(int stopNo, string routeNo)
+        {
+            
+            List<Departure> departures = new List<Departure>();
+            Debug.WriteLine("Before");
+            Stream departureStream = await FetchDepartureData(stopNo, routeNo);
+            Dictionary<string, List<string>> lts = DataParser.ParseDepartureTimes(departureStream);
+            Debug.WriteLine("Departure data parsed!");
+
+            foreach (string route in lts.Keys)
+            {
+                List<string> times;
+                lts.TryGetValue(route, out times);
+                Debug.WriteLine("Route value found!");
+                char[] separator = { ':' };
+                string[] routeAndDirection = route.Split(separator);
+                foreach (string time in times)
+                    departures.Add(new Departure(time, stopNo, routeAndDirection[0], routeAndDirection[1]));
+            }
+            Debug.WriteLine("Returning departures!");
+            return departures;
+        }
+
         /**
          * Fethes asynchronously the next DepartureCount departures at the given stop
          * stop: is the 5 digit ID of the stop
          * RETURNS: the correct list of departures
          */
-        public async Task<List<Departure>> fetchDepartures(Stop stop)
+        public async Task<List<Departure>> FetchDepartures(Stop stop)
         {
             List<Departure> departures = new List<Departure>();
             Stream departureStream = await fetchDepartureData(stop.Number);

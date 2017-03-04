@@ -43,10 +43,9 @@ namespace Translink.PageModels
             StopName = stopInfo.Name;
             StopNumber = stopInfo.Number;
 
-            mDepartureDataService.ClearDepartures(); 
-            await mDepartureDataService.SearchDepartures(stopInfo.Number);
             Departures = new ObservableCollection<Departure>();
-            List<Departure> departures = mDepartureDataService.GetDepartures();
+
+            List<Departure> departures = await mDepartureDataService.SearchDepartures(stopInfo.Number);
             
             foreach (Departure d in departures)
             {

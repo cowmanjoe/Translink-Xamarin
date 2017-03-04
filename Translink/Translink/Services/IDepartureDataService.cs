@@ -8,16 +8,8 @@ namespace Translink.Services
 {
     public interface IDepartureDataService
     {
-        List<Departure> GetDepartures();
+        Task<List<Departure>> SearchDepartures(int stop);
 
-        Task SearchDepartures(int stop);
-
-        Task SearchDepartures(int stop, string route);
-
-        Task RefreshDepartures();
-
-        void ClearDepartures();
-
-        
+        Task<List<Departure>> SearchDepartures(int stop, string route);
     }
 }

@@ -102,9 +102,7 @@ namespace Translink.PageModels
 
         private async Task RefreshDepartures()
         {
-            mDepartureDataService.ClearDepartures();
-            await mDepartureDataService.SearchDepartures(StopNumber);
-            mAllDepartures = mDepartureDataService.GetDepartures();
+            mAllDepartures = await mDepartureDataService.SearchDepartures(StopNumber);
 
             FilterDepartures(); 
         }

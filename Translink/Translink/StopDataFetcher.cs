@@ -41,7 +41,7 @@ namespace Translink
             Stop stop = new Stop(stopInfo); 
 
             DepartureDataFetcher departureDataFetcher = DepartureDataFetcher.Instance; 
-            List<Departure> departures = await departureDataFetcher.fetchDepartures(stop);
+            List<Departure> departures = await departureDataFetcher.FetchDepartures(stop);
             stop.Departures = departures;
             return stop; 
         }
@@ -57,7 +57,7 @@ namespace Translink
             foreach (StopInfo si in stopInfos)
             {
                 Stop stop = new Stop(si); 
-                List<Departure> departures = await departureDataFetcher.fetchDepartures(stop);
+                List<Departure> departures = await departureDataFetcher.FetchDepartures(stop);
                 stop.Departures = departures; 
                 stops.Add(stop); 
             }

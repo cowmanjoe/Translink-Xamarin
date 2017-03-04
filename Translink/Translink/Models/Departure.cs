@@ -10,7 +10,7 @@ namespace Translink
     [ImplementPropertyChanged]
     public class Departure
     {
-        private Stop mStop;
+        //private Stop mStop;
 
         public string Time
         {
@@ -19,7 +19,7 @@ namespace Translink
 
         public int StopNumber
         {
-            get { return mStop.Number; }
+            get;
         }
 
         public string RouteNumber
@@ -34,10 +34,18 @@ namespace Translink
             get { return StopNumber + " [" + RouteNumber + "] " + Time; }
         }
 
+        public Departure(string time, int stopNo, string routeNumber, string direction)
+        {
+            Time = time;
+            StopNumber = stopNo;
+            RouteNumber = routeNumber;
+            Direction = direction; 
+        }
+
         public Departure(string time, Stop stop, string routeNumber, string direction)
         {
             Time = time;
-            mStop = stop;
+            StopNumber = stop.Number;
             RouteNumber = routeNumber;
             Direction = direction;
         }
