@@ -43,6 +43,20 @@ namespace Translink.PageModels
             RouteToggled = false;
             IsBusy = false; 
         }
+        
+        // TEST COMMAND
+        public Command PushStopPage
+        {
+            get
+            {
+                return new Command(async () =>
+                {
+                    StopInfo stopInfo = await mStopDataService.FetchStopInfo(50586); 
+                    await CoreMethods.PushPageModel<StopPageModel>(stopInfo);
+                    RaisePropertyChanged();
+                });
+            }
+        }
 
         public Command SearchDepartures
         {

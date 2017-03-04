@@ -21,7 +21,7 @@
         <Button
           HorizontalOptions="FillAndExpand"
           Text="Add"
-          Command="{Binding SearchDepartures}"/>
+          Command="{Binding PushStopPage}"/>
         <Button
           HorizontalOptions="FillAndExpand"
           Text="Refresh"

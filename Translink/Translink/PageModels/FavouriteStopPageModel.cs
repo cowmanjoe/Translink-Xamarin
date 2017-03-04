@@ -10,7 +10,7 @@ namespace Translink.PageModels
 {
     public class FavouriteStopPageModel : FreshMvvm.FreshBasePageModel
     {
-        private IDepartureDataService mStopDataService;
+        private readonly IDepartureDataService mDepartureDataService;
 
         public string StopName
         {
@@ -32,7 +32,7 @@ namespace Translink.PageModels
 
         public FavouriteStopPageModel(IDepartureDataService dataService)
         {
-            mStopDataService = dataService; 
+            mDepartureDataService = dataService; 
         }
 
         public async override void Init(object initData)
@@ -43,10 +43,10 @@ namespace Translink.PageModels
             StopName = stopInfo.Name;
             StopNumber = stopInfo.Number;
 
-            mStopDataService.ClearDepartures(); 
-            await mStopDataService.SearchDepartures(stopInfo.Number);
+            mDepartureDataService.ClearDepartures(); 
+            await mDepartureDataService.SearchDepartures(stopInfo.Number);
             Departures = new ObservableCollection<Departure>();
-            List<Departure> departures = mStopDataService.GetDepartures();
+            List<Departure> departures = mDepartureDataService.GetDepartures();
             
             foreach (Departure d in departures)
             {
