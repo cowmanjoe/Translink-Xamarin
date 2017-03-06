@@ -9,7 +9,7 @@ using Translink.Pages;
 
 namespace Translink.PageModels
 {
-    public class FavouritesMenuPage : FreshBasePageModel
+    public class FavouritesMenuPageModel : FreshBasePageModel
     {
         
         public Command ShowStops

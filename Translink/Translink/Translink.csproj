@@ -42,7 +42,7 @@
     <Compile Include="DepartureDataFetcher.cs" />
     <Compile Include="PageModels\FavouriteRoutePageModel.cs" />
     <Compile Include="PageModels\FavouriteRoutesPageModel.cs" />
-    <Compile Include="PageModels\FavouritesMenuPage.cs" />
+    <Compile Include="PageModels\FavouritesMenuPageModel.cs" />
     <Compile Include="PageModels\FavouriteStopPageModel.cs" />
     <Compile Include="PageModels\FavouriteStopsPageModel.cs" />
     <Compile Include="PageModels\StopPageModel.cs" />
