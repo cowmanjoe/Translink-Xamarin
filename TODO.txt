@@ -1,15 +1,13 @@
 TODO:  
-- Implement page that appear when a favourite stop is selected
-- Refactor DepartureDataService, it is more complex than necessary 
 - Figure out how to cache translink data ESPECIALLY in favourites pages to reduce loading times 
 - Maybe order departures by time instead of route number 
+- Implement distance display 
 - Replace const DEFAULT_RADIUS and other defaults with something else like a parameter or a setting that can be changed 
 - Figure out how to cache gps data 
 - Get rid of StopInfo and just use Stop class
 - Make ActivityIndicator properly centered in pages
 - Figure out ways to minimize usage of xaml.cs classes e.g. removal of definition of OnAppearing() in RouteListPage.xaml.cs
 - Make alert appear for when GPS is not available or disabled
-- Drop down menu for routes
 - Saved "favourite" stops 
 - Better organize classes
 - Make XML parsing using an actual XML parser library 

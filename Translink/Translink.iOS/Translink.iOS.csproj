@@ -90,6 +90,8 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="RouteiOSViewCell.cs" />
+    <Compile Include="RouteViewCelliOSRenderer.cs" />
     <Compile Include="SaveAndLoadIOS.cs" />
     <None Include="app.config" />
     <None Include="Entitlements.plist" />

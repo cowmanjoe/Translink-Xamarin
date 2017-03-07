@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+  <TextView
+        android:id="@+id/RouteNumberText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FE4B88"
+        android:textSize="50dip"
+        android:textStyle="bold"
+        android:layout_alignParentLeft="true" 
+        android:paddingLeft="10dip"/>
+    <LinearLayout
+        android:id="@+id/Text"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:paddingRight="20dip"
+        android:paddingBottom="5dip">
+        <TextView
+            android:id="@+id/DirectionText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dip"
+            android:textColor="#737373"
+            android:layout_alignParentRight="true"/>
+        <TextView
+            android:id="@+id/StopNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dip"
+            android:textColor="#737373"/>
+    </LinearLayout>
+    
+</RelativeLayout>
