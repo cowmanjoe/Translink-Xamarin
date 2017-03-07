@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<d:BasePage xmlns="http://xamarin.com/schemas/2014/forms"
+<pages:BasePage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Translink.Pages.FavouritesMenuPage"
-             xmlns:d="clr-namespace:Translink.Pages;assembly=Translink.Pages">
+             xmlns:pages="clr-namespace:Translink.Pages;assembly=Translink.Pages">
   <TableView>
     <TableSection>
       <TextCell Text="Stops" Command="{Binding ShowStops}"/>
       <TextCell Text="Routes" Command="{Binding ShowRoutes}"/>
     </TableSection>
   </TableView>
-</d:BasePage>
+</pages:BasePage>
