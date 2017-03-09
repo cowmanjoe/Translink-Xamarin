@@ -22,7 +22,7 @@ namespace Translink.PageModels
             get { return null; }
             set
             {
-                CoreMethods.PushPageModel<FavouriteStopPageModel>(value);
+                CoreMethods.PushPageModel<StopPageModel>(value);
                 RaisePropertyChanged(); 
             }
         }

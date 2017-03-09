@@ -4,7 +4,8 @@
              xmlns:pages="clr-namespace:Translink.Pages;assembly=Translink.Pages"
              x:Class="Translink.Pages.StopPage">
     <StackLayout Padding="5, 5, 5, 5">
-        <Button Text="Favourite" Command="{Binding FavouriteThisStop}"/>
+        <Button Text="Favourite" Command="{Binding FavouriteThisStop}" IsVisible="{Binding IsNotFavourite}"/>
+        <Button Text="Unfavourite" Command="{Binding UnfavouriteThisStop}" IsVisible="{Binding IsFavourite}"/>
         <Label Text="{Binding StopName}" FontSize="Large"/>
         <Label Text="{Binding StopNumber}" FontSize="Medium"/>
         

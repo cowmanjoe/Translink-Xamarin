@@ -15,17 +15,24 @@ namespace Translink.Pages
         public StopPage()
         {
             InitializeComponent();
+            MessagingCenter.Subscribe<StopPageModel>(this, "RefreshRoutes", (sender) => RefreshRoutes(sender));
         }
 
-        protected override void OnBindingContextChanged()
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            MessagingCenter.Send(this, "OnAppearing"); 
+        }
+
+        private void RefreshRoutes(StopPageModel pageModel)
         {
             base.OnBindingContextChanged();
+            
 
-            var stopPageModel = BindingContext as StopPageModel;
+            List<string> routes = pageModel.AvailableRoutes;
 
-            List<string> routes = stopPageModel.AvailableRoutes;
-
-            foreach (string route in stopPageModel.AvailableRoutes)
+            RoutePicker.Items.Clear(); 
+            foreach (string route in pageModel.AvailableRoutes)
             {
                 RoutePicker.Items.Add(route);
             }

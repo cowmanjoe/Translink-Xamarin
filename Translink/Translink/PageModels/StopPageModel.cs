@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Translink.Pages;
 using Translink.Services;
 using Xamarin.Forms;
 
@@ -56,6 +57,15 @@ namespace Translink.PageModels
             } 
         }      
 
+        public bool IsFavourite
+        {
+            get; private set;
+        }
+
+        public bool IsNotFavourite
+        {
+            get { return !IsFavourite; }
+        }
 
         public Command FavouriteThisStop
         {
@@ -63,7 +73,20 @@ namespace Translink.PageModels
             {
                 return new Command(async () =>
                 {
-                    await mFavouritesDataService.AddFavouriteStop(mStopInfo); 
+                    await mFavouritesDataService.AddFavouriteStop(mStopInfo);
+                    IsFavourite = true; 
+                });
+            }
+        }
+
+        public Command UnfavouriteThisStop
+        {
+            get
+            {
+                return new Command(async () =>
+                {
+                    await mFavouritesDataService.RemoveFavouriteStop(mStopInfo.Number);
+                    IsFavourite = false;
                 });
             }
         }
@@ -74,7 +97,8 @@ namespace Translink.PageModels
             mStopDataService = stopDataService;
             mFavouritesDataService = favouritesDataService; 
             AvailableRoutes = new List<string>();
-            Departures = new ObservableCollection<Departure>(); 
+            Departures = new ObservableCollection<Departure>();
+            MessagingCenter.Subscribe<StopPage>(this, "OnAppearing", async (sender) => await RefreshIsFavourite());
         }
 
         // initData should be a StopInfo object
@@ -86,15 +110,11 @@ namespace Translink.PageModels
             StopName = mStopInfo.Name;
             StopNumber = mStopInfo.Number;
 
-            
 
-            AvailableRoutes.Add("All"); 
-            foreach (string route in mStopInfo.Routes)
-            {
-                AvailableRoutes.Add(route); 
-            }
 
-            SelectedRouteIndex = 0;
+            AvailableRoutes.Add("All");
+
+            await RefreshIsFavourite(); 
 
             await RefreshDepartures(); 
         }
@@ -103,6 +123,16 @@ namespace Translink.PageModels
         private async Task RefreshDepartures()
         {
             mAllDepartures = await mDepartureDataService.SearchDepartures(StopNumber);
+
+            foreach (Departure d in mAllDepartures)
+            {
+                if (!AvailableRoutes.Contains(d.RouteNumber))
+                {
+                    AvailableRoutes.Add(d.RouteNumber);
+                }
+            }
+
+            MessagingCenter.Send(this, "RefreshRoutes"); 
 
             FilterDepartures(); 
         }
@@ -118,6 +148,19 @@ namespace Translink.PageModels
                     d.RouteNumber == AvailableRoutes[mSelectedRouteIndex])
                 {
                     Departures.Add(d); 
+                }
+            }
+        }
+
+        private async Task RefreshIsFavourite()
+        {
+            List<StopInfo> favourites = await mFavouritesDataService.GetFavouriteStopInfos();
+            IsFavourite = false;
+            foreach (StopInfo s in favourites)
+            {
+                if (mStopInfo.Number == s.Number)
+                {
+                    IsFavourite = true;
                 }
             }
         }
