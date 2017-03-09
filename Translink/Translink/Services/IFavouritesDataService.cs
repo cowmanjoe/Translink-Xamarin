@@ -10,7 +10,9 @@ namespace Translink.Services
     {
         Task<List<StopInfo>> GetFavouriteStopInfos();
 
-        // Should return strings in the form <route number>:<direction>
+        /*
+         * Return strings in the form <route number>:<direction>
+         */
         Task<List<string>> GetFavouriteRoutesAndDirections();
 
         Task AddFavouriteStop(StopInfo stopInfo);

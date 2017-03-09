@@ -7,7 +7,8 @@
     <StackLayout Padding="5, 5, 5, 5"
                  RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
                  RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}">
-      <Button Text="Favourite" Command="{Binding AddToFavourites}"/>
+      <Button Text="Favourite" Command="{Binding FavouriteThisRoute}" IsVisible="{Binding IsNotFavourite}"/>
+      <Button Text="Unfavourite" Command="{Binding UnfavouriteThisRoute}" IsVisible="{Binding IsFavourite}"/>
       <Label Text="{Binding Route.NumberAndDirection}" FontSize="Large"/>
       <Label Text="{Binding Route.StopName}" FontSize="Medium"/>
       <Label Text="Departures" HorizontalOptions="Center"/>
