@@ -3,11 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:Translink.Pages;assembly=Translink.Pages"
              x:Class="Translink.Pages.StopPage">
-    <StackLayout>
+    <StackLayout Padding="5, 5, 5, 5">
         <Button Text="Favourite" Command="{Binding FavouriteThisStop}"/>
-        <Label Text="{Binding StopName}"/>
-        <Label Text="{Binding StopNumber}"/>
-        <Picker x:Name="RoutePicker" Title="Route" SelectedIndex="{Binding SelectedRouteIndex}"/>
+        <Label Text="{Binding StopName}" FontSize="Large"/>
+        <Label Text="{Binding StopNumber}" FontSize="Medium"/>
+        
+        <Picker x:Name="RoutePicker" Title="Filter Route" SelectedIndex="{Binding SelectedRouteIndex}"/>
+        <Label Text="Departures" HorizontalOptions="Center"/>
         <ListView ItemsSource="{Binding Departures}">
             <ListView.ItemTemplate>
                 <DataTemplate>

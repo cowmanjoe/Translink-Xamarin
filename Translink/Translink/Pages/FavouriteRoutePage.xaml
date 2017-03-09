@@ -4,7 +4,9 @@
              xmlns:pages="clr-namespace:Translink.Pages;assembly=Translink.Pages"
              x:Class="Translink.Pages.FavouriteRoutePage">
     <RelativeLayout>
-        <StackLayout>
+        <StackLayout Padding="5, 5, 5, 5" 
+                 RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+                 RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}">
             <Label Text="{Binding NumberAndDirection}"/>
             <Label Text="{Binding Route.StopName}" IsVisible="{Binding StopsAvailable}"/>
             <Label Text="Departures:" IsVisible="{Binding StopsAvailable}"/>

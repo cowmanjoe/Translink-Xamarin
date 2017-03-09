@@ -5,7 +5,9 @@
              xmlns:local="clr-namespace:Translink;assembly=Translink"
              x:Class="Translink.Pages.RouteListPage">
   <RelativeLayout>
-    <StackLayout>
+    <StackLayout Padding="5, 5, 5, 5"
+                 RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+                 RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}">
       <Button
         x:Name="RefreshButton"
         HorizontalOptions="Fill"

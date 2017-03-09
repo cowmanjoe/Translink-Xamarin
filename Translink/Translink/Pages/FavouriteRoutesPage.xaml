@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Translink.Pages.FavouriteRoutesPage"
              xmlns:pages="clr-namespace:Translink.Pages;assembly=Translink.Pages">
-  <StackLayout>
+  <StackLayout Padding="5, 5, 5, 5">
     <Button Text="Clear Favourite Routes" Command="{Binding ClearFavouriteRoutes}"/>
     <ListView ItemsSource="{Binding RouteList}" SelectedItem="{Binding SelectedRouteDirection}">
       <ListView.ItemTemplate>

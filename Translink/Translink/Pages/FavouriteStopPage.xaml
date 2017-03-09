@@ -4,7 +4,9 @@
              xmlns:pages="clr-namespace:Translink.Pages;assembly=Translink.Pages"
              x:Class="Translink.Pages.FavouriteStopPage">
     <RelativeLayout>
-        <StackLayout>
+        <StackLayout Padding="5, 5, 5, 5" 
+                 RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+                 RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}">
             <Label Text="{Binding StopName}"/>
             <Label Text="{Binding StopNumber}"/>
             <ListView ItemsSource="{Binding Departures}">

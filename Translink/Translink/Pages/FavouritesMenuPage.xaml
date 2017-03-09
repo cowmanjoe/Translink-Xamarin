@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Translink.Pages.FavouritesMenuPage"
              xmlns:pages="clr-namespace:Translink.Pages;assembly=Translink.Pages">
-  <TableView>
+  <TableView Intent="Menu">
     <TableSection>
       <TextCell Text="Stops" Command="{Binding ShowStops}"/>
       <TextCell Text="Routes" Command="{Binding ShowRoutes}"/>
