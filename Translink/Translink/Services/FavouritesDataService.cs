@@ -9,6 +9,7 @@ using System.Xml.Serialization;
 using System.Collections.Generic;
 using Xamarin.Forms;
 using System.Xml.Linq;
+using Translink.Models;
 
 namespace Translink.Services
 {

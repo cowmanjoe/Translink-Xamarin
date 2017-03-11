@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using System.IO;
 using System.Xml.Linq;
-using Translink.Exception; 
+using Translink.Exception;
 using static Translink.StopDataFetcher;
+using Translink.Models;
 
 namespace Translink
 {

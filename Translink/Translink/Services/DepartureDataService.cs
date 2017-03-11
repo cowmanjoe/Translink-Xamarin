@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Translink.Exception;
 using Translink.Services;
+using Translink.Models;
 
 namespace Translink.Services
 {

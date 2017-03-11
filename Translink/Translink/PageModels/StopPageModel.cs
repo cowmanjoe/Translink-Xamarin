@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Translink.Pages;
 using Translink.Services;
 using Xamarin.Forms;
+using Translink.Models;
 
 namespace Translink.PageModels
 {

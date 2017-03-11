@@ -8,6 +8,7 @@ using Translink.Services;
 using FreshMvvm;
 using Xamarin.Forms;
 using System.Collections.ObjectModel;
+using Translink.Models;
 
 namespace Translink.PageModels
 {

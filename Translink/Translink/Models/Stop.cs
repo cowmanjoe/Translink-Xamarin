@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Translink
+namespace Translink.Models
 {
     public class Stop
     {

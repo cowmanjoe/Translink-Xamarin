@@ -38,6 +38,7 @@
     <Compile Include="Alert.cs" />
     <Compile Include="App.cs" />
     <Compile Include="DataParser.cs" />
+    <Compile Include="Models\DateTime.cs" />
     <Compile Include="Models\Departure.cs" />
     <Compile Include="DepartureDataFetcher.cs" />
     <Compile Include="PageModels\FavouriteRoutePageModel.cs" />

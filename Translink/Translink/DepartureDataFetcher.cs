@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Translink.Exception;
 using System;
+using Translink.Models;
 
 namespace Translink
 {
