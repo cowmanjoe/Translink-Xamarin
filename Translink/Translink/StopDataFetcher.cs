@@ -76,8 +76,6 @@ namespace Translink
         public async Task<StopInfo> FetchStopInfo(int stopNo)
         {
             Stream stopXml = await FetchStopXml(stopNo);
-            Debug.WriteLine("XML:" + stopXml.ToString());
-
             return DataParser.ParseStopInfo(stopXml); 
         }
 
@@ -116,12 +114,10 @@ namespace Translink
         {
             string uri = "http://api.translink.ca/rttiapi/v1/stops?apikey=" + API_KEY +
                 "&lat=" + lat + "&long=" + lon + "&radius=" + radius;
-            Debug.WriteLine("Getting data from " + uri); 
             HttpResponseMessage response = await mHttpClient.GetAsync(uri);
             HttpContent content = response.Content;
             
             Stream contentStream = await content.ReadAsStreamAsync();
-            Debug.WriteLine("!!!!" + contentStream.ToString()); 
             return contentStream; 
         }
 

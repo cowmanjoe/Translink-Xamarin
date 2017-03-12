@@ -7,7 +7,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Xml.Linq;
 using Translink.Exception;
-using static Translink.StopDataFetcher;
 using Translink.Models;
 
 namespace Translink
@@ -17,11 +16,11 @@ namespace Translink
         /**
          * Parse the text that the API returns on a departure time request
          * data: the string received from Translink API
-         * RETURNS: mapping of routes and directions in the form "route:direction" to a list of string representations of departure times
+         * RETURNS: mapping of route/direction doubles to a list of DateTime departure times
          **/
-        public static Dictionary<string, List<string>> ParseDepartureTimes(Stream data)
+        public static Dictionary<Tuple<string, string>, List<DateTime>> ParseDepartureTimes(Stream data)
         {
-            Dictionary<string, List<string>> routeDictionary = new Dictionary<string, List<string>>();
+            Dictionary<Tuple<string, string>, List<DateTime>> routeDictionary = new Dictionary<Tuple<string, string>, List<DateTime>>();
 
             XDocument xDoc = XDocument.Load(data);
 
@@ -36,22 +35,46 @@ namespace Translink
                 string direction = nextBus.Element("Direction").Value;
 
                 var schedules = nextBus.Descendants("Schedule");
-                List<string> times = new List<string>();
-                foreach(var schedule in schedules)
+                List<DateTime> times = new List<DateTime>();
+                foreach (var schedule in schedules)
                 {
-                    String time = schedule.Element("ExpectedLeaveTime").Value;
-                    time = time.Substring(0, time.IndexOf('m') + 1);
-                    times.Add(time);
+                    string dateTimeString = schedule.Element("ExpectedLeaveTime").Value;
+                    string[] timeAndDateString = dateTimeString.Split(' ');
+                    string timeString = timeAndDateString[0];
+                    string dateString = timeAndDateString[1]; 
+
+                    string hourString = timeString.Substring(0, timeString.IndexOf(':'));
+                    int hour = Convert.ToInt32(hourString);
+
+                    char[] aAndP = { 'a', 'p' };
+                    string minuteString = timeString.Substring(timeString.IndexOf(':') + 1, timeString.IndexOfAny(aAndP) - timeString.IndexOf(':') - 1);
+
+                    string amOrPmString = timeString.Substring(timeString.IndexOfAny(aAndP), 2);
+
+
+                    if (amOrPmString.Equals("pm"))
+                        hour += 12;
+
+                    if (hour == 24)
+                        hour = 0; 
+
+                    string[] dateParts = dateString.Split('-');
+                    string yearString = dateParts[0];
+                    string monthString = dateParts[1];
+                    string dayString = dateParts[2];
+
+
+                    DateTime dateTime = new DateTime(
+                        Convert.ToInt32(yearString),
+                        Convert.ToInt32(monthString),
+                        Convert.ToInt32(dayString),
+                        hour,
+                        Convert.ToInt32(minuteString), 
+                        0); 
+                    
+                    times.Add(dateTime);
                 }
-                routeDictionary.Add(routeNo + ":" + direction, times);
-            }
-
-            Debug.WriteLine("Parsing this: " + data);
-
-
-            foreach (string r in routeDictionary.Keys)
-            {
-                Debug.WriteLine("Route #" + r + " being returned");
+                routeDictionary.Add(new Tuple<string, string>(routeNo, direction), times);
             }
 
             return routeDictionary;
@@ -144,23 +167,6 @@ namespace Translink
                 routes.Add(r[i].Trim());
             }
             stopInfo.Routes = routes;
-
-
-            Debug.WriteLine("Stop info received: ");
-            Debug.WriteLine("  stopNo = " + stopInfo.Number +
-                "\n  name = " + stopInfo.Name +
-                "\n  onStreet = " + stopInfo.OnStreet +
-                "\n  atStreet = " + stopInfo.AtStreet +
-                "\n  latitude = " + stopInfo.Latitude +
-                "\n  longitude = " + stopInfo.Longitude);
-            Debug.WriteLine("  Routes: ");
-            foreach (string route in stopInfo.Routes)
-            {
-                Debug.WriteLine("    " + route);
-            }
-
-            Debug.WriteLine(stopInfo.BayNumber);
-
 
             return stopInfo;
         }

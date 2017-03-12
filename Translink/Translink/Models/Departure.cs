@@ -12,9 +12,17 @@ namespace Translink.Models
     {
         //private Stop mStop;
 
-        public string Time
+        public DateTime Time
         {
             get;
+        }
+
+        public string TimeString
+        {
+            get
+            {
+                return string.Format("{0:t}", Time); 
+            }
         }
 
         public int StopNumber
@@ -34,7 +42,7 @@ namespace Translink.Models
             get { return StopNumber + " [" + RouteNumber + "] " + Time; }
         }
 
-        public Departure(string time, int stopNo, string routeNumber, string direction)
+        public Departure(DateTime time, int stopNo, string routeNumber, string direction)
         {
             Time = time;
             StopNumber = stopNo;
@@ -42,7 +50,7 @@ namespace Translink.Models
             Direction = direction; 
         }
 
-        public Departure(string time, Stop stop, string routeNumber, string direction)
+        public Departure(DateTime time, Stop stop, string routeNumber, string direction)
         {
             Time = time;
             StopNumber = stop.Number;
@@ -58,9 +66,6 @@ namespace Translink.Models
             Departure d = (Departure)obj;
 
             return Time == d.Time && StopNumber == d.StopNumber && Util.RouteEquals(RouteNumber, d.RouteNumber) && Direction == d.Direction;
-
-
-
         }
 
         public override int GetHashCode()

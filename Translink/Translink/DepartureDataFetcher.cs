@@ -51,18 +51,15 @@ namespace Translink
             List<Departure> departures = new List<Departure>();
             Stream departureStream = await fetchDepartureData(stopNo);
 
-            Dictionary<string, List<string>> lts = DataParser.ParseDepartureTimes(departureStream);
+            Dictionary<Tuple<string, string>, List<DateTime>> lts = DataParser.ParseDepartureTimes(departureStream);
 
-            foreach (string route in lts.Keys)
+            foreach (var routeDir in lts.Keys)
             {
-                List<string> times;
-                lts.TryGetValue(route, out times);
-                char[] separator = { ':' };
-                string[] routeAndDirection = route.Split(separator);
-                foreach (string time in times)
-                    departures.Add(new Departure(time, stopNo, routeAndDirection[0], routeAndDirection[1]));
+                List<DateTime> times;
+                lts.TryGetValue(routeDir, out times);
+                foreach (DateTime time in times)
+                    departures.Add(new Departure(time, stopNo, routeDir.Item1, routeDir.Item2));
             }
-            Debug.WriteLine("Returning departures!");
             return departures;
         }
 
@@ -70,22 +67,16 @@ namespace Translink
         {
             
             List<Departure> departures = new List<Departure>();
-            Debug.WriteLine("Before");
             Stream departureStream = await FetchDepartureData(stopNo, routeNo);
-            Dictionary<string, List<string>> lts = DataParser.ParseDepartureTimes(departureStream);
-            Debug.WriteLine("Departure data parsed!");
+            Dictionary<Tuple<string, string>, List<DateTime>> lts = DataParser.ParseDepartureTimes(departureStream);
 
-            foreach (string route in lts.Keys)
+            foreach (var routeDir in lts.Keys)
             {
-                List<string> times;
-                lts.TryGetValue(route, out times);
-                Debug.WriteLine("Route value found!");
-                char[] separator = { ':' };
-                string[] routeAndDirection = route.Split(separator);
-                foreach (string time in times)
-                    departures.Add(new Departure(time, stopNo, routeAndDirection[0], routeAndDirection[1]));
+                List<DateTime> times;
+                lts.TryGetValue(routeDir, out times);
+                foreach (DateTime time in times)
+                    departures.Add(new Departure(time, stopNo, routeDir.Item1, routeDir.Item2));
             }
-            Debug.WriteLine("Returning departures!");
             return departures;
         }
 
@@ -98,21 +89,15 @@ namespace Translink
         {
             List<Departure> departures = new List<Departure>();
             Stream departureStream = await fetchDepartureData(stop.Number);
+            Dictionary<Tuple<string, string>, List<DateTime>> lts = DataParser.ParseDepartureTimes(departureStream);
 
-            Dictionary<string, List<string>> lts = DataParser.ParseDepartureTimes(departureStream);
-
-
-
-            foreach (string route in lts.Keys)
+            foreach (var routeDir in lts.Keys)
             {
-                List<string> times;
-                lts.TryGetValue(route, out times);
-                char[] separator = { ':' };
-                string[] routeAndDirection = route.Split(separator);
-                foreach (string time in times)
-                    departures.Add(new Departure(time, stop, routeAndDirection[0], routeAndDirection[1]));
+                List<DateTime> times;
+                lts.TryGetValue(routeDir, out times);
+                foreach (DateTime time in times)
+                    departures.Add(new Departure(time, stop, routeDir.Item1, routeDir.Item2));
             }
-            Debug.WriteLine("Returning departures!");
             return departures;
             }
 
@@ -135,22 +120,16 @@ namespace Translink
                 throw new ArgumentException("The stop " + stop.Number + "does not have a route " + route);
 
             List<Departure> departures = new List<Departure>();
-            Debug.WriteLine("Before");
             Stream departureStream = await FetchDepartureData(stop.Number, route);
-            Dictionary<string, List<string>> lts = DataParser.ParseDepartureTimes(departureStream);
-            Debug.WriteLine("Departure data parsed!");
+            Dictionary<Tuple<string, string>, List<DateTime>> lts = DataParser.ParseDepartureTimes(departureStream);
 
-            foreach (string r in lts.Keys)
+            foreach (var routeDir in lts.Keys)
             {
-                List<string> times;
-                lts.TryGetValue(r, out times);
-                Debug.WriteLine("Route value found!");
-                char[] separator = { ':' };
-                string[] routeAndDirection = route.Split(separator);
-                foreach (string time in times)
-                    departures.Add(new Departure(time, stop, routeAndDirection[0], routeAndDirection[1]));
+                List<DateTime> times;
+                lts.TryGetValue(routeDir, out times);
+                foreach (DateTime time in times)
+                    departures.Add(new Departure(time, stop, routeDir.Item1, routeDir.Item2));
             }
-            Debug.WriteLine("Returning departures!");
             return departures;
         }
 
@@ -165,8 +144,6 @@ namespace Translink
         {
             string uri = "http://api.translink.ca/rttiapi/v1/stops/" + stop +
                 "/estimates?apikey=" + API_KEY + "&count=" + DepartureCount;
-
-            Debug.WriteLine("URI: " + uri);
 
             HttpResponseMessage response = await mHttpClient.GetAsync(uri);
 

@@ -16,7 +16,14 @@
       <ListView ItemsSource="{Binding Route.Departures}" HorizontalOptions="Fill">
         <ListView.ItemTemplate>
           <DataTemplate>
-            <TextCell Text="{Binding AsString}" />
+            <ViewCell>
+              <StackLayout Orientation="Horizontal">
+                <Label Text="{Binding RouteNumber}" FontSize="Large" VerticalOptions="Center" TextColor="#FE4B88"/>
+                <ContentView Padding="10, 0, 0, 0">
+                  <Label Text="{Binding TimeString}" FontSize="Small" VerticalOptions="Center"/>
+                </ContentView>
+              </StackLayout>
+            </ViewCell>
           </DataTemplate>
         </ListView.ItemTemplate>
       </ListView>
