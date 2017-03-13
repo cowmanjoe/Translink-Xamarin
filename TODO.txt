@@ -1,7 +1,7 @@
 TODO:
-- Order departures by time instead of route number   
 - Replace platorm specific route cell with a xaml ViewCell 
 - Make list items that dont have selection functionality unselectable
+- Test on iOS (especially to fix platorm specific cell) 
 - Figure out how to cache translink data ESPECIALLY in favourites pages to reduce loading times 
 - Ability to delete a single route/stop from favourites from the favourite list pages
 - Save bay numbers in favourites and compare them when checking equality for showing correct favourite/unfavourite button

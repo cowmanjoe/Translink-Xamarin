@@ -9,7 +9,7 @@
                  RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}">
             <Button Text="Favourite" Command="{Binding FavouriteThisRoute}" IsVisible="{Binding IsNotFavourite}"/>
             <Button Text="Unfavourite" Command="{Binding UnfavouriteThisRoute}" IsVisible="{Binding IsFavourite}"/>
-            <Label Text="{Binding NumberAndDirection}"/>
+            <Label Text="{Binding NumberAndDirection}" TextColor="#FE4B88" FontSize="Large"/>
             <Label Text="{Binding Route.StopName}" IsVisible="{Binding Succeeded}"/>
             <Label Text="Departures:" IsVisible="{Binding Succeeded}"/>
 

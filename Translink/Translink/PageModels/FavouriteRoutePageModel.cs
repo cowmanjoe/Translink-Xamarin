@@ -128,7 +128,7 @@ namespace Translink.PageModels
                 }
                 else
                 {
-                    FailedMessage = "Something wen wrong when finding your location"; 
+                    FailedMessage = "Something when wrong when finding your location"; 
                 }
             }
             await RefreshIsFavourite();

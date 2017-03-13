@@ -15,7 +15,7 @@ namespace Translink
     {
         /**
          * Parse the text that the API returns on a departure time request
-         * data: the string received from Translink API
+         * data: the stream received from Translink API
          * RETURNS: mapping of route/direction doubles to a list of DateTime departure times
          **/
         public static Dictionary<Tuple<string, string>, List<DateTime>> ParseDepartureTimes(Stream data)
@@ -26,6 +26,7 @@ namespace Translink
 
             CheckDeparturesForErrors(xDoc);
 
+            DateTime now = DateTime.Now; 
 
             var nextBuses = xDoc.Descendants("NextBus");
 
@@ -36,49 +37,22 @@ namespace Translink
 
                 var schedules = nextBus.Descendants("Schedule");
                 List<DateTime> times = new List<DateTime>();
+
                 foreach (var schedule in schedules)
                 {
-                    string dateTimeString = schedule.Element("ExpectedLeaveTime").Value;
-                    string[] timeAndDateString = dateTimeString.Split(' ');
-                    string timeString = timeAndDateString[0];
-                    string dateString = timeAndDateString[1]; 
+                    int expectedCountdown = Convert.ToInt32(schedule.Element("ExpectedCountdown").Value);
 
-                    string hourString = timeString.Substring(0, timeString.IndexOf(':'));
-                    int hour = Convert.ToInt32(hourString);
+                    DateTime leaveTime = now.AddMinutes(expectedCountdown);
 
-                    char[] aAndP = { 'a', 'p' };
-                    string minuteString = timeString.Substring(timeString.IndexOf(':') + 1, timeString.IndexOfAny(aAndP) - timeString.IndexOf(':') - 1);
-
-                    string amOrPmString = timeString.Substring(timeString.IndexOfAny(aAndP), 2);
-
-
-                    if (amOrPmString.Equals("pm"))
-                        hour += 12;
-
-                    if (hour == 24)
-                        hour = 0; 
-
-                    string[] dateParts = dateString.Split('-');
-                    string yearString = dateParts[0];
-                    string monthString = dateParts[1];
-                    string dayString = dateParts[2];
-
-
-                    DateTime dateTime = new DateTime(
-                        Convert.ToInt32(yearString),
-                        Convert.ToInt32(monthString),
-                        Convert.ToInt32(dayString),
-                        hour,
-                        Convert.ToInt32(minuteString), 
-                        0); 
-                    
-                    times.Add(dateTime);
+                    times.Add(leaveTime); 
                 }
+                
                 routeDictionary.Add(new Tuple<string, string>(routeNo, direction), times);
             }
 
             return routeDictionary;
         }
+
 
         private static void CheckDeparturesForErrors(XDocument xml)
         {
