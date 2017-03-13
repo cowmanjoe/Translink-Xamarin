@@ -5,10 +5,10 @@
              xmlns:pages="clr-namespace:Translink.Pages;assembly=Translink.Pages">
   <StackLayout Padding="5, 5, 5, 5">
     <Button Text="Clear Favourite Routes" Command="{Binding ClearFavouriteRoutes}"/>
-    <ListView ItemsSource="{Binding RouteList}" SelectedItem="{Binding SelectedRouteDirection}">
+    <ListView ItemsSource="{Binding RouteDirectionList}" SelectedItem="{Binding SelectedRouteDirection}">
       <ListView.ItemTemplate>
         <DataTemplate>
-          <TextCell Text="{Binding RouteNumber}" Detail="{Binding Direction}"/>
+          <TextCell Text="{Binding Item1}" Detail="{Binding Item2}"/>
         </DataTemplate>
       </ListView.ItemTemplate>
     </ListView>

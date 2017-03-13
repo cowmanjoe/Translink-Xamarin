@@ -14,7 +14,7 @@ namespace Translink.Services
         /*
          * Return strings in the form <route number>:<direction>
          */
-        Task<List<string>> GetFavouriteRoutesAndDirections();
+        Task<List<Tuple<string, string>>> GetFavouriteRoutesAndDirections();
 
         Task AddFavouriteStop(StopInfo stopInfo);
 

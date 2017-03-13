@@ -16,9 +16,9 @@ namespace Translink.PageModels
     {
         private IFavouritesDataService mDataService;
 
-        public ObservableCollection<RouteDirection> RouteList { get; set; }
+        public ObservableCollection<Tuple<string, string>> RouteDirectionList { get; set; }
 
-        public RouteDirection SelectedRouteDirection
+        public Tuple<string, string> SelectedRouteDirection
         {
             get
             {
@@ -34,7 +34,7 @@ namespace Translink.PageModels
         public FavouriteRoutesPageModel(IFavouritesDataService dataService)
         {
             mDataService = dataService;
-            RouteList = new ObservableCollection<RouteDirection>();
+            RouteDirectionList = new ObservableCollection<Tuple<string, string>>();
             MessagingCenter.Subscribe<FavouriteRoutesPage>(
                 this,
                 "On Appearing",
@@ -52,12 +52,11 @@ namespace Translink.PageModels
 
         async Task RefreshRouteList()
         {
-            List<string> routeList = await mDataService.GetFavouriteRoutesAndDirections();
-            RouteList.Clear();
-            foreach (string r in routeList)
+            List<Tuple<string, string>> routeDirectionList = await mDataService.GetFavouriteRoutesAndDirections();
+            RouteDirectionList.Clear();
+            foreach (var r in routeDirectionList)
             {
-                RouteDirection routeDirection = new RouteDirection(r); 
-                RouteList.Add(routeDirection);
+                RouteDirectionList.Add(r); 
             }
         }
 
@@ -68,29 +67,8 @@ namespace Translink.PageModels
                 return new Command(async () =>
                 {
                     await mDataService.ClearFavouriteRoutes();
-                    RouteList.Clear();
+                    RouteDirectionList.Clear();
                 });
-            }
-        }
-
-        [ImplementPropertyChanged]
-        public class RouteDirection
-        {
-            public string RouteNumber { get; }
-            public string Direction { get; }
-
-            // Takes a string in the form <route number>:<direction>
-            public RouteDirection(string routeDirection)
-            {
-                string[] routeAndDirection = routeDirection.Split(':');
-                RouteNumber = routeAndDirection[0];
-                Direction = routeAndDirection[1];
-            }
-
-            public RouteDirection(string routeNumber, string direction)
-            {
-                RouteNumber = routeNumber;
-                Direction = direction;
             }
         }
     }

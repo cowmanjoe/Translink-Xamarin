@@ -125,6 +125,8 @@ namespace Translink.PageModels
         {
             mAllDepartures = await mDepartureDataService.SearchDepartures(StopNumber);
 
+            mAllDepartures.Sort(); 
+
             foreach (Departure d in mAllDepartures)
             {
                 if (!AvailableRoutes.Contains(d.RouteNumber))
@@ -165,5 +167,6 @@ namespace Translink.PageModels
                 }
             }
         }
+        
     }
 }

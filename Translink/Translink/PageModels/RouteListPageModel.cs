@@ -58,8 +58,9 @@ namespace Translink.PageModels
                 {
                     IsBusy = true; 
                     List<Route> routeList = await mDataService.GetRoutes();
+                    List<Route> sortedRouteList = routeList.OrderBy(o => o.Number).ToList(); 
                     RouteList.Clear(); 
-                    foreach (Route r in routeList)
+                    foreach (Route r in sortedRouteList)
                     {
                         RouteList.Add(r); 
                     }

@@ -93,9 +93,9 @@ namespace Translink.PageModels
             IsBusy = true; 
 
             StopsAvailable = true; 
-            var routeDirection = initData as FavouriteRoutesPageModel.RouteDirection;
-            mRouteNumber = routeDirection.RouteNumber;
-            mDirection = routeDirection.Direction; 
+            var routeDirection = initData as Tuple<string, string>;
+            mRouteNumber = routeDirection.Item1;
+            mDirection = routeDirection.Item2; 
 
             Route = await mRouteDataService.GetNearestRoute(mRouteNumber, mDirection);
             if (Route == null)
@@ -110,16 +110,19 @@ namespace Translink.PageModels
 
         private async Task RefreshIsFavourite()
         {
-            List<string> favourites = await mFavouritesDataService.GetFavouriteRoutesAndDirections();
+            
+            List<Tuple<string, string>> favourites = await mFavouritesDataService.GetFavouriteRoutesAndDirections();
+            Tuple<string, string> thisRoute = new Tuple<string, string>(mRouteNumber, mDirection);
+
             IsFavourite = false;
-            foreach (string r in favourites)
+            foreach (var r in favourites)
             {
-                string[] routeAndDirection = r.Split(':');
-                if (routeAndDirection[0] == mRouteNumber && routeAndDirection[1] == mDirection)
+                if (r.Equals(thisRoute))
                 {
                     IsFavourite = true;
                 }
             }
+            
         }
     }
 }

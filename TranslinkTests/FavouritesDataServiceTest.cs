@@ -52,7 +52,7 @@ namespace TranslinkTests
             List<string> actualRoutes;
             using (StreamReader sr = new StreamReader(resourcePath + "NoRouteFavourites.xml"))
             {
-                actualRoutes = dataService.ParseFavouriteRouteNumbers(sr.BaseStream); 
+                actualRoutes = dataService.ParseFavouriteRouteDirections(sr.BaseStream); 
             }
 
             Assert.AreEqual(0, actualRoutes.Count); 
@@ -65,7 +65,7 @@ namespace TranslinkTests
             List<string> actualRoutes;
             using (StreamReader sr = new StreamReader(resourcePath + "Favourites1.xml"))
             {
-                actualRoutes = dataService.ParseFavouriteRouteNumbers(sr.BaseStream);
+                actualRoutes = dataService.ParseFavouriteRouteDirections(sr.BaseStream);
             }
 
             List<string> expectedRoutes = new List<string>();

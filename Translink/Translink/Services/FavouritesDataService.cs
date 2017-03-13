@@ -17,7 +17,7 @@ namespace Translink.Services
     {
         #region IFavouritesDataService Implementation
 
-        public async Task<List<string>> GetFavouriteRoutesAndDirections()
+        public async Task<List<Tuple<string, string>>> GetFavouriteRoutesAndDirections()
         {
             ISaveAndLoadService fileService = DependencyService.Get<ISaveAndLoadService>();
 
@@ -25,13 +25,13 @@ namespace Translink.Services
             {
                 string text = await fileService.LoadTextAsync("Favourites.xml");
 
-                List<string> routeNumbers;
+                List<Tuple<string, string>> routeDirections;
                 using (Stream stream = GenerateStreamFromString(text))
                 {
-                    routeNumbers = ParseFavouriteRouteNumbers(stream);
+                    routeDirections = ParseFavouriteRouteDirections(stream);
                 }
 
-                return routeNumbers;
+                return routeDirections;
             }
             else
             {
@@ -242,9 +242,9 @@ namespace Translink.Services
         }
 
         // TODO: make private (public for testing)
-        public List<string> ParseFavouriteRouteNumbers(Stream stream)
+        public List<Tuple<string, string>> ParseFavouriteRouteDirections(Stream stream)
         {
-            List<string> routeNumbers = new List<string>();
+            List<Tuple<string, string>> routeDirections = new List<Tuple<string, string>>();
 
             XDocument xDoc = XDocument.Load(stream);
             var routesElement = xDoc.Root.Element("Routes");
@@ -255,10 +255,10 @@ namespace Translink.Services
                 string routeNumber = r.Attribute("Number").Value;
                 string direction = r.Attribute("Direction").Value; 
                 
-                routeNumbers.Add(routeNumber + ":" + direction);
+                routeDirections.Add(new Tuple<string, string>(routeNumber, direction));
             }
 
-            return routeNumbers;
+            return routeDirections;
         }
 
         async Task CreateNewFavouritesFile(ISaveAndLoadService fileService)

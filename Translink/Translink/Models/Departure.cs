@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Translink.Models
 {
     [ImplementPropertyChanged]
-    public class Departure
+    public class Departure : IComparable<Departure>
     {
         //private Stop mStop;
 
@@ -71,6 +71,11 @@ namespace Translink.Models
         public override int GetHashCode()
         {
             return Time.GetHashCode() * RouteNumber.GetHashCode() * base.GetHashCode();
+        }
+
+        public int CompareTo(Departure other)
+        {
+            return Time.CompareTo(other.Time); 
         }
     }
 }

@@ -71,12 +71,13 @@ namespace Translink.PageModels
 
         private async Task RefreshIsFavourite()
         {
-            List<string> favourites = await mFavouritesDataService.GetFavouriteRoutesAndDirections();
+            List<Tuple<string, string>> favourites = await mFavouritesDataService.GetFavouriteRoutesAndDirections();
+            Tuple<string, string> thisRoute = new Tuple<string, string>(Route.Number, Route.Direction);
+
             IsFavourite = false;
-            foreach (string r in favourites)
+            foreach (var r in favourites)
             {
-                string[] routeAndDirection = r.Split(':');
-                if (routeAndDirection[0] == Route.Number && routeAndDirection[1] == Route.Direction)
+                if (r.Equals(thisRoute))
                 {
                     IsFavourite = true;
                 }
