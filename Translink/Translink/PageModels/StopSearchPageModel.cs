@@ -98,12 +98,32 @@ namespace Translink.PageModels
                 return new Command(async () =>
                 {
                     IsBusy = true;
-                    List<StopInfo> stopInfos = await mStopDataService.FetchStopInfosAroundMe();
-
-                    StopList.Clear(); 
-                    foreach(StopInfo si in stopInfos)
+                    try
                     {
-                        StopList.Add(si); 
+                        List<StopInfo> stopInfos = await mStopDataService.FetchStopInfosAroundMe();
+
+                        StopList.Clear();
+                        foreach (StopInfo si in stopInfos)
+                        {
+                            StopList.Add(si);
+                        }
+                    }
+                    catch (LocationException e)
+                    {
+                        Alert alert;
+                        if (e.GeolocationUnavailable)
+                        {
+                            alert = new Alert("Error", "Location services are unavailable.", "OK");
+                        }
+                        else if (e.GeolocationDisabled)
+                        {
+                            alert = new Alert("Error", "Location services are disabled.", "OK");
+                        }
+                        else
+                        {
+                            alert = new Alert("Error", "Something went wrong when finding your location.", "OK");
+                        }
+                        MessagingCenter.Send(this, "Display Alert", alert); 
                     }
 
                     IsBusy = false; 

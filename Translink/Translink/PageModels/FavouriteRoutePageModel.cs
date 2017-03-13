@@ -7,6 +7,7 @@ using Translink.Pages;
 using Translink.Services;
 using Xamarin.Forms;
 using Translink.Models;
+using Translink.Exception;
 
 namespace Translink.PageModels
 {
@@ -29,15 +30,19 @@ namespace Translink.PageModels
             get { return mRouteNumber + " " + mDirection; }
         }
 
-        public bool StopsAvailable
+        public bool Succeeded
         {
-            get;
-            private set; 
+            get; private set; 
         }
 
-        public bool StopsNotAvailable
+        public bool Failed
         {
-            get { return !StopsAvailable; }
+            get { return !Succeeded; }
+        }
+
+        public string FailedMessage
+        {
+            get; private set; 
         }
 
         public bool IsFavourite
@@ -90,19 +95,42 @@ namespace Translink.PageModels
         public async override void Init (object initData)
         {
             base.Init(initData);
-            IsBusy = true; 
+            IsBusy = true;
 
-            StopsAvailable = true; 
+            FailedMessage = "Unknown failure"; 
+            Succeeded = true; 
             var routeDirection = initData as Tuple<string, string>;
             mRouteNumber = routeDirection.Item1;
-            mDirection = routeDirection.Item2; 
-
-            Route = await mRouteDataService.GetNearestRoute(mRouteNumber, mDirection);
-            if (Route == null)
-                StopsAvailable = false;
-            else
-                StopsAvailable = true;
-
+            mDirection = routeDirection.Item2;
+            try
+            {
+                Route = await mRouteDataService.GetNearestRoute(mRouteNumber, mDirection);
+                if (Route == null)
+                {
+                    Succeeded = false;
+                    FailedMessage = "No stops were found for the given route and direction";
+                }
+                else
+                {
+                    Succeeded = true;
+                }
+            }
+            catch (LocationException e)
+            {
+                Succeeded = false; 
+                if (e.GeolocationUnavailable)
+                {
+                    FailedMessage = "Location services are unavailable";
+                }
+                else if (e.GeolocationDisabled)
+                {
+                    FailedMessage = "Location services are disabled"; 
+                }
+                else
+                {
+                    FailedMessage = "Something wen wrong when finding your location"; 
+                }
+            }
             await RefreshIsFavourite();
 
             IsBusy = false; 

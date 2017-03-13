@@ -10,13 +10,13 @@
             <Button Text="Favourite" Command="{Binding FavouriteThisRoute}" IsVisible="{Binding IsNotFavourite}"/>
             <Button Text="Unfavourite" Command="{Binding UnfavouriteThisRoute}" IsVisible="{Binding IsFavourite}"/>
             <Label Text="{Binding NumberAndDirection}"/>
-            <Label Text="{Binding Route.StopName}" IsVisible="{Binding StopsAvailable}"/>
-            <Label Text="Departures:" IsVisible="{Binding StopsAvailable}"/>
+            <Label Text="{Binding Route.StopName}" IsVisible="{Binding Succeeded}"/>
+            <Label Text="Departures:" IsVisible="{Binding Succeeded}"/>
 
             <ListView 
                 ItemsSource="{Binding Route.Departures}"
                 HorizontalOptions="Fill" 
-                IsVisible="{Binding StopsAvailable}">
+                IsVisible="{Binding Succeeded}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -31,7 +31,7 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <Label Text="No stops were found for the given route and direction" IsVisible="{Binding StopsNotAvailable}"/>
+            <Label Text="{Binding FailedMessage}" IsVisible="{Binding Failed}"/>
 
         </StackLayout>
 

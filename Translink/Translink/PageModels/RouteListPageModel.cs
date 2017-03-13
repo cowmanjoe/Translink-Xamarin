@@ -9,6 +9,7 @@ using FreshMvvm;
 using Xamarin.Forms;
 using System.Collections.ObjectModel;
 using Translink.Models;
+using Translink.Exception;
 
 namespace Translink.PageModels
 {
@@ -56,13 +57,33 @@ namespace Translink.PageModels
             {
                 return new Command(async () =>
                 {
-                    IsBusy = true; 
-                    List<Route> routeList = await mDataService.GetRoutes();
-                    List<Route> sortedRouteList = routeList.OrderBy(o => o.Number).ToList(); 
-                    RouteList.Clear(); 
-                    foreach (Route r in sortedRouteList)
+                    IsBusy = true;
+                    try
                     {
-                        RouteList.Add(r); 
+                        List<Route> routeList = await mDataService.GetRoutes();
+                        List<Route> sortedRouteList = routeList.OrderBy(o => o.Number).ToList();
+                        RouteList.Clear();
+                        foreach (Route r in sortedRouteList)
+                        {
+                            RouteList.Add(r);
+                        }
+                    }
+                    catch (LocationException e)
+                    {
+                        Alert alert;
+                        if (e.GeolocationUnavailable)
+                        {
+                            alert = new Alert("Error", "Location services are unavailable.", "OK");
+                        }
+                        else if (e.GeolocationDisabled)
+                        {
+                            alert = new Alert("Error", "Location services are disabled.", "OK");
+                        }
+                        else
+                        {
+                            alert = new Alert("Error", "Something went wrong when finding your location.", "OK");
+                        }
+                        MessagingCenter.Send(this, "Display Alert", alert);
                     }
                     IsBusy = false; 
                 }); 

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Plugin.Geolocator; 
+using Plugin.Geolocator;
+using System.Diagnostics;
+using Translink.Exception;
 
 namespace Translink
 {
@@ -13,7 +15,24 @@ namespace Translink
         {
             var geolocator = CrossGeolocator.Current;
 
-            return await geolocator.GetPositionAsync();
+            if (!geolocator.IsGeolocationEnabled)
+            {
+                throw new LocationException(true, false); 
+            }
+
+            if (!geolocator.IsGeolocationAvailable)
+            {
+                throw new LocationException(false, true); 
+            }
+
+            try
+            {
+                return await geolocator.GetPositionAsync();
+            }
+            catch (Plugin.Geolocator.Abstractions.GeolocationException e)
+            {
+                throw new LocationException(e.Message, false, false); 
+            }
         }
         
 
