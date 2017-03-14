@@ -38,11 +38,8 @@ namespace Translink.PageModels
             }
             set
             {
-                if (value != null)
-                {
-                    CoreMethods.PushPageModel<StopPageModel>(value);
-                    RaisePropertyChanged();
-                } 
+                CoreMethods.PushPageModel<StopPageModel>(value);
+                RaisePropertyChanged();
             }
         }
 

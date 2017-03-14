@@ -24,11 +24,8 @@ namespace Translink.PageModels
             get { return null; }
             set
             {
-                if (value != null)
-                {
-                    CoreMethods.PushPageModel<RoutePageModel>(value);
-                    RaisePropertyChanged();
-                }
+                CoreMethods.PushPageModel<RoutePageModel>(value);
+                RaisePropertyChanged();
             }
         }
 

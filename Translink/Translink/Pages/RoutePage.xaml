@@ -13,7 +13,7 @@
       <Label Text="{Binding Route.StopName}" FontSize="Medium"/>
       <Label Text="Departures" HorizontalOptions="Center"/>
       
-      <ListView ItemsSource="{Binding Route.Departures}" HorizontalOptions="Fill">
+      <ListView x:Name="DepartureList" ItemsSource="{Binding Route.Departures}" HorizontalOptions="Fill">
         <ListView.ItemTemplate>
           <DataTemplate>
             <ViewCell>

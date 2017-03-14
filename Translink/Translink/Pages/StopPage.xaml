@@ -11,7 +11,7 @@
         
         <Picker x:Name="RoutePicker" Title="Filter Route" SelectedIndex="{Binding SelectedRouteIndex}"/>
         <Label Text="Departures" HorizontalOptions="Center"/>
-        <ListView ItemsSource="{Binding Departures}">
+        <ListView x:Name="DepartureList" ItemsSource="{Binding Departures}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>

@@ -12,14 +12,12 @@ namespace Translink.Pages
     {
         public StopSearchPage()
         {
-            MessagingCenter.Subscribe<StopSearchPageModel, Alert>(this, "Display Alert", async (pageModel, alert) => await DisplayAlert(alert));
             InitializeComponent();
-        }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            StopListView.SelectedItem = null; 
+            MessagingCenter.Subscribe<StopSearchPageModel, Alert>(this, "Display Alert", async (pageModel, alert) => await DisplayAlert(alert));
+            StopList.ItemSelected += (sender, e) =>
+            {
+                ((ListView)sender).SelectedItem = null;
+            };
         }
     }
 }

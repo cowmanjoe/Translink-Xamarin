@@ -16,6 +16,10 @@ namespace Translink.Pages
         {
             InitializeComponent();
             MessagingCenter.Subscribe<StopPageModel>(this, "RefreshRoutes", (sender) => RefreshRoutes(sender));
+            DepartureList.ItemSelected += (sender, e) =>
+            {
+                ((ListView)sender).SelectedItem = null;
+            };
         }
 
         protected override void OnAppearing()

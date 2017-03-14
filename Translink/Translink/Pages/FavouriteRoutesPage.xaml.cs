@@ -13,6 +13,10 @@ namespace Translink.Pages
         public FavouriteRoutesPage()
         {
             InitializeComponent();
+            RouteList.ItemSelected += (sender, e) =>
+            {
+                ((ListView)sender).SelectedItem = null;
+            };
         }
 
         protected override void OnAppearing()
