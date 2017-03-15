@@ -8,10 +8,7 @@
                  RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
                  RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}">
       <Label Text="Stop Number:" HorizontalOptions="Start" />
-      <StackLayout Orientation="Horizontal">
-        <Entry Text="{Binding StopNumber}" x:Name="StopEntry" HorizontalTextAlignment="Start" HorizontalOptions="FillAndExpand" Keyboard="Numeric" />
-        <Button Text="Favourite" Command="{Binding AddStopToFavourites}"/>
-      </StackLayout>
+      <Entry Text="{Binding StopNumber}" x:Name="StopEntry" HorizontalTextAlignment="Start" HorizontalOptions="FillAndExpand" Keyboard="Numeric" />
 
       <StackLayout Spacing="10" Orientation="Horizontal">
         <Button

@@ -14,8 +14,6 @@ namespace Translink.PageModels
 {
     public class StopSearchPageModel : FreshMvvm.FreshBasePageModel
     {
-        private IDepartureDataService mDepartureDataService;
-        private IFavouritesDataService mFavouritesDataService;
         private IStopDataService mStopDataService; 
 
         public ObservableCollection<StopInfo> StopList { get; private set; }
@@ -23,10 +21,6 @@ namespace Translink.PageModels
         public ObservableCollection<Departure> DepartureList { get; set; }
 
         public int StopNumber { get; set; }
-        
-        public string RouteNumber { get; set; }
-
-        public bool RouteToggled { get; set; } 
 
         public bool IsBusy { get; private set; }
 
@@ -43,10 +37,8 @@ namespace Translink.PageModels
             }
         }
 
-        public StopSearchPageModel(IDepartureDataService departureDataService, IFavouritesDataService favouritesDataService, IStopDataService stopDataService)
+        public StopSearchPageModel(IStopDataService stopDataService)
         {
-            mDepartureDataService = departureDataService;
-            mFavouritesDataService = favouritesDataService;
             mStopDataService = stopDataService; 
         }
 
@@ -56,8 +48,6 @@ namespace Translink.PageModels
             DepartureList = new ObservableCollection<Departure>();
             StopList = new ObservableCollection<StopInfo>(); 
             StopNumber = 50586;
-            RouteNumber = "004"; 
-            RouteToggled = false;
             IsBusy = false; 
         }
         
@@ -125,37 +115,6 @@ namespace Translink.PageModels
 
                     IsBusy = false; 
                 });
-            }
-        }
-       
-        
-        public Command AddStopToFavourites
-        {
-            get
-            {
-                return new Command(async () =>
-               {
-                   try
-                   {
-                       StopInfo stopInfo = await mStopDataService.FetchStopInfo(StopNumber);
-                       await mFavouritesDataService.AddFavouriteStop(stopInfo);
-                   }
-                   catch (InvalidStopException e)
-                   {
-                       Alert alert = new Alert("Invalid Stop", e.Message, "OK");
-                       MessagingCenter.Send(this, "Display Alert", alert);
-                   }
-                   catch (TranslinkAPIErrorException e)
-                   {
-                       Alert alert = new Alert("API Error", "An error occurred in the Translink API.", "OK");
-                       MessagingCenter.Send(this, "Display Alert", alert);
-                   }
-                   catch (System.Exception e)
-                   {
-                       Alert alert = new Alert("Error", "Something went wrong with that request.", "OK");
-                       MessagingCenter.Send(this, "Display Alert", alert);
-                   }
-               });
             }
         }
     }

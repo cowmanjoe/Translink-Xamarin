@@ -1,6 +1,5 @@
 TODO:
 - Replace platorm specific route cell with a xaml ViewCell 
-- Make list items that dont have selection functionality unselectable
 - Test on iOS (especially to fix platorm specific cell) 
 - Figure out how to cache translink data ESPECIALLY in favourites pages to reduce loading times 
 - Ability to delete a single route/stop from favourites from the favourite list pages
@@ -11,17 +10,12 @@ TODO:
 - Get rid of StopInfo and just use Stop class
 - Make ActivityIndicator properly centered in pages
 - Figure out ways to minimize usage of xaml.cs classes e.g. removal of definition of OnAppearing() in RouteListPage.xaml.cs
-- Make alert appear for when GPS is not available or disabled
 - Clean up UI 
 - Cleaner list (maybe a table) 
 - Settings for changing amount of results / maximum amount of time from departure 
 - Set up notification system for a certain route/stop 
 
 Design ideas 
-
-- Main page lists for ROUTES nearby you (stops gives unnecessary list entries which are hard to read)
-  - Routes number is in big letters for easy readability 
-  - Tapping it shows stops nearby on route and departure times 
 - Search bar for custom location/address (hard!!)
 - Results are listed by distance from you/address 
 - Tap search results to get more information about it 

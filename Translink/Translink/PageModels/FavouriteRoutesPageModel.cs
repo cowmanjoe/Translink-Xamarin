@@ -31,23 +31,37 @@ namespace Translink.PageModels
             }
         }
 
+        public Command ClearFavouriteRoutes
+        {
+            get
+            {
+                return new Command(() =>
+                {
+                    MessagingCenter.Send(this, "DeleteFavouritesPrompt");
+                });
+            }
+        }
+
         public FavouriteRoutesPageModel(IFavouritesDataService dataService)
         {
             mDataService = dataService;
             RouteDirectionList = new ObservableCollection<Tuple<string, string>>();
-            MessagingCenter.Subscribe<FavouriteRoutesPage>(
-                this,
-                "On Appearing",
-                async (page) => await RefreshRouteList());
         }
 
-        public async override void Init(object initData)
+        protected async override void ViewIsAppearing(object sender, EventArgs e)
         {
-            base.Init(initData);
-            
+            base.ViewIsAppearing(sender, e); 
+            MessagingCenter.Subscribe<FavouriteRoutesPage>(
+                this,
+                "DeleteFavourites",
+                async (page) => await DeleteFavourites());
+            await RefreshRouteList(); 
+        }
 
-            await RefreshRouteList();
-            
+        protected override void ViewIsDisappearing(object sender, EventArgs e)
+        {
+            base.ViewIsDisappearing(sender, e);
+            MessagingCenter.Unsubscribe<FavouriteRoutesPage>(this, "DeleteFavourites"); 
         }
 
         async Task RefreshRouteList()
@@ -60,16 +74,10 @@ namespace Translink.PageModels
             }
         }
 
-        public Command ClearFavouriteRoutes
+        async Task DeleteFavourites()
         {
-            get
-            {
-                return new Command(async () =>
-                {
-                    await mDataService.ClearFavouriteRoutes();
-                    RouteDirectionList.Clear();
-                });
-            }
+            await mDataService.ClearFavouriteRoutes();
+            RouteDirectionList.Clear();
         }
     }
 }

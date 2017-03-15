@@ -32,17 +32,25 @@ namespace Translink.PageModels
         {
             mDataService = dataService;
             StopList = new ObservableCollection<StopInfo>();
-            MessagingCenter.Subscribe<FavouriteStopsPage>(
-                this,
-                "On Appearing",
-                async (page) => await RefreshStopList()); 
+
+            
         }
 
-        public async override void Init(object initData)
+        protected async override void ViewIsAppearing(object sender, EventArgs e)
         {
-            base.Init(initData);
-            await RefreshStopList();
+            MessagingCenter.Subscribe<FavouriteStopsPage>(
+                this,
+                "DeleteFavourites",
+                async (page) => await DeleteFavourites());
+            await RefreshStopList(); 
         }
+
+        protected override void ViewIsDisappearing(object sender, EventArgs e)
+        {
+            base.ViewIsDisappearing(sender, e);
+            MessagingCenter.Unsubscribe<FavouriteStopsPage>(this, "DeleteFavourites");
+        }
+        
 
         async Task RefreshStopList()
         {
@@ -58,11 +66,17 @@ namespace Translink.PageModels
         {
             get
             {
-                return new Command(async () => {
-                    await mDataService.ClearFavouriteStops();
-                    StopList.Clear(); 
-                    }); 
+                return new Command(() => 
+                {
+                    MessagingCenter.Send(this, "DeleteFavouritesPrompt");
+                }); 
             }
+        }
+
+        private async Task DeleteFavourites()
+        {
+            await mDataService.ClearFavouriteStops();
+            StopList.Clear();
         }
     }
 }
