@@ -19,7 +19,20 @@ namespace Translink.Models
         public double Longitude;
         public List<string> Routes;
 
-     
+        public string AvailableRoutesString
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach (string r in Routes)
+                {
+                    sb.Append(r);
+                    sb.Append(" ");
+                }
+                string availableRoutes = sb.ToString().Trim();
+                return availableRoutes;
+            }
+        }
 
         public StopInfo(int number, string name)
         {

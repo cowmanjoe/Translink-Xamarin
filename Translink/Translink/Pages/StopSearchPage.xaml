@@ -23,10 +23,47 @@
 
       <Label Text="Nearby Stops:"/>
 
-      <ListView x:Name="StopList" ItemsSource="{Binding StopList}" SelectedItem="{Binding SelectedStop}" HorizontalOptions="Fill">
+      <ListView 
+        x:Name="StopList" 
+        ItemsSource="{Binding StopList}" 
+        SelectedItem="{Binding SelectedStop}" 
+        HorizontalOptions="Fill"
+        RowHeight="60">
         <ListView.ItemTemplate>
           <DataTemplate>
-            <TextCell Text="{Binding Name}" Detail="{Binding Number}"/>
+            <ViewCell>
+              <Grid Padding="5, 0, 0, 0" >
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="25"/>
+                  <RowDefinition Height="25"/>                
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <Label 
+                  Text="{Binding Name}"
+                  FontSize="Large" 
+                  TextColor="Black" 
+                  Grid.Row="0" 
+                  Grid.Column="0" 
+                  Grid.ColumnSpan="2"
+                  VerticalOptions="Center"/>
+                <Label 
+                  Text="{Binding Number}" 
+                  FontSize="Small" 
+                  Grid.Row="1"
+                  Grid.Column="0"
+                  VerticalOptions="Start"/>
+                <Label 
+                  Text="{Binding AvailableRoutesString}" 
+                  FontSize="Medium" 
+                  Grid.Row="1" 
+                  Grid.Column="1" 
+                  TextColor="#FE4B88"
+                  VerticalOptions="Start"/>
+              </Grid>
+            </ViewCell>
           </DataTemplate>
         </ListView.ItemTemplate>
       </ListView>
