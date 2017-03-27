@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Translink.Models;
 using Translink.PageModels;
 using Xamarin.Forms;
+using RouteDirection = System.Tuple<string, string>; 
 
 namespace Translink.Pages
 {
@@ -26,6 +28,13 @@ namespace Translink.Pages
 
             if (delete)
                 MessagingCenter.Send(this, "DeleteFavourites");
+        }
+
+        public void DeleteRoute(object sender, EventArgs e)
+        {
+            var mi = sender as MenuItem;
+            RouteDirection routeDirection = mi.CommandParameter as RouteDirection;
+            MessagingCenter.Send<FavouriteRoutesPage, RouteDirection>(this, "DeleteFavourite", routeDirection); 
         }
 
         protected override void OnAppearing()

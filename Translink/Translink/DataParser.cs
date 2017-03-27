@@ -8,6 +8,7 @@ using System.IO;
 using System.Xml.Linq;
 using Translink.Exception;
 using Translink.Models;
+using RouteDirection = System.Tuple<string, string>;
 
 namespace Translink
 {
@@ -18,9 +19,9 @@ namespace Translink
          * data: the stream received from Translink API
          * RETURNS: mapping of route/direction doubles to a list of DateTime departure times
          **/
-        public static Dictionary<Tuple<string, string>, List<DateTime>> ParseDepartureTimes(Stream data)
+        public static Dictionary<RouteDirection, List<DateTime>> ParseDepartureTimes(Stream data)
         {
-            Dictionary<Tuple<string, string>, List<DateTime>> routeDictionary = new Dictionary<Tuple<string, string>, List<DateTime>>();
+            Dictionary<RouteDirection, List<DateTime>> routeDictionary = new Dictionary<RouteDirection, List<DateTime>>();
 
             XDocument xDoc = XDocument.Load(data);
 
@@ -47,7 +48,7 @@ namespace Translink
                     times.Add(leaveTime); 
                 }
                 
-                routeDictionary.Add(new Tuple<string, string>(routeNo, direction), times);
+                routeDictionary.Add(new RouteDirection(routeNo, direction), times);
             }
 
             return routeDictionary;

@@ -8,7 +8,12 @@
     <ListView x:Name="RouteList" ItemsSource="{Binding RouteDirectionList}" SelectedItem="{Binding SelectedRouteDirection}">
       <ListView.ItemTemplate>
         <DataTemplate>
-          <TextCell Text="{Binding Item1}" Detail="{Binding Item2}"/>
+          <TextCell Text="{Binding Item1}" Detail="{Binding Item2}">
+            <TextCell.ContextActions>
+              <MenuItem Clicked="DeleteRoute" CommandParameter="{Binding .}"
+                        Text="Delete" IsDestructive="True"/>
+            </TextCell.ContextActions>
+          </TextCell>
         </DataTemplate>
       </ListView.ItemTemplate>
     </ListView>

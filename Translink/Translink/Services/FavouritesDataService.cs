@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using Xamarin.Forms;
 using System.Xml.Linq;
 using Translink.Models;
+using RouteDirection = System.Tuple<string, string>;
 
 namespace Translink.Services
 {
@@ -17,7 +18,7 @@ namespace Translink.Services
     {
         #region IFavouritesDataService Implementation
 
-        public async Task<List<Tuple<string, string>>> GetFavouriteRoutesAndDirections()
+        public async Task<List<RouteDirection>> GetFavouriteRoutesAndDirections()
         {
             ISaveAndLoadService fileService = DependencyService.Get<ISaveAndLoadService>();
 
@@ -25,7 +26,7 @@ namespace Translink.Services
             {
                 string text = await fileService.LoadTextAsync("Favourites.xml");
 
-                List<Tuple<string, string>> routeDirections;
+                List<RouteDirection> routeDirections;
                 using (Stream stream = GenerateStreamFromString(text))
                 {
                     routeDirections = ParseFavouriteRouteDirections(stream);
@@ -242,9 +243,9 @@ namespace Translink.Services
         }
 
         // TODO: make private (public for testing)
-        public List<Tuple<string, string>> ParseFavouriteRouteDirections(Stream stream)
+        public List<RouteDirection> ParseFavouriteRouteDirections(Stream stream)
         {
-            List<Tuple<string, string>> routeDirections = new List<Tuple<string, string>>();
+            List<RouteDirection> routeDirections = new List<RouteDirection>();
 
             XDocument xDoc = XDocument.Load(stream);
             var routesElement = xDoc.Root.Element("Routes");
@@ -255,7 +256,7 @@ namespace Translink.Services
                 string routeNumber = r.Attribute("Number").Value;
                 string direction = r.Attribute("Direction").Value; 
                 
-                routeDirections.Add(new Tuple<string, string>(routeNumber, direction));
+                routeDirections.Add(new RouteDirection(routeNumber, direction));
             }
 
             return routeDirections;

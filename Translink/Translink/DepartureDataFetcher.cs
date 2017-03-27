@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Translink.Exception;
 using System;
 using Translink.Models;
+using RouteDirection = System.Tuple<string, string>;
 
 namespace Translink
 {
@@ -51,7 +52,7 @@ namespace Translink
             List<Departure> departures = new List<Departure>();
             Stream departureStream = await fetchDepartureData(stopNo);
 
-            Dictionary<Tuple<string, string>, List<DateTime>> lts = DataParser.ParseDepartureTimes(departureStream);
+            Dictionary<RouteDirection, List<DateTime>> lts = DataParser.ParseDepartureTimes(departureStream);
 
             foreach (var routeDir in lts.Keys)
             {
@@ -68,7 +69,7 @@ namespace Translink
             
             List<Departure> departures = new List<Departure>();
             Stream departureStream = await FetchDepartureData(stopNo, routeNo);
-            Dictionary<Tuple<string, string>, List<DateTime>> lts = DataParser.ParseDepartureTimes(departureStream);
+            Dictionary<RouteDirection, List<DateTime>> lts = DataParser.ParseDepartureTimes(departureStream);
 
             foreach (var routeDir in lts.Keys)
             {
@@ -89,7 +90,7 @@ namespace Translink
         {
             List<Departure> departures = new List<Departure>();
             Stream departureStream = await fetchDepartureData(stop.Number);
-            Dictionary<Tuple<string, string>, List<DateTime>> lts = DataParser.ParseDepartureTimes(departureStream);
+            Dictionary<RouteDirection, List<DateTime>> lts = DataParser.ParseDepartureTimes(departureStream);
 
             foreach (var routeDir in lts.Keys)
             {
@@ -121,7 +122,7 @@ namespace Translink
 
             List<Departure> departures = new List<Departure>();
             Stream departureStream = await FetchDepartureData(stop.Number, route);
-            Dictionary<Tuple<string, string>, List<DateTime>> lts = DataParser.ParseDepartureTimes(departureStream);
+            Dictionary<RouteDirection, List<DateTime>> lts = DataParser.ParseDepartureTimes(departureStream);
 
             foreach (var routeDir in lts.Keys)
             {

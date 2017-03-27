@@ -9,6 +9,7 @@ using Translink.Pages;
 using Translink.Services;
 using Xamarin.Forms;
 using Translink.Models;
+using System.Diagnostics;
 
 namespace Translink.PageModels
 {
@@ -32,8 +33,6 @@ namespace Translink.PageModels
         {
             mDataService = dataService;
             StopList = new ObservableCollection<StopInfo>();
-
-            
         }
 
         protected async override void ViewIsAppearing(object sender, EventArgs e)
@@ -42,6 +41,10 @@ namespace Translink.PageModels
                 this,
                 "DeleteFavourites",
                 async (page) => await DeleteFavourites());
+            MessagingCenter.Subscribe<FavouriteStopsPage, StopInfo>(
+                this,
+                "DeleteFavourite",
+                async (page, stopInfo) => await DeleteFavourite(stopInfo));
             await RefreshStopList(); 
         }
 
@@ -49,6 +52,7 @@ namespace Translink.PageModels
         {
             base.ViewIsDisappearing(sender, e);
             MessagingCenter.Unsubscribe<FavouriteStopsPage>(this, "DeleteFavourites");
+            MessagingCenter.Unsubscribe<FavouriteStopsPage, StopInfo>(this, "DeleteFavourite"); 
         }
         
 
@@ -62,7 +66,7 @@ namespace Translink.PageModels
             }
         }
 
-        public Command ClearFavouriteStops
+        public Command SendDeleteFavouritesPrompt
         {
             get
             {
@@ -73,10 +77,28 @@ namespace Translink.PageModels
             }
         }
 
+        public Command SendDeleteFavourite
+        {
+            get
+            {
+                return new Command((sender) => 
+                {
+                    Button button = sender as Button;
+                    Debug.WriteLine(button.Parent); 
+                }); 
+            }
+        }
+
         private async Task DeleteFavourites()
         {
             await mDataService.ClearFavouriteStops();
             StopList.Clear();
+        }
+
+        private async Task DeleteFavourite(StopInfo stopInfo)
+        {
+            await mDataService.RemoveFavouriteStop(stopInfo.Number);
+            await RefreshStopList(); 
         }
     }
 }

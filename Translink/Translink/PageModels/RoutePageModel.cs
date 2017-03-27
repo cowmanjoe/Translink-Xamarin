@@ -8,6 +8,7 @@ using Translink;
 using Translink.Pages;
 using Translink.Services;
 using Xamarin.Forms;
+using RouteDirection = System.Tuple<string, string>;
 
 namespace Translink.PageModels
 {
@@ -71,8 +72,8 @@ namespace Translink.PageModels
 
         private async Task RefreshIsFavourite()
         {
-            List<Tuple<string, string>> favourites = await mFavouritesDataService.GetFavouriteRoutesAndDirections();
-            Tuple<string, string> thisRoute = new Tuple<string, string>(Route.Number, Route.Direction);
+            List<RouteDirection> favourites = await mFavouritesDataService.GetFavouriteRoutesAndDirections();
+            RouteDirection thisRoute = new RouteDirection(Route.Number, Route.Direction);
 
             IsFavourite = false;
             foreach (var r in favourites)

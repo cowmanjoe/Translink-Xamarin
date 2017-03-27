@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Translink.Models;
+using RouteDirection = System.Tuple<string, string>;
 
 namespace Translink.Services
 {
@@ -14,7 +15,7 @@ namespace Translink.Services
         /*
          * Return strings in the form <route number>:<direction>
          */
-        Task<List<Tuple<string, string>>> GetFavouriteRoutesAndDirections();
+        Task<List<RouteDirection>> GetFavouriteRoutesAndDirections();
 
         Task AddFavouriteStop(StopInfo stopInfo);
 

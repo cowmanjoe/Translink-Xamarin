@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Translink.Models;
 using Translink.PageModels;
 using Xamarin.Forms;
 
@@ -13,7 +15,6 @@ namespace Translink.Pages
         public FavouriteStopsPage()
         {
             InitializeComponent();
-            
         }
 
         protected override void OnAppearing()
@@ -28,7 +29,14 @@ namespace Translink.Pages
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-            MessagingCenter.Unsubscribe<FavouriteStopsPageModel>(this, "DeleteFavouritesPrompt"); 
+            MessagingCenter.Unsubscribe<FavouriteStopsPageModel>(this, "DeleteFavouritesPrompt");
+        }
+
+        public void DeleteStop(object sender, EventArgs e)
+        {
+            var mi = sender as MenuItem;
+            StopInfo si = mi.CommandParameter as StopInfo; 
+            MessagingCenter.Send<FavouriteStopsPage, StopInfo>(this, "DeleteFavourite", si); 
         }
 
         private async Task DeleteFavouritesPrompt()

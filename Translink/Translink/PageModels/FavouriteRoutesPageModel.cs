@@ -8,7 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Translink.Services;
 using Xamarin.Forms;
-using Translink.Pages; 
+using Translink.Pages;
+using RouteDirection = System.Tuple<string, string>;
 
 namespace Translink.PageModels
 {
@@ -16,9 +17,9 @@ namespace Translink.PageModels
     {
         private IFavouritesDataService mDataService;
 
-        public ObservableCollection<Tuple<string, string>> RouteDirectionList { get; set; }
+        public ObservableCollection<RouteDirection> RouteDirectionList { get; set; }
 
-        public Tuple<string, string> SelectedRouteDirection
+        public RouteDirection SelectedRouteDirection
         {
             get
             {
@@ -45,7 +46,7 @@ namespace Translink.PageModels
         public FavouriteRoutesPageModel(IFavouritesDataService dataService)
         {
             mDataService = dataService;
-            RouteDirectionList = new ObservableCollection<Tuple<string, string>>();
+            RouteDirectionList = new ObservableCollection<RouteDirection>();
         }
 
         protected async override void ViewIsAppearing(object sender, EventArgs e)
@@ -55,18 +56,23 @@ namespace Translink.PageModels
                 this,
                 "DeleteFavourites",
                 async (page) => await DeleteFavourites());
+            MessagingCenter.Subscribe<FavouriteRoutesPage, RouteDirection>(
+                this, 
+                "DeleteFavourite", 
+                async (page, rd) => await DeleteFavourite(rd)); 
             await RefreshRouteList(); 
         }
 
         protected override void ViewIsDisappearing(object sender, EventArgs e)
         {
             base.ViewIsDisappearing(sender, e);
-            MessagingCenter.Unsubscribe<FavouriteRoutesPage>(this, "DeleteFavourites"); 
+            MessagingCenter.Unsubscribe<FavouriteRoutesPage>(this, "DeleteFavourites");
+            MessagingCenter.Unsubscribe<FavouriteRoutesPage, RouteDirection>(this, "DeleteFavourite"); 
         }
 
         async Task RefreshRouteList()
         {
-            List<Tuple<string, string>> routeDirectionList = await mDataService.GetFavouriteRoutesAndDirections();
+            List<RouteDirection> routeDirectionList = await mDataService.GetFavouriteRoutesAndDirections();
             RouteDirectionList.Clear();
             foreach (var r in routeDirectionList)
             {
@@ -78,6 +84,12 @@ namespace Translink.PageModels
         {
             await mDataService.ClearFavouriteRoutes();
             RouteDirectionList.Clear();
+        }
+
+        async Task DeleteFavourite(RouteDirection rd)
+        {
+            await mDataService.RemoveFavouriteRoute(rd.Item1, rd.Item2);
+            await RefreshRouteList(); 
         }
     }
 }

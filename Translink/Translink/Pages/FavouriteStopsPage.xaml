@@ -4,11 +4,16 @@
              x:Class="Translink.Pages.FavouriteStopsPage"
              xmlns:pages="clr-namespace:Translink.Pages;assembly=Translink.Pages">
   <StackLayout Padding="5, 5, 5, 5">
-    <Button Text="Clear Favourite Stops" Command="{Binding ClearFavouriteStops}"/>
+    <Button Text="Clear Favourite Stops" Command="{Binding SendDeleteFavouritesPrompt}"/>
     <ListView ItemsSource="{Binding StopList}" SelectedItem="{Binding SelectedStopInfo}">
       <ListView.ItemTemplate>
-        <DataTemplate>
-          <TextCell Text="{Binding Name}" Detail="{Binding Number}"/>
+        <DataTemplate x:Name="ListDataTemplate">
+          <TextCell Text="{Binding Name}" Detail="{Binding Number}">
+            <TextCell.ContextActions>
+              <MenuItem Clicked="DeleteStop" CommandParameter="{Binding .}"
+                        Text="Delete" IsDestructive="True"/>
+            </TextCell.ContextActions>
+          </TextCell>
         </DataTemplate>
       </ListView.ItemTemplate>
     </ListView>
