@@ -2,7 +2,7 @@
 <pages:BasePage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Translink.Pages.FavouritesMenuPage"
-             xmlns:pages="clr-namespace:Translink.Pages;assembly=Translink.Pages">
+             xmlns:pages="clr-namespace:Translink.Pages;assembly=Translink">
   <TableView Intent="Menu">
     <TableSection>
       <TextCell Text="Stops" Command="{Binding ShowStops}"/>
