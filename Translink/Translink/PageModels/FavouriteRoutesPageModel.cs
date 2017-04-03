@@ -74,7 +74,7 @@ namespace Translink.PageModels
         {
             List<RouteDirection> routeDirectionList = await mDataService.GetFavouriteRoutesAndDirections();
             RouteDirectionList.Clear();
-            foreach (var r in routeDirectionList)
+            foreach (RouteDirection r in routeDirectionList)
             {
                 RouteDirectionList.Add(r); 
             }

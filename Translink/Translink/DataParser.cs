@@ -29,31 +29,34 @@ namespace Translink
 
             DateTime now = DateTime.Now; 
 
-            var nextBuses = xDoc.Descendants("NextBus");
+            IEnumerable<XElement> nextBuses = xDoc.Descendants("NextBus");
 
             foreach(var nextBus in nextBuses)
             {
                 string routeNo = nextBus.Element("RouteNo").Value;
                 string direction = nextBus.Element("Direction").Value;
 
-                var schedules = nextBus.Descendants("Schedule");
+                IEnumerable<XElement> schedules = nextBus.Descendants("Schedule");
                 List<DateTime> times = new List<DateTime>();
+                AddScheduledTimes(now, schedules, times);
 
-                foreach (var schedule in schedules)
-                {
-                    int expectedCountdown = Convert.ToInt32(schedule.Element("ExpectedCountdown").Value);
-
-                    DateTime leaveTime = now.AddMinutes(expectedCountdown);
-
-                    times.Add(leaveTime); 
-                }
-                
                 routeDictionary.Add(new RouteDirection(routeNo, direction), times);
             }
 
             return routeDictionary;
         }
 
+        private static void AddScheduledTimes(DateTime now, IEnumerable<XElement> schedules, List<DateTime> times)
+        {
+            foreach (var schedule in schedules)
+            {
+                int expectedCountdown = Convert.ToInt32(schedule.Element("ExpectedCountdown").Value);
+
+                DateTime leaveTime = now.AddMinutes(expectedCountdown);
+
+                times.Add(leaveTime);
+            }
+        }
 
         private static void CheckDeparturesForErrors(XDocument xml)
         {
@@ -95,9 +98,9 @@ namespace Translink
 
             XDocument xDoc = XDocument.Load(stream);
 
-            var stopContainer = xDoc.Descendants("Stop");
+            IEnumerable<XElement> stopContainer = xDoc.Descendants("Stop");
 
-            foreach (var stopElem in stopContainer)
+            foreach (XElement stopElem in stopContainer)
             {
                 StopInfo stopInfo = ParseStopInfo(stopElem);
                 stops.Add(stopInfo);

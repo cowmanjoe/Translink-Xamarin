@@ -29,15 +29,7 @@ namespace Translink
             get; set;
         }
 
-        public static DepartureDataFetcher Instance
-        {
-            get
-            {
-                if (mInstance == null)
-                    mInstance = new DepartureDataFetcher();
-                return mInstance;
-            }
-        }
+        public static DepartureDataFetcher Instance => mInstance ?? (mInstance = new DepartureDataFetcher());
 
 
         private DepartureDataFetcher()
@@ -54,7 +46,7 @@ namespace Translink
 
             Dictionary<RouteDirection, List<DateTime>> lts = DataParser.ParseDepartureTimes(departureStream);
 
-            foreach (var routeDir in lts.Keys)
+            foreach (RouteDirection routeDir in lts.Keys)
             {
                 List<DateTime> times;
                 lts.TryGetValue(routeDir, out times);
@@ -71,7 +63,7 @@ namespace Translink
             Stream departureStream = await FetchDepartureData(stopNo, routeNo);
             Dictionary<RouteDirection, List<DateTime>> lts = DataParser.ParseDepartureTimes(departureStream);
 
-            foreach (var routeDir in lts.Keys)
+            foreach (RouteDirection routeDir in lts.Keys)
             {
                 List<DateTime> times;
                 lts.TryGetValue(routeDir, out times);
@@ -92,7 +84,7 @@ namespace Translink
             Stream departureStream = await fetchDepartureData(stop.Number);
             Dictionary<RouteDirection, List<DateTime>> lts = DataParser.ParseDepartureTimes(departureStream);
 
-            foreach (var routeDir in lts.Keys)
+            foreach (RouteDirection routeDir in lts.Keys)
             {
                 List<DateTime> times;
                 lts.TryGetValue(routeDir, out times);
@@ -124,7 +116,7 @@ namespace Translink
             Stream departureStream = await FetchDepartureData(stop.Number, route);
             Dictionary<RouteDirection, List<DateTime>> lts = DataParser.ParseDepartureTimes(departureStream);
 
-            foreach (var routeDir in lts.Keys)
+            foreach (RouteDirection routeDir in lts.Keys)
             {
                 List<DateTime> times;
                 lts.TryGetValue(routeDir, out times);
@@ -149,7 +141,7 @@ namespace Translink
             HttpResponseMessage response = await mHttpClient.GetAsync(uri);
 
             HttpContent content = response.Content;
-            var contentStream = await content.ReadAsStreamAsync();
+            Stream contentStream = await content.ReadAsStreamAsync();
             return contentStream;
         }
 
@@ -166,7 +158,7 @@ namespace Translink
                 "/estimates?apikey=" + API_KEY + "&count=" + DepartureCount + "&routeNo=" + route);
 
             HttpContent content = response.Content;
-            var contentStream = await content.ReadAsStreamAsync();
+            Stream contentStream = await content.ReadAsStreamAsync();
             return contentStream;
         }
 

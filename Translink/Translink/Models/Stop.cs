@@ -9,7 +9,7 @@ namespace Translink.Models
 
 
 
-        public String Name
+        public string Name
         {
             get { return mStopInfo.Name; }
         }

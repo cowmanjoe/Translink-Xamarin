@@ -15,10 +15,7 @@ namespace Translink.Models
             get;
         }
 
-        public int StopNumber
-        {
-            get { return mStop.Number; }
-        }
+        public int StopNumber => mStop.Number;
 
         public string Direction { get; }
 
@@ -47,10 +44,7 @@ namespace Translink.Models
             }
         }
 
-        public string NumberAndDirection
-        {
-            get { return Number + " " + Direction + "BOUND"; }
-        }
+        public string NumberAndDirection => $"{Number} {Direction}BOUND";
 
         public Route(string number, string direction, Stop stop)
         {
@@ -72,7 +66,7 @@ namespace Translink.Models
             return null;
         }
 
-        public override bool Equals(Object obj)
+        public override bool Equals(object obj)
         {
             if (obj == null || GetType() != obj.GetType())
                 return false;

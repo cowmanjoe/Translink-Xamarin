@@ -25,16 +25,7 @@ namespace Translink
             mHttpClient = new HttpClient(); 
         }
 
-        public static StopDataFetcher Instance
-        {
-            get
-            {
-                if (mInstance == null)
-                    mInstance = new StopDataFetcher();
-                return mInstance;
-            }
-            
-        }
+        public static StopDataFetcher Instance => mInstance ?? (mInstance = new StopDataFetcher());
 
         public async Task<Stop> FetchStopWithDepartures(int stopNo)
         {

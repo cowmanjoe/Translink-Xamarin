@@ -78,7 +78,7 @@ namespace Translink.Services
             {
                 XDocument xDoc = XDocument.Load(stream);
                 XElement routesElement = xDoc.Root.Element("Routes");
-                var routes = routesElement.Descendants("Route");
+                IEnumerable<XElement> routes = routesElement.Descendants("Route");
 
                 foreach (var r in routes)
                 {
@@ -108,7 +108,7 @@ namespace Translink.Services
             {
                 XDocument xDoc = XDocument.Load(stream); 
                 XElement stopsElement = xDoc.Root.Element("Stops");
-                var stops = stopsElement.Descendants();
+                IEnumerable<XElement> stops = stopsElement.Descendants();
                 
                 foreach (var s in stops)
                 {
@@ -138,7 +138,7 @@ namespace Translink.Services
             {
                 XDocument xDoc = XDocument.Load(stream);
                 XElement routesElement = xDoc.Root.Element("Routes");
-                var routes = routesElement.Descendants("Route"); 
+                IEnumerable<XElement> routes = routesElement.Descendants("Route"); 
 
                 foreach(var r in routes)
                 {
@@ -167,7 +167,7 @@ namespace Translink.Services
             {
                 XDocument xDoc = XDocument.Load(stream); 
                 XElement stops = xDoc.Root.Element("Stops");
-                var stopContainer = xDoc.Descendants("Stop"); 
+                IEnumerable<XElement> stopContainer = xDoc.Descendants("Stop"); 
 
                 foreach (var stop in stopContainer)
                 {
@@ -229,7 +229,7 @@ namespace Translink.Services
 
             XDocument xDoc = XDocument.Load(stream);
             var stopsElement = xDoc.Root.Element("Stops");
-            var stopContainer = stopsElement.Descendants("Stop");
+            IEnumerable<XElement> stopContainer = stopsElement.Descendants("Stop");
 
             foreach (var stopElement in stopContainer)
             {
@@ -249,7 +249,7 @@ namespace Translink.Services
 
             XDocument xDoc = XDocument.Load(stream);
             var routesElement = xDoc.Root.Element("Routes");
-            var routeContainer = routesElement.Descendants("Route");
+            IEnumerable<XElement> routeContainer = routesElement.Descendants("Route");
 
             foreach (var r in routeContainer)
             {

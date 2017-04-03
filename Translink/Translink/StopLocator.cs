@@ -11,7 +11,7 @@ namespace Translink
         public static async Task<List<StopInfo>> FetchStopsAroundMe(int radius)
         {
             if (radius < 0 || radius > 2000)
-                throw new ArgumentOutOfRangeException("Radius must be between 0 and 2000");
+                throw new ArgumentOutOfRangeException(nameof(radius), "radius must be between 0 and 2000");
 
             
             var position = await Locator.GetPositionAsync(); 
@@ -28,7 +28,7 @@ namespace Translink
         public static async Task<List<Stop>> FetchStopsAndDeparturesAroundMe(int radius)
         {
             if (radius < 0 || radius > 2000)
-                throw new ArgumentOutOfRangeException("Radius must be between 0 and 2000");
+                throw new ArgumentOutOfRangeException(nameof(radius), "radius must be between 0 and 2000");
 
             var position = await Locator.GetPositionAsync(); 
 

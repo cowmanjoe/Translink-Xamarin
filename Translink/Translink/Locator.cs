@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Plugin.Geolocator;
 using System.Diagnostics;
+using Plugin.Geolocator.Abstractions;
 using Translink.Exception;
 
 namespace Translink
@@ -13,7 +14,7 @@ namespace Translink
     {
         public static async Task<Plugin.Geolocator.Abstractions.Position> GetPositionAsync()
         {
-            var geolocator = CrossGeolocator.Current;
+            IGeolocator geolocator = CrossGeolocator.Current;
 
             if (!geolocator.IsGeolocationEnabled)
             {

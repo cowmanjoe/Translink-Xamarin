@@ -30,24 +30,20 @@ namespace Translink
 
             string trailingLetters2 = TakeWhileLetter(r2.Substring(leadingLetters2.Length + digits2.Length));
             trailingLetters2 = trailingLetters2.ToUpper();
-
-            int numbers1;
-            int numbers2;
+            
             try
             {
-                numbers1 = Convert.ToInt32(digits1);
-                numbers2 = Convert.ToInt32(digits2);
+                Convert.ToInt32(digits1);
+                Convert.ToInt32(digits2);
             }
             catch (FormatException)
             {
                 throw new FormatException("The route was improperly formatted, there must be some numbers.");
             }
 
-            if (leadingLetters1.Equals(leadingLetters2) &&
-                Convert.ToInt32(digits1) == Convert.ToInt32(digits2) &&
-                trailingLetters1.Equals(trailingLetters2))
-                return true;
-            return false;
+            return (leadingLetters1.Equals(leadingLetters2) &&
+                    Convert.ToInt32(digits1) == Convert.ToInt32(digits2) &&
+                    trailingLetters1.Equals(trailingLetters2));
         }
 
         /*
@@ -67,7 +63,7 @@ namespace Translink
         {
             int i = 0;
             StringBuilder ans = new StringBuilder();
-            while (s.Length > i && Char.IsLetter(s[i]))
+            while (s.Length > i && char.IsLetter(s[i]))
             {
                 ans.Append(s[i]);
                 i++;
@@ -79,7 +75,7 @@ namespace Translink
         {
             int i = 0;
             StringBuilder ans = new StringBuilder();
-            while (s.Length > i && Char.IsDigit(s[i]))
+            while (s.Length > i && char.IsDigit(s[i]))
             {
                 ans.Append(s[i]);
                 i++;

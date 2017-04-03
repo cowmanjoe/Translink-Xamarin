@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -144,7 +143,7 @@ namespace Translink.PageModels
             RouteDirection thisRoute = new RouteDirection(mRouteNumber, mDirection);
 
             IsFavourite = false;
-            foreach (var r in favourites)
+            foreach (RouteDirection r in favourites)
             {
                 if (r.Equals(thisRoute))
                 {

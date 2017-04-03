@@ -17,13 +17,7 @@ namespace Translink.Models
             get;
         }
 
-        public string TimeString
-        {
-            get
-            {
-                return string.Format("{0:t}", Time); 
-            }
-        }
+        public string TimeString => $"{Time:t}";
 
         public int StopNumber
         {
@@ -37,10 +31,7 @@ namespace Translink.Models
 
         public string Direction { get; }
 
-        public string AsString
-        {
-            get { return StopNumber + " [" + RouteNumber + "] " + Time; }
-        }
+        public string AsString => StopNumber + " [" + RouteNumber + "] " + Time;
 
         public Departure(DateTime time, int stopNo, string routeNumber, string direction)
         {
@@ -58,7 +49,7 @@ namespace Translink.Models
             Direction = direction;
         }
 
-        public override bool Equals(Object obj)
+        public override bool Equals(object obj)
         {
             if (obj == null || GetType() != obj.GetType())
                 return false;
