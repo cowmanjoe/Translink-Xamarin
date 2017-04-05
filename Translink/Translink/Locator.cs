@@ -12,6 +12,13 @@ namespace Translink
 {
     public static class Locator
     {
+        public static async void InitLocator()
+        {
+            IGeolocator geolocator = CrossGeolocator.Current;
+            await geolocator.StartListeningAsync(10, 100); 
+            
+        }
+
         public static async Task<Plugin.Geolocator.Abstractions.Position> GetPositionAsync()
         {
             IGeolocator geolocator = CrossGeolocator.Current;

@@ -15,6 +15,8 @@ namespace Translink
             SetupIOC();
 
             SetupTabbedNav(); 
+
+            Locator.InitLocator();
         }
 
         private void SetupIOC()

@@ -13,7 +13,8 @@ using Xamarin.Forms;
 
 namespace Translink.Droid
 {
-    [Activity(Label = "Translink", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "Translink", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, 
+        ScreenOrientation = ScreenOrientation.Portrait)] //last part enforces portrait only
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         

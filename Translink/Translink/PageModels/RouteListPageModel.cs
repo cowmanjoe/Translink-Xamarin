@@ -46,6 +46,7 @@ namespace Translink.PageModels
             base.Init(initData);
             RouteList = new ObservableCollection<Route>();
             IsBusy = false;
+            Locator.InitLocator();
         }
 
         public Command RefreshRoutes
