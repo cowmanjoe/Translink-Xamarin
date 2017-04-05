@@ -3,7 +3,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using Translink;
 using System.Collections.Generic;
+using Translink.Models;
 using Translink.Services;
+using RouteDirection = System.Tuple<string, string>; 
 
 namespace TranslinkTests
 {
@@ -49,7 +51,7 @@ namespace TranslinkTests
         public void ParseFavouriteRouteNumbers_Empty()
         {
             FavouritesDataService dataService = new FavouritesDataService();
-            List<string> actualRoutes;
+            List<RouteDirection> actualRoutes;
             using (StreamReader sr = new StreamReader(resourcePath + "NoRouteFavourites.xml"))
             {
                 actualRoutes = dataService.ParseFavouriteRouteDirections(sr.BaseStream); 
@@ -62,15 +64,15 @@ namespace TranslinkTests
         public void ParseFavouriteRouteNumbers_2Entries()
         {
             FavouritesDataService dataService = new FavouritesDataService();
-            List<string> actualRoutes;
+            List<RouteDirection> actualRoutes;
             using (StreamReader sr = new StreamReader(resourcePath + "Favourites1.xml"))
             {
                 actualRoutes = dataService.ParseFavouriteRouteDirections(sr.BaseStream);
             }
 
-            List<string> expectedRoutes = new List<string>();
-            expectedRoutes.Add("004:WEST");
-            expectedRoutes.Add("C18:SOUTH"); 
+            List<RouteDirection> expectedRoutes = new List<RouteDirection>();
+            expectedRoutes.Add(new RouteDirection("004", "WEST"));
+            expectedRoutes.Add(new RouteDirection("C18", "SOUTH")); 
 
             Assert.IsTrue(ListEquals(expectedRoutes, actualRoutes)); 
         }

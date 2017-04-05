@@ -5,6 +5,8 @@ using Translink;
 using Translink.Exception; 
 using System.Collections.Generic;
 using System.Linq;
+using Translink.Models;
+using RouteDirection = System.Tuple<string, string>;
 
 namespace TranslinkTests
 { 
@@ -16,20 +18,22 @@ namespace TranslinkTests
         [TestMethod]
         public void TestParseDepartureTimesSingleRoute()
         {
-            Dictionary<string, List<string>> actualTimeDict;
+            Dictionary<RouteDirection, List<DateTime>> actualTimeDict;
             using (StreamReader sr = new StreamReader(resourcePath + "Departures60980_50.xml"))
             {
                 actualTimeDict = DataParser.ParseDepartureTimes(sr.BaseStream);
             }
 
-            Dictionary<string, List<string>> expectedTimeDict = new Dictionary<string, List<string>>();
-            List<string> expectedTimes = new List<string>();
-            expectedTimes.Add("10:43pm");
-            expectedTimes.Add("11:13pm");
-            expectedTimes.Add("11:43pm");
-            expectedTimes.Add("12:14am");
+            Dictionary<RouteDirection, List<DateTime>> expectedTimeDict = new Dictionary<RouteDirection, List<DateTime>>();
+            List<DateTime> expectedTimes = new List<DateTime>
+            {
+                DateTime.Now.AddMinutes(21),
+                DateTime.Now.AddMinutes(51),
+                DateTime.Now.AddMinutes(81),
+                DateTime.Now.AddMinutes(112)
+            };
 
-            expectedTimeDict.Add("050:SOUTH", expectedTimes);
+            expectedTimeDict.Add(new RouteDirection("050", "SOUTH"), expectedTimes);
 
             Assert.IsTrue(AreTimeDictionariesEqual(expectedTimeDict, actualTimeDict)); 
         }
@@ -37,47 +41,56 @@ namespace TranslinkTests
         [TestMethod]
         public void TestParseDepartureTimesManyRoutes()
         {
-            Dictionary<string, List<string>> actualTimeDict;
+            Dictionary<RouteDirection, List<DateTime>> actualTimeDict;
             using (StreamReader sr = new StreamReader(resourcePath + "Departures60980.xml"))
             {
                 actualTimeDict = DataParser.ParseDepartureTimes(sr.BaseStream); 
             }
 
-            Dictionary<string, List<string>> expectedTimeDict = new Dictionary<string, List<string>>();
-            List<string> expectedTimes4 = new List<string>();
-            expectedTimes4.Add("10:49pm");
-            expectedTimes4.Add("11:09pm");
-            expectedTimes4.Add("11:29pm");
-            expectedTimes4.Add("11:49pm");
-            expectedTimes4.Add("12:09am");
-            expectedTimeDict.Add("004:WEST", expectedTimes4);
+            Dictionary<RouteDirection, List<DateTime>> expectedTimeDict = new Dictionary<RouteDirection, List<DateTime>>();
+            List<DateTime> expectedTimes4 = new List<DateTime>
+            {
+                DateTime.Now.AddMinutes(10),
+                DateTime.Now.AddMinutes(30),
+                DateTime.Now.AddMinutes(50),
+                DateTime.Now.AddMinutes(70),
+                DateTime.Now.AddMinutes(90)
+            };
+            expectedTimeDict.Add(new RouteDirection("004", "WEST"), expectedTimes4);
 
-            List<string> expectedTimes7 = new List<string>();
-            expectedTimes7.Add("10:39pm");
-            expectedTimes7.Add("10:59pm");
-            expectedTimes7.Add("11:19pm");
-            expectedTimes7.Add("11:39pm");
-            expectedTimes7.Add("11:59pm"); 
-            expectedTimes7.Add("12:19am");
-            expectedTimeDict.Add("007:WEST", expectedTimes7);
 
-            List<string> expectedTimes10 = new List<string>();
-            expectedTimes10.Add("10:43pm");
-            expectedTimes10.Add("11:02pm");
-            expectedTimes10.Add("11:22pm");
-            expectedTimes10.Add("11:42pm");
-            expectedTimes10.Add("12:12am");
-            expectedTimeDict.Add("010:SOUTH", expectedTimes10);
+            List<DateTime> expectedTimes7 = new List<DateTime>
+            {
+                DateTime.Now.AddMinutes(0),
+                DateTime.Now.AddMinutes(20),
+                DateTime.Now.AddMinutes(40),
+                DateTime.Now.AddMinutes(60),
+                DateTime.Now.AddMinutes(80),
+                DateTime.Now.AddMinutes(100)
+            };
+            expectedTimeDict.Add(new RouteDirection("007", "WEST"), expectedTimes7);
 
-            List<string> expectedTimes14 = new List<string>();
-            expectedTimes14.Add("10:41pm");
-            expectedTimes14.Add("11:06pm");
-            expectedTimes14.Add("11:20pm");
-            expectedTimes14.Add("11:40pm");
-            expectedTimes14.Add("12:10am");
-            expectedTimes14.Add("12:25am");
-            expectedTimeDict.Add("014:WEST", expectedTimes14);
+            List<DateTime> expectedTimes10 = new List<DateTime>
+            {
+                DateTime.Now.AddMinutes(4),
+                DateTime.Now.AddMinutes(23),
+                DateTime.Now.AddMinutes(43),
+                DateTime.Now.AddMinutes(63),
+                DateTime.Now.AddMinutes(93)
+            };
+            expectedTimeDict.Add(new RouteDirection("010", "SOUTH"), expectedTimes10);
 
+            List<DateTime> expectedTimes14 = new List<DateTime>
+            {
+                DateTime.Now.AddMinutes(2),
+                DateTime.Now.AddMinutes(27),
+                DateTime.Now.AddMinutes(41),
+                DateTime.Now.AddMinutes(61),
+                DateTime.Now.AddMinutes(91),
+                DateTime.Now.AddMinutes(106)
+            };
+            expectedTimeDict.Add(new RouteDirection("014", "WEST"), expectedTimes14);
+            
             Assert.IsTrue(AreTimeDictionariesEqual(expectedTimeDict, actualTimeDict)); 
         }
 
@@ -181,33 +194,40 @@ namespace TranslinkTests
                 Assert.IsTrue(expectedStopInfos[i].Equals(actualStopInfos[i]));
             }
         }
+        
 
-        private bool AreTimeDictionariesEqual(Dictionary<string, List<string>> x, Dictionary<string, List<string>> y)
+        private bool AreTimeDictionariesEqual(Dictionary<RouteDirection, List<DateTime>> x, Dictionary<RouteDirection, List<DateTime>> y)
         {
             if (x.Count != y.Count)
                 return false;
             if (x.Keys.AsEnumerable().Except(y.Keys).Any())
                 return false;
             if (y.Keys.AsEnumerable().Except(x.Keys).Any())
-                return false; 
-            foreach (var pair in x)
+                return false;
+            foreach (KeyValuePair<RouteDirection, List<DateTime>> pair in x)
             {
-                if (!AreStringListsEqual(pair.Value, y[pair.Key]))
-                    return false; 
+                if (AreListsEqual(pair.Value, y[pair.Key])) continue;
+                return false;
             }
-            return true; 
+            return true;
         }
 
-        private bool AreStringListsEqual(List<string> x, List<string> y)
+        private bool AreListsEqual(List<DateTime> l1, List<DateTime> l2)
         {
-            if (x.Count != y.Count)
-                return false; 
-            for (int i = 0; i < x.Count; i++)
+            if (l1.Count != l2.Count)
+                return false;
+            for (int i = 0; i < l1.Count; i++)
             {
-                if (!x[i].Equals(y[i]))
-                    return false;
+                if (AreTimesWithin(l1[i], l2[i], 10)) continue;
+                return false;
             }
-            return true; 
+            return true;
         }
+
+        private bool AreTimesWithin(DateTime t1, DateTime t2, int seconds)
+        {
+            return (seconds >= Math.Abs(t1.Subtract(t2).TotalSeconds));
+        }
+        
     }
 }
